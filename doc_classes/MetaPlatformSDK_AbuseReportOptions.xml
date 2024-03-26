@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AbuseReportOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options for an abuse report.
+	</brief_description>
+	<description>
+		Represents options for an abuse report.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_prevent_people_chooser">
+			<return type="void" />
+			<param index="0" name="value" type="bool" />
+			<description>
+				Set whether or not to show the user selection step in the report dialog.
+			</description>
+		</method>
+		<method name="set_report_type">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.AbuseReportType" />
+			<description>
+				The intended entity being reported, whether user or object/content.
+			</description>
+		</method>
+	</methods>
+</class>

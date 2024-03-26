@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LinkedAccount" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a user's linked account.
+	</brief_description>
+	<description>
+		Represents a user's linked account.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="access_token" type="String" setter="" getter="get_access_token" default="&quot;&quot;">
+			Access token of the linked account.
+		</member>
+		<member name="service_provider" type="int" setter="" getter="get_service_provider" enum="MetaPlatformSDK.ServiceProvider" default="0">
+			Service provider with which the linked account is associated.
+		</member>
+		<member name="user_id" type="String" setter="" getter="get_user_id" default="&quot;&quot;">
+			User ID of the linked account.
+		</member>
+	</members>
+</class>

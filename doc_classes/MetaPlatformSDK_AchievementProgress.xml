@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AchievementProgress" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents progress on an achievement.
+	</brief_description>
+	<description>
+		Represents progress on an achievement.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="bitfield" type="String" setter="" getter="get_bitfield" default="&quot;&quot;">
+			For bitfield achievements, the current bitfield state.
+		</member>
+		<member name="count" type="int" setter="" getter="get_count" default="0">
+			For count achievements, the current counter state.
+		</member>
+		<member name="is_unlocked" type="bool" setter="" getter="get_is_unlocked" default="false">
+			If the user has already unlocked this achievement.
+		</member>
+		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			The unique string that you use to reference the achievement in your app, as specified in the developer dashboard.
+		</member>
+		<member name="unlock_time" type="int" setter="" getter="get_unlock_time" default="0">
+			If the achievement is unlocked, the time when it was unlocked.
+		</member>
+	</members>
+</class>

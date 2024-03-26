@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ApplicationOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the options for launching an app.
+	</brief_description>
+	<description>
+		Represents the options for launching an app.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_deeplink_message">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				A message to be passed to a launched app, which can be retrieved from [method MetaPlatformSDK.application_lifecycle_get_launch_details] via the [member MetaPlatformSDK_LaunchDetails.deeplink_message] property.
+			</description>
+		</method>
+		<method name="set_destination_api_name">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				If provided, the intended destination to be passed to the launched app.
+			</description>
+		</method>
+		<method name="set_lobby_session_id">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				If provided, the intended lobby where the launched app should take the user. All users with the same lobby_session_id should end up grouped together in the launched app.
+			</description>
+		</method>
+		<method name="set_match_session_id">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				If provided, the intended instance of the destination that a user should be launched into.
+			</description>
+		</method>
+	</methods>
+</class>

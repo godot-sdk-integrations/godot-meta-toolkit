@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LivestreamingStartResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of starting to livestream.
+	</brief_description>
+	<description>
+		Represents the result of starting to livestream.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="streaming_result" type="int" setter="" getter="get_streaming_result" enum="MetaPlatformSDK.LivestreamingStartStatus" default="1">
+		</member>
+	</members>
+</class>

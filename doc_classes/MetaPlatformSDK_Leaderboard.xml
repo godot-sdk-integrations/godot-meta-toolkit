@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Leaderboard" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a leaderboard.
+	</brief_description>
+	<description>
+		Represents a leaderboard.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="api_name" type="String" setter="" getter="get_api_name" default="&quot;&quot;">
+		</member>
+		<member name="destination" type="MetaPlatformSDK_Destination" setter="" getter="get_destination">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+	</members>
+</class>

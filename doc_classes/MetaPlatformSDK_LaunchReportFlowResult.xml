@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchReportFlowResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of launching the report flow.
+	</brief_description>
+	<description>
+		Represents the result of launching the report flow.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="did_cancel" type="bool" setter="" getter="get_did_cancel" default="false">
+			Whether the viewer chose to cancel the report flow.
+		</member>
+		<member name="user_report_id" type="int" setter="" getter="get_user_report_id" default="0">
+			ID of the report created by the user.
+		</member>
+	</members>
+</class>

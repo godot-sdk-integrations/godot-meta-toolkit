@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AchievementUpdate" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an achievement update.
+	</brief_description>
+	<description>
+		Represents an achievement update.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="just_unlocked" type="bool" setter="" getter="get_just_unlocked" default="false">
+		</member>
+		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

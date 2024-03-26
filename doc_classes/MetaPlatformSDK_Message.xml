@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Message" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A message sent to the current app from the Meta Platform SDK.
+	</brief_description>
+	<description>
+		A message sent to the current app from the Meta Platform SDK.
+		Messages can be received from asynchronous requests via the [signal MetaPlatformSDK_Request.completed] signal, or from notifications via the [signal MetaPlatformSDK.notification_received] signal.
+		Each message contains a single payload depending on the [member type]. Regardless of the type, the [member data] property will contain the payload. However, if you want to write fully type-safe code, you can instead call the method dedicated to the type of the payload.
+		Before attempting to access the payload, call [method is_error] or [method is_success] to determine if the message was successful or not. When unsuccessful, call [method get_error] to get the full error details.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_abuse_report_recording" qualifiers="const">
+			<return type="MetaPlatformSDK_AbuseReportRecording" />
+			<description>
+				Returns a [MetaPlatformSDK_AbuseReportRecording] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_achievement_definition_array" qualifiers="const">
+			<return type="MetaPlatformSDK_AchievementDefinitionArray" />
+			<description>
+				Returns a [MetaPlatformSDK_AchievementDefinitionArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_achievement_progress_array" qualifiers="const">
+			<return type="MetaPlatformSDK_AchievementProgressArray" />
+			<description>
+				Returns a [MetaPlatformSDK_AchievementProgressArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_achievement_update" qualifiers="const">
+			<return type="MetaPlatformSDK_AchievementUpdate" />
+			<description>
+				Returns a [MetaPlatformSDK_AchievementUpdate] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_app_download_progress_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AppDownloadProgressResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AppDownloadProgressResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_app_download_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AppDownloadResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AppDownloadResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_application_invite_array" qualifiers="const">
+			<return type="MetaPlatformSDK_ApplicationInviteArray" />
+			<description>
+				Returns a [MetaPlatformSDK_ApplicationInviteArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_application_version" qualifiers="const">
+			<return type="MetaPlatformSDK_ApplicationVersion" />
+			<description>
+				Returns a [MetaPlatformSDK_ApplicationVersion] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_details" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetDetails" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetDetails] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_details_array" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetDetailsArray" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetDetailsArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_file_delete_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetFileDeleteResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetFileDeleteResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_file_download_cancel_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetFileDownloadCancelResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetFileDownloadCancelResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_file_download_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetFileDownloadResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetFileDownloadResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_asset_file_download_update" qualifiers="const">
+			<return type="MetaPlatformSDK_AssetFileDownloadUpdate" />
+			<description>
+				Returns a [MetaPlatformSDK_AssetFileDownloadUpdate] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_avatar_editor_result" qualifiers="const">
+			<return type="MetaPlatformSDK_AvatarEditorResult" />
+			<description>
+				Returns a [MetaPlatformSDK_AvatarEditorResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_blocked_user_array" qualifiers="const">
+			<return type="MetaPlatformSDK_BlockedUserArray" />
+			<description>
+				Returns a [MetaPlatformSDK_BlockedUserArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_challenge" qualifiers="const">
+			<return type="MetaPlatformSDK_Challenge" />
+			<description>
+				Returns a [MetaPlatformSDK_Challenge] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_challenge_array" qualifiers="const">
+			<return type="MetaPlatformSDK_ChallengeArray" />
+			<description>
+				Returns a [MetaPlatformSDK_ChallengeArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_challenge_entry_array" qualifiers="const">
+			<return type="MetaPlatformSDK_ChallengeEntryArray" />
+			<description>
+				Returns a [MetaPlatformSDK_ChallengeEntryArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_cowatch_viewer_array" qualifiers="const">
+			<return type="MetaPlatformSDK_CowatchViewerArray" />
+			<description>
+				Returns a [MetaPlatformSDK_CowatchViewerArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_cowatch_viewer_update" qualifiers="const">
+			<return type="MetaPlatformSDK_CowatchViewerUpdate" />
+			<description>
+				Returns a [MetaPlatformSDK_CowatchViewerUpdate] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_cowatching_state" qualifiers="const">
+			<return type="MetaPlatformSDK_CowatchingState" />
+			<description>
+				Returns a [MetaPlatformSDK_CowatchingState] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_data_store" qualifiers="const">
+			<return type="MetaPlatformSDK_DataStore" />
+			<description>
+				Returns a [MetaPlatformSDK_DataStore] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_destination_array" qualifiers="const">
+			<return type="MetaPlatformSDK_DestinationArray" />
+			<description>
+				Returns a [MetaPlatformSDK_DestinationArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_error" qualifiers="const">
+			<return type="MetaPlatformSDK_Error" />
+			<description>
+				Returns a [MetaPlatformSDK_Error] if [method is_error] returns [code]true[/code]; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_group_presence_join_intent" qualifiers="const">
+			<return type="MetaPlatformSDK_GroupPresenceJoinIntent" />
+			<description>
+				Returns a [MetaPlatformSDK_GroupPresenceJoinIntent] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_group_presence_leave_intent" qualifiers="const">
+			<return type="MetaPlatformSDK_GroupPresenceLeaveIntent" />
+			<description>
+				Returns a [MetaPlatformSDK_GroupPresenceLeaveIntent] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_http_transfer_update" qualifiers="const">
+			<return type="MetaPlatformSDK_HttpTransferUpdate" />
+			<description>
+				Returns a [MetaPlatformSDK_HttpTransferUpdate] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_installed_application_array" qualifiers="const">
+			<return type="MetaPlatformSDK_InstalledApplicationArray" />
+			<description>
+				Returns a [MetaPlatformSDK_InstalledApplicationArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_invite_panel_result_info" qualifiers="const">
+			<return type="MetaPlatformSDK_InvitePanelResultInfo" />
+			<description>
+				Returns a [MetaPlatformSDK_InvitePanelResultInfo] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_launch_block_flow_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LaunchBlockFlowResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LaunchBlockFlowResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_launch_friend_request_flow_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LaunchFriendRequestFlowResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LaunchFriendRequestFlowResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_launch_invite_panel_flow_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LaunchInvitePanelFlowResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LaunchInvitePanelFlowResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_launch_report_flow_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LaunchReportFlowResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LaunchReportFlowResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_launch_unblock_flow_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LaunchUnblockFlowResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LaunchUnblockFlowResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_leaderboard_array" qualifiers="const">
+			<return type="MetaPlatformSDK_LeaderboardArray" />
+			<description>
+				Returns a [MetaPlatformSDK_LeaderboardArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_leaderboard_entry_array" qualifiers="const">
+			<return type="MetaPlatformSDK_LeaderboardEntryArray" />
+			<description>
+				Returns a [MetaPlatformSDK_LeaderboardEntryArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_leaderboard_update_status" qualifiers="const">
+			<return type="MetaPlatformSDK_LeaderboardUpdateStatus" />
+			<description>
+				Returns a [MetaPlatformSDK_LeaderboardUpdateStatus] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_linked_account_array" qualifiers="const">
+			<return type="MetaPlatformSDK_LinkedAccountArray" />
+			<description>
+				Returns a [MetaPlatformSDK_LinkedAccountArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_livestreaming_application_status" qualifiers="const">
+			<return type="MetaPlatformSDK_LivestreamingApplicationStatus" />
+			<description>
+				Returns a [MetaPlatformSDK_LivestreamingApplicationStatus] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_livestreaming_start_result" qualifiers="const">
+			<return type="MetaPlatformSDK_LivestreamingStartResult" />
+			<description>
+				Returns a [MetaPlatformSDK_LivestreamingStartResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_livestreaming_status" qualifiers="const">
+			<return type="MetaPlatformSDK_LivestreamingStatus" />
+			<description>
+				Returns a [MetaPlatformSDK_LivestreamingStatus] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_livestreaming_video_stats" qualifiers="const">
+			<return type="MetaPlatformSDK_LivestreamingVideoStats" />
+			<description>
+				Returns a [MetaPlatformSDK_LivestreamingVideoStats] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_microphone_availability_state" qualifiers="const">
+			<return type="MetaPlatformSDK_MicrophoneAvailabilityState" />
+			<description>
+				Returns a [MetaPlatformSDK_MicrophoneAvailabilityState] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_native_message" qualifiers="const">
+			<return type="MetaPlatformSDK_Message" />
+			<description>
+				Returns a [MetaPlatformSDK_Message] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_net_sync_connection" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncConnection" />
+			<description>
+				Returns a [MetaPlatformSDK_NetSyncConnection] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_net_sync_session_array" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncSessionArray" />
+			<description>
+				Returns a [MetaPlatformSDK_NetSyncSessionArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_net_sync_sessions_changed_notification" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncSessionsChangedNotification" />
+			<description>
+				Returns a [MetaPlatformSDK_NetSyncSessionsChangedNotification] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_net_sync_set_session_property_result" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncSetSessionPropertyResult" />
+			<description>
+				Returns a [MetaPlatformSDK_NetSyncSetSessionPropertyResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_net_sync_voip_attenuation_value_array" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncVoipAttenuationValueArray" />
+			<description>
+				Returns a [MetaPlatformSDK_NetSyncVoipAttenuationValueArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_org_scoped_id" qualifiers="const">
+			<return type="MetaPlatformSDK_OrgScopedID" />
+			<description>
+				Returns a [MetaPlatformSDK_OrgScopedID] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_party" qualifiers="const">
+			<return type="MetaPlatformSDK_Party" />
+			<description>
+				Returns a [MetaPlatformSDK_Party] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_party_id" qualifiers="const">
+			<return type="MetaPlatformSDK_PartyID" />
+			<description>
+				Returns a [MetaPlatformSDK_PartyID] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_party_update_notification" qualifiers="const">
+			<return type="MetaPlatformSDK_PartyUpdateNotification" />
+			<description>
+				Returns a [MetaPlatformSDK_PartyUpdateNotification] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_pid_array" qualifiers="const">
+			<return type="MetaPlatformSDK_PidArray" />
+			<description>
+				Returns a [MetaPlatformSDK_PidArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_platform_initialize" qualifiers="const">
+			<return type="MetaPlatformSDK_PlatformInitialize" />
+			<description>
+				Returns a [MetaPlatformSDK_PlatformInitialize] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_product_array" qualifiers="const">
+			<return type="MetaPlatformSDK_ProductArray" />
+			<description>
+				Returns a [MetaPlatformSDK_ProductArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_purchase" qualifiers="const">
+			<return type="MetaPlatformSDK_Purchase" />
+			<description>
+				Returns a [MetaPlatformSDK_Purchase] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_purchase_array" qualifiers="const">
+			<return type="MetaPlatformSDK_PurchaseArray" />
+			<description>
+				Returns a [MetaPlatformSDK_PurchaseArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_rejoin_dialog_result" qualifiers="const">
+			<return type="MetaPlatformSDK_RejoinDialogResult" />
+			<description>
+				Returns a [MetaPlatformSDK_RejoinDialogResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_sdk_account_array" qualifiers="const">
+			<return type="MetaPlatformSDK_SdkAccountArray" />
+			<description>
+				Returns a [MetaPlatformSDK_SdkAccountArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_send_invites_result" qualifiers="const">
+			<return type="MetaPlatformSDK_SendInvitesResult" />
+			<description>
+				Returns a [MetaPlatformSDK_SendInvitesResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_share_media_result" qualifiers="const">
+			<return type="MetaPlatformSDK_ShareMediaResult" />
+			<description>
+				Returns a [MetaPlatformSDK_ShareMediaResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_string" qualifiers="const">
+			<return type="String" />
+			<description>
+				Returns a [String] if that is the payload of this message; otherwise, it returns [code]""[/code].
+			</description>
+		</method>
+		<method name="get_system_voip_state" qualifiers="const">
+			<return type="MetaPlatformSDK_SystemVoipState" />
+			<description>
+				Returns a [MetaPlatformSDK_SystemVoipState] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_type_as_string" qualifiers="const">
+			<return type="String" />
+			<description>
+				Returns a [String] representing the message type.
+			</description>
+		</method>
+		<method name="get_user" qualifiers="const">
+			<return type="MetaPlatformSDK_User" />
+			<description>
+				Returns a [MetaPlatformSDK_User] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_account_age_category" qualifiers="const">
+			<return type="MetaPlatformSDK_UserAccountAgeCategory" />
+			<description>
+				Returns a [MetaPlatformSDK_UserAccountAgeCategory] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_array" qualifiers="const">
+			<return type="MetaPlatformSDK_UserArray" />
+			<description>
+				Returns a [MetaPlatformSDK_UserArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_capability_array" qualifiers="const">
+			<return type="MetaPlatformSDK_UserCapabilityArray" />
+			<description>
+				Returns a [MetaPlatformSDK_UserCapabilityArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_data_store_update_response" qualifiers="const">
+			<return type="MetaPlatformSDK_UserDataStoreUpdateResponse" />
+			<description>
+				Returns a [MetaPlatformSDK_UserDataStoreUpdateResponse] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_proof" qualifiers="const">
+			<return type="MetaPlatformSDK_UserProof" />
+			<description>
+				Returns a [MetaPlatformSDK_UserProof] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="get_user_report_id" qualifiers="const">
+			<return type="MetaPlatformSDK_UserReportID" />
+			<description>
+				Returns a [MetaPlatformSDK_UserReportID] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
+		<method name="is_error" qualifiers="const">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if this message is an error; otherwise, it returns [code]false[/code].
+			</description>
+		</method>
+		<method name="is_success" qualifiers="const">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if this message is a success; otherwise, it returns [code]false[/code].
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="data" type="Variant" setter="" getter="get_data" default="null">
+			Contains the payload of this message.
+		</member>
+		<member name="request_id" type="int" setter="" getter="get_request_id" default="0">
+			The unique request ID for this message.
+		</member>
+		<member name="type" type="int" setter="" getter="get_type" enum="MetaPlatformSDK.MessageType" default="0">
+			The message type.
+		</member>
+	</members>
+</class>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_DataStore" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a data store.
+	</brief_description>
+	<description>
+		Represents a data store.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="contains">
+			<return type="int" />
+			<param index="0" name="key" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="get_key" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="index" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="get_value" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="key" type="String" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="num_keys" type="int" setter="" getter="get_num_keys" default="0">
+		</member>
+	</members>
+</class>

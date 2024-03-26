@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_RosterOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options for launching the roster panel.
+	</brief_description>
+	<description>
+		Represents options for launching the roster panel.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_suggested_user">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+				Adds a suggested user to the invitable users list. From the roster panel, the user can open the invite list, where the suggested users will be shown.
+			</description>
+		</method>
+		<method name="clear_suggested_users">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

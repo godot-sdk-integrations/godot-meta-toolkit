@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LanguagePackInfo" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents info about a language pack.
+	</brief_description>
+	<description>
+		Represents info about a language pack.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="english_name" type="String" setter="" getter="get_english_name" default="&quot;&quot;">
+			Language name in English language.
+		</member>
+		<member name="native_name" type="String" setter="" getter="get_native_name" default="&quot;&quot;">
+			Language name in the native language.
+		</member>
+		<member name="tag" type="String" setter="" getter="get_tag" default="&quot;&quot;">
+			Language tag in BCP47 format.
+		</member>
+	</members>
+</class>

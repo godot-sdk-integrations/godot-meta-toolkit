@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncSessionsChangedNotification" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a notification about net sync sessions having changed.
+	</brief_description>
+	<description>
+		Represents a notification about net sync sessions having changed.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="connection_id" type="int" setter="" getter="get_connection_id" default="0">
+		</member>
+		<member name="sessions" type="MetaPlatformSDK_NetSyncSessionArray" setter="" getter="get_sessions">
+			The new list of sessions.
+		</member>
+	</members>
+</class>

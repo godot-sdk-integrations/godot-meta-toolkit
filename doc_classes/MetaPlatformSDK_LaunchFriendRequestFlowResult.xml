@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchFriendRequestFlowResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of launching the friend request flow.
+	</brief_description>
+	<description>
+		Represents the result of launching the friend request flow.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="did_cancel" type="bool" setter="" getter="get_did_cancel" default="false">
+			Whether the viewer chose to cancel the friend request flow.
+		</member>
+		<member name="did_send_request" type="bool" setter="" getter="get_did_send_request" default="false">
+			Whether the viewer successfully sent the friend request.
+		</member>
+	</members>
+</class>

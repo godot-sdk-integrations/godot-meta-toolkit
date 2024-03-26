@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Challenge" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a challenge.
+	</brief_description>
+	<description>
+		Represents a challenge.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="creation_type" type="int" setter="" getter="get_creation_type" enum="MetaPlatformSDK.ChallengeCreationType" default="0">
+			Was this challenge created by a user or the app developer.
+		</member>
+		<member name="description" type="String" setter="" getter="get_description" default="&quot;&quot;">
+			A displayable string of the challenge's description.
+		</member>
+		<member name="end_date" type="int" setter="" getter="get_end_date" default="0">
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+		<member name="invited_users" type="MetaPlatformSDK_UserArray" setter="" getter="get_invited_users">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="leaderboard" type="MetaPlatformSDK_Leaderboard" setter="" getter="get_leaderboard">
+			The leaderboard associated with this challenge.
+		</member>
+		<member name="participants" type="MetaPlatformSDK_UserArray" setter="" getter="get_participants">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="start_date" type="int" setter="" getter="get_start_date" default="0">
+		</member>
+		<member name="title" type="String" setter="" getter="get_title" default="&quot;&quot;">
+			A displayable string of the challenge's title.
+		</member>
+		<member name="visibility" type="int" setter="" getter="get_visibility" enum="MetaPlatformSDK.ChallengeVisibility" default="0">
+			An enum that specifies who can see this challenge.
+		</member>
+	</members>
+</class>

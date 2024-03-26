@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0ol8en13wpk3"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_t3hrc"]
+[ext_resource type="PackedScene" uid="uid://b8a73fckkvdxx" path="res://assets/gltf/turkey.glb" id="2_lrsmu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h1cjv"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_a1pyg"]
+sky_material = SubResource("ProceduralSkyMaterial_h1cjv")
+
+[sub_resource type="Environment" id="Environment_jc7i8"]
+sky = SubResource("Sky_a1pyg")
+tonemap_mode = 2
+
+[node name="Main" type="XROrigin3D"]
+script = ExtResource("1_t3hrc")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jc7i8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, -0.12941, -0.288849, -0.948588, 0.482963, -0.853854, 0.194114, 0, 0, 0)
+
+[node name="XRCamera3D" type="XRCamera3D" parent="."]
+
+[node name="turkey" parent="." instance=ExtResource("2_lrsmu")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0.5, -0.7)
+
+[node name="LeftController" type="XRController3D" parent="."]
+tracker = &"left_hand"
+pose = &"grip"
+
+[node name="LeftControllerRenderModel" type="OpenXRFbRenderModel" parent="LeftController"]
+
+[node name="RightController" type="XRController3D" parent="."]
+tracker = &"right_hand"
+pose = &"grip"
+
+[node name="RightControllerRenderModel" type="OpenXRFbRenderModel" parent="RightController"]
+render_model_type = 1
+
+[node name="LeftXRHandModifier3D" type="XRHandModifier3D" parent="."]
+
+[node name="LeftHandModel" type="OpenXRFbHandTrackingMesh" parent="LeftXRHandModifier3D"]
+
+[node name="RightXRHandModifier3D" type="XRHandModifier3D" parent="."]
+hand_tracker = &"/user/right"
+
+[node name="RightHandModel" type="OpenXRFbHandTrackingMesh" parent="RightXRHandModifier3D"]
+hand = 1
+use_scale_override = false

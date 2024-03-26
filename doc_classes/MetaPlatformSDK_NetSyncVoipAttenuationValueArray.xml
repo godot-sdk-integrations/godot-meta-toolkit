@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncVoipAttenuationValueArray" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		An array of net sync VoIP attenuation values.
+	</brief_description>
+	<description>
+		An array of [MetaPlatformSDK_NetSyncVoipAttenuationValue]s.
+		[b]NOTE:[/b] This isn't a Godot [Array], but you can loop over it using [code]for x in arr[/code] just like a Godot [Array].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_element" qualifiers="const">
+			<return type="MetaPlatformSDK_NetSyncVoipAttenuationValue" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns an element in the array by index.
+			</description>
+		</method>
+		<method name="size" qualifiers="const">
+			<return type="int" />
+			<description>
+				Returns the size of the array.
+			</description>
+		</method>
+	</methods>
+</class>

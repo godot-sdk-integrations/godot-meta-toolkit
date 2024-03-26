@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Party" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a party.
+	</brief_description>
+	<description>
+		Represents a party.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+		<member name="invited_users" type="MetaPlatformSDK_UserArray" setter="" getter="get_invited_users">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="leader" type="MetaPlatformSDK_User" setter="" getter="get_leader">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="users" type="MetaPlatformSDK_UserArray" setter="" getter="get_users">
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+	</members>
+</class>

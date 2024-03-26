@@ -1,0 +1,32 @@
+ext {
+    versions = [
+            gradlePluginVersion     : '8.2.0',
+            compileSdk              : 34,
+            minSdk                  : 21,
+            targetSdk               : 34,
+            javaVersion             : JavaVersion.VERSION_17,
+            kotlinVersion           : '1.9.20',
+            cmakeVersion            : '3.22.1',
+            ndkVersion              : '23.2.8568313'
+    ]
+
+    libraries = [
+            godotAndroidLib: "org.godotengine:godot:4.2.1.stable",
+    ]
+}
+
+// Parse the release version from the gradle project properties (e.g: -Prelease_version=<version>)
+ext.getReleaseVersion = { ->
+    final String defaultVersion = "0.1.0-dev-SNAPSHOT"
+
+    String releaseVersion = project.hasProperty("release_version") ? project.property("release_version") : defaultVersion
+    if (releaseVersion == null || releaseVersion.isEmpty()) {
+        releaseVersion = defaultVersion
+    }
+
+    if (!releaseVersion.endsWithIgnoreCase("-stable") && !releaseVersion.endsWithIgnoreCase("-snapshot")) {
+        releaseVersion += "-SNAPSHOT"
+    }
+
+    return releaseVersion
+}

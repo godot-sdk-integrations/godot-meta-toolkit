@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_SupplementaryMetric" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a supplementary metric.
+	</brief_description>
+	<description>
+		Represents a supplementary metric.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+		<member name="metric" type="int" setter="" getter="get_metric" default="0">
+		</member>
+	</members>
+</class>

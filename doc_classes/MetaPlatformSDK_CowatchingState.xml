@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_CowatchingState" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the cowatching state.
+	</brief_description>
+	<description>
+		Represents the cowatching state.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="in_session" type="bool" setter="" getter="get_in_session" default="false">
+			Indicates if the current user is in a cowatching session.
+		</member>
+	</members>
+</class>

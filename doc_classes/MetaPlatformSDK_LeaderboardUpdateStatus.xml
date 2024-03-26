@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LeaderboardUpdateStatus" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a status update to a leaderboard.
+	</brief_description>
+	<description>
+		Represents a status update to a leaderboard.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_updated_challenge_id" qualifiers="const">
+			<return type="int" />
+			<param index="0" name="index" type="int" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="did_update" type="bool" setter="" getter="get_did_update" default="false">
+		</member>
+		<member name="updated_challenge_ids_size" type="int" setter="" getter="get_updated_challenge_ids_size" default="0">
+		</member>
+	</members>
+</class>

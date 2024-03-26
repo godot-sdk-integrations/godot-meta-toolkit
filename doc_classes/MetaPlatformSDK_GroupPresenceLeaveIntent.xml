@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_GroupPresenceLeaveIntent" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the intent to leave group presence.
+	</brief_description>
+	<description>
+		Represents the intent to leave group presence.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="destination_api_name" type="String" setter="" getter="get_destination_api_name" default="&quot;&quot;">
+			If populated, the destination the current user wants to leave.
+		</member>
+		<member name="lobby_session_id" type="String" setter="" getter="get_lobby_session_id" default="&quot;&quot;">
+			If populated, the lobby session the current user wants to leave.
+		</member>
+		<member name="match_session_id" type="String" setter="" getter="get_match_session_id" default="&quot;&quot;">
+			If populated, the match session the current user wants to leave.
+		</member>
+	</members>
+</class>

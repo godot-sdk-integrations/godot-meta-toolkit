@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_OrgScopedID" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an ID which is unique per organization.
+	</brief_description>
+	<description>
+		Represents an ID which is unique per organization. Allows different apps within the same organization to identify the user.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The org-scoped ID number.
+		</member>
+	</members>
+</class>

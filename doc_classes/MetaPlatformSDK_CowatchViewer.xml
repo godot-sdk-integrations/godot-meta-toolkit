@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_CowatchViewer" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a viewer participating in cowatching.
+	</brief_description>
+	<description>
+		Represents a viewer participating in cowatching.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="data" type="String" setter="" getter="get_data" default="&quot;&quot;">
+			Viewer data set by this cowatching viewer.
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+			User ID of the owner of data.
+		</member>
+	</members>
+</class>

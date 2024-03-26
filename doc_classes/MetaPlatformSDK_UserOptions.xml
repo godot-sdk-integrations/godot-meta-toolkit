@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents user options.
+	</brief_description>
+	<description>
+		Represents user options.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_service_provider">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ServiceProvider" />
+			<description>
+			</description>
+		</method>
+		<method name="clear_service_providers">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="set_max_users">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="set_time_window">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.TimeWindow" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

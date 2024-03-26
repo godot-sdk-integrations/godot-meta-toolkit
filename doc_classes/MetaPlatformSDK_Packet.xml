@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Packet" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a network packet.
+	</brief_description>
+	<description>
+		Represents a network packet.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="bytes" type="PackedByteArray" setter="" getter="get_bytes" default="PackedByteArray()">
+		</member>
+		<member name="sender_id" type="int" setter="" getter="get_sender_id" default="0">
+		</member>
+		<member name="size" type="int" setter="" getter="get_size" default="0">
+		</member>
+	</members>
+</class>

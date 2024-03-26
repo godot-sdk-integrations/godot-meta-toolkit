@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AppDownloadResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of downloading an app.
+	</brief_description>
+	<description>
+		Represents the result of downloading an app.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="app_install_result" type="int" setter="" getter="get_app_install_result" enum="MetaPlatformSDK.AppInstallResult" default="0">
+			Result of the download or install operation returned by the installer.
+		</member>
+		<member name="timestamp" type="int" setter="" getter="get_timestamp" default="0">
+			Timestamp in milliseconds when the operation finished.
+		</member>
+	</members>
+</class>

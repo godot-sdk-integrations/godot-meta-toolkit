@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_SdkAccount" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an SDK account.
+	</brief_description>
+	<description>
+		Represents an SDK account.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="account_type" type="int" setter="" getter="get_account_type" enum="MetaPlatformSDK.SdkAccountType" default="0">
+		</member>
+		<member name="user_id" type="int" setter="" getter="get_user_id" default="0">
+		</member>
+	</members>
+</class>

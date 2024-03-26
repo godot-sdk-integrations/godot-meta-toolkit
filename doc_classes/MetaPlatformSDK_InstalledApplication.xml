@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_InstalledApplication" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an installed app.
+	</brief_description>
+	<description>
+		Represents an installed app.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="application_id" type="String" setter="" getter="get_application_id" default="&quot;&quot;">
+		</member>
+		<member name="package_name" type="String" setter="" getter="get_package_name" default="&quot;&quot;">
+		</member>
+		<member name="status" type="String" setter="" getter="get_status" default="&quot;&quot;">
+		</member>
+		<member name="version_code" type="int" setter="" getter="get_version_code" default="0">
+		</member>
+		<member name="version_name" type="String" setter="" getter="get_version_name" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

@@ -1,0 +1,16 @@
+[configuration]
+
+entry_symbol = "toolkit_library_init"
+compatibility_minimum = "4.3"
+android_aar_plugin = true
+
+[libraries]
+
+android.debug.arm64 = "res://addons/godot_meta_toolkit/.bin/android/template_debug/arm64/libgodot_meta_toolkit.so"
+android.release.arm64 = "res://addons/godot_meta_toolkit/.bin/android/template_release/arm64/libgodot_meta_toolkit.so"
+macos.debug = "res://addons/godot_meta_toolkit/.bin/macos/template_debug/libgodot_meta_toolkit.macos.framework"
+macos.release = "res://addons/godot_meta_toolkit/.bin/macos/template_release/libgodot_meta_toolkit.macos.framework"
+windows.debug.x86_64 = "res://addons/godot_meta_toolkit/.bin/windows/template_debug/x86_64/libgodot_meta_toolkit.dll"
+windows.release.x86_64 = "res://addons/godot_meta_toolkit/.bin/windows/template_release/x86_64/libgodot_meta_toolkit.dll"
+linux.debug.x86_64 = "res://addons/godot_meta_toolkit/.bin/linux/template_debug/x86_64/libgodot_meta_toolkit.so"
+linux.release.x86_64 = "res://addons/godot_meta_toolkit/.bin/linux/template_release/x86_64/libgodot_meta_toolkit.so"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AssetFileDownloadUpdate" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an update about downloading an asset file.
+	</brief_description>
+	<description>
+		Represents an update about downloading an asset file.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="asset_id" type="int" setter="" getter="get_asset_id" default="0">
+			ID of the asset file.
+		</member>
+		<member name="bytes_total_long" type="int" setter="" getter="get_bytes_total_long" default="0">
+		</member>
+		<member name="bytes_transferred_long" type="int" setter="" getter="get_bytes_transferred_long" default="0">
+		</member>
+		<member name="completed" type="bool" setter="" getter="get_completed" default="false">
+			Flag indicating a download is completed.
+		</member>
+	</members>
+</class>

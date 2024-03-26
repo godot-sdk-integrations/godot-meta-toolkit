@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_User" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a user.
+	</brief_description>
+	<description>
+		Represents a user.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="display_name" type="String" setter="" getter="get_display_name" default="&quot;&quot;">
+			A potentially non unique displayable name chosen by the user. Could also be the same as the oculus_ID
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+		<member name="image_url" type="String" setter="" getter="get_image_url" default="&quot;&quot;">
+		</member>
+		<member name="oculus_id" type="String" setter="" getter="get_oculus_id" default="&quot;&quot;">
+		</member>
+		<member name="presence" type="String" setter="" getter="get_presence" default="&quot;&quot;">
+			Human readable string of what the user is currently doing. Not intended to be parsed as it might change at anytime or be translated.
+		</member>
+		<member name="presence_deeplink_message" type="String" setter="" getter="get_presence_deeplink_message" default="&quot;&quot;">
+			Message intended to be parsed and used to deeplink to parts of the app.
+		</member>
+		<member name="presence_destination_api_name" type="String" setter="" getter="get_presence_destination_api_name" default="&quot;&quot;">
+			If provided, the destination this user is currently at in the app.
+		</member>
+		<member name="presence_lobby_session_id" type="String" setter="" getter="get_presence_lobby_session_id" default="&quot;&quot;">
+			If provided, the lobby session this user is currently at in the app.
+		</member>
+		<member name="presence_match_session_id" type="String" setter="" getter="get_presence_match_session_id" default="&quot;&quot;">
+			If provided, the match session this user is currently at in the app.
+		</member>
+		<member name="presence_status" type="int" setter="" getter="get_presence_status" enum="MetaPlatformSDK.UserPresenceStatus" default="0">
+			Enum value of what the user is currently doing.
+		</member>
+		<member name="small_image_url" type="String" setter="" getter="get_small_image_url" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

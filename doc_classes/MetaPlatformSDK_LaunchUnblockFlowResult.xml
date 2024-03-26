@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchUnblockFlowResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		The result of launching the user unblock flow.
+	</brief_description>
+	<description>
+		The result of launching the user unblock flow.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="did_cancel" type="bool" setter="" getter="get_did_cancel" default="false">
+			Whether the viewer chose to cancel the unblock flow.
+		</member>
+		<member name="did_unblock" type="bool" setter="" getter="get_did_unblock" default="false">
+			Whether the viewer successfully unblocked the user.
+		</member>
+	</members>
+</class>

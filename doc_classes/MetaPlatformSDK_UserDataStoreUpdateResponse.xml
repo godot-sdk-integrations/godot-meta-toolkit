@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserDataStoreUpdateResponse" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the response to a user data store update.
+	</brief_description>
+	<description>
+		Represents the response to a user data store update.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="success" type="bool" setter="" getter="get_success" default="false">
+			Whether the update request was successful.
+		</member>
+	</members>
+</class>

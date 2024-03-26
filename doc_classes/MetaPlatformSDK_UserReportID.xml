@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserReportID" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a user report ID.
+	</brief_description>
+	<description>
+		Represents a user report ID.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="did_cancel" type="bool" setter="" getter="get_did_cancel" default="false">
+			Whether the viewer chose to cancel the report flow.
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+	</members>
+</class>

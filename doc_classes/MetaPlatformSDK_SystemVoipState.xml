@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_SystemVoipState" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the System VoIP state.
+	</brief_description>
+	<description>
+		Represents the System VoIP state.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="microphone_muted" type="int" setter="" getter="get_microphone_muted" enum="MetaPlatformSDK.VoipMuteState" default="0">
+		</member>
+		<member name="status" type="int" setter="" getter="get_status" enum="MetaPlatformSDK.SystemVoipStatus" default="0">
+		</member>
+	</members>
+</class>

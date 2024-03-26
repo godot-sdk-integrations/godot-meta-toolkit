@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AvatarEditorResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of requesting the avatar editor.
+	</brief_description>
+	<description>
+		Represents the result of requesting the avatar editor.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="request_sent" type="bool" setter="" getter="get_request_sent" default="false">
+			Whether the request has sent.
+		</member>
+	</members>
+</class>

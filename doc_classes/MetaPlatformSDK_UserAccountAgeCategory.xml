@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserAccountAgeCategory" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a user account age category.
+	</brief_description>
+	<description>
+		Represents a user account age category.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="age_category" type="int" setter="" getter="get_age_category" enum="MetaPlatformSDK.AccountAgeCategory" default="0">
+			Age category of the user's Meta account.
+		</member>
+	</members>
+</class>

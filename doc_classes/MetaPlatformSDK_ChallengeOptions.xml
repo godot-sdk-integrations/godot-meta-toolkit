@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ChallengeOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options to a challenge.
+	</brief_description>
+	<description>
+		Represents options to a challenge.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_description">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="set_end_date">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="set_include_active_challenges">
+			<return type="void" />
+			<param index="0" name="value" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="set_include_future_challenges">
+			<return type="void" />
+			<param index="0" name="value" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="set_include_past_challenges">
+			<return type="void" />
+			<param index="0" name="value" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="set_leaderboard_name">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Optional: Only find challenges belonging to this leaderboard.
+			</description>
+		</method>
+		<method name="set_start_date">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="set_title">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="set_viewer_filter">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ChallengeViewerFilter" />
+			<description>
+			</description>
+		</method>
+		<method name="set_visibility">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ChallengeVisibility" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

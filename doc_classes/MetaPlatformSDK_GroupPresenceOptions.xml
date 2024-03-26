@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_GroupPresenceOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options for a group presence.
+	</brief_description>
+	<description>
+		Represents options for a group presence.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_deeplink_message_override">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Use [method set_lobby_session_id] or [method set_match_session_id] to specify the session. Use the deeplink message override for any additional data in whatever format you wish to aid in bringing users together. If not specified, the deeplink_message for the user will default to the one on the destination.
+			</description>
+		</method>
+		<method name="set_destination_api_name">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Set the unique API Name that refers to an in-app destination.
+			</description>
+		</method>
+		<method name="set_is_joinable">
+			<return type="void" />
+			<param index="0" name="value" type="bool" />
+			<description>
+				Set whether or not the person is shown as joinable or not to others. A user that is joinable can invite others to join them. Set this to false if other users would not be able to join this user. For example: the current session is full, or only the host can invite others and the current user is not the host.
+			</description>
+		</method>
+		<method name="set_lobby_session_id">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Set the session ID that represents a closer group/squad/party of users. It is expected that all users with the same lobby session id can see or hear each other. Users with the same lobby session id in their group presence will show up in the roster and will show up as "Recently Played With" for future invites if they aren't already Oculus friends. This must be set in addition to is_joinable being true for a user to use invites.
+			</description>
+		</method>
+		<method name="set_match_session_id">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Set the session ID that represents all the users that are playing a specific instance of a map, game mode, round, etc. This can include users from multiple different lobbies that joined together and the users may or may not remain together after the match is over. Users with the same match session id in their group presence will not show up in the Roster, but will show up as "Recently Played with" for future invites.
+			</description>
+		</method>
+	</methods>
+</class>

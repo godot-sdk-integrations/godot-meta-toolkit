@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Request" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an asynchronous request to the Meta Platform SDK.
+	</brief_description>
+	<description>
+		Represents an asynchronous request to the Meta Platform SDK.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_id">
+			<return type="int" />
+			<description>
+				Gets the requests unique ID.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="completed">
+			<param index="0" name="message" type="MetaPlatformSDK_Message" />
+			<description>
+				Emitted when the request is complete, with a message containing the result of the request.
+			</description>
+		</signal>
+	</signals>
+</class>

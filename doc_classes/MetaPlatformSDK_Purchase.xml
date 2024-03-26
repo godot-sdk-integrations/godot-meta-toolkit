@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Purchase" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a purchase.
+	</brief_description>
+	<description>
+		Represents a purchase.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="developer_payload" type="String" setter="" getter="get_developer_payload" default="&quot;&quot;">
+		</member>
+		<member name="expiration_time" type="int" setter="" getter="get_expiration_time" default="0">
+		</member>
+		<member name="grant_time" type="int" setter="" getter="get_grant_time" default="0">
+		</member>
+		<member name="purchase_str_id" type="String" setter="" getter="get_purchase_str_id" default="&quot;&quot;">
+		</member>
+		<member name="reporting_id" type="String" setter="" getter="get_reporting_id" default="&quot;&quot;">
+		</member>
+		<member name="sku" type="String" setter="" getter="get_sku" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

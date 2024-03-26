@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserProof" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents proof that this user is logged in.
+	</brief_description>
+	<description>
+		Represents proof that this user is logged in.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="nonce" type="String" setter="" getter="get_nonce" default="&quot;&quot;">
+			A one-time use string, used to prove this user is logged in.
+		</member>
+	</members>
+</class>

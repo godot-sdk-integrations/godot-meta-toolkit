@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LivestreamingStatus" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the current livestreaming status.
+	</brief_description>
+	<description>
+		Represents the current livestreaming status.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="comments_visible" type="bool" setter="" getter="get_comments_visible" default="false">
+		</member>
+		<member name="is_paused" type="bool" setter="" getter="get_is_paused" default="false">
+		</member>
+		<member name="livestreaming_enabled" type="bool" setter="" getter="get_livestreaming_enabled" default="false">
+		</member>
+		<member name="livestreaming_type" type="int" setter="" getter="get_livestreaming_type" default="0">
+		</member>
+		<member name="mic_enabled" type="bool" setter="" getter="get_mic_enabled" default="false">
+		</member>
+	</members>
+</class>

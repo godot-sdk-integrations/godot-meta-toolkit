@@ -1,0 +1,118 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.meta.w4.godot.toolkit'
+    compileSdk versions.compileSdk
+    ndkVersion versions.ndkVersion
+
+    base {
+        archivesName = "godot_meta_toolkit"
+    }
+
+    defaultConfig {
+        minSdk versions.minSdk
+        targetSdk versions.targetSdk
+        versionName getReleaseVersion()
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters "arm64-v8a"
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version versions.cmakeVersion
+        }
+    }
+
+    packagingOptions {
+        doNotStrip '**/*.so'
+    }
+
+    compileOptions {
+        sourceCompatibility versions.javaVersion
+        targetCompatibility versions.javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = versions.javaVersion
+    }
+
+    buildFeatures {
+        prefabPublishing true
+    }
+
+    prefab {
+        godot_meta_toolkit {
+            headers "src/main/cpp/include"
+        }
+    }
+}
+
+dependencies {
+    compileOnly libraries.godotAndroidLib
+}
+
+task cleanAssets(type: Delete) {
+    // Delete the 'addons' directory in the 'assets' folder
+    delete("src/main/assets/addons")
+}
+
+task cleanCxx(type: Delete) {
+    delete(".cxx")
+}
+
+task copyDebugAARToAddons(type: Copy) {
+    from 'build/outputs/aar'
+    include 'godot_meta_toolkit-debug.aar'
+    into '../demo/addons/godot_meta_toolkit/.bin/android/debug'
+}
+
+task copyReleaseAARToAddons(type: Copy) {
+    from 'build/outputs/aar'
+    include 'godot_meta_toolkit-release.aar'
+    into '../demo/addons/godot_meta_toolkit/.bin/android/release'
+}
+
+task copyPlatformSDKLoaderToAddons(type: Copy) {
+    description 'Copy the Platform SDK loader into the addon'
+
+    from '../thirdparty/ovr_platform_sdk/Android/libs/arm64-v8a'
+    include 'libovrplatformloader.so'
+    into '../demo/addons/godot_meta_toolkit/.bin/android/libs/arm64-v8a'
+}
+
+task copyPlatformSDKLicenseToAddons(type: Copy) {
+    description 'Copy the Platform SDK license into the addon'
+
+    from '../thirdparty/ovr_platform_sdk/'
+    include 'LICENSE.txt'
+    into '../demo/addons/godot_meta_toolkit/.bin/android/libs'
+}
+
+task copyGdExtensionConfigToAssets(type: Copy) {
+    description 'Copy toolkit.gdextension from the addons directory to the assets directory'
+
+    from '../demo/addons/godot_meta_toolkit/'
+    include 'toolkit.gdextension'
+    into 'src/main/assets/addons/godot_meta_toolkit/'
+}
+
+preBuild.dependsOn(copyGdExtensionConfigToAssets)
+assemble.dependsOn(copyGdExtensionConfigToAssets)
+assemble.finalizedBy(copyDebugAARToAddons)
+assemble.finalizedBy(copyReleaseAARToAddons)
+assemble.finalizedBy(copyPlatformSDKLoaderToAddons)
+assemble.finalizedBy(copyPlatformSDKLicenseToAddons)
+clean.dependsOn(cleanAssets)
+clean.dependsOn(cleanCxx)

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchDetails" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents details about launching an app.
+	</brief_description>
+	<description>
+		Represents details about launching an app.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="deeplink_message" type="String" setter="" getter="get_deeplink_message" default="&quot;&quot;">
+			An opaque string provided by the developer to help them deeplink to content on app startup.
+		</member>
+		<member name="destination_api_name" type="String" setter="" getter="get_destination_api_name" default="&quot;&quot;">
+			If provided, the intended destination the user would like to go to.
+		</member>
+		<member name="launch_source" type="String" setter="" getter="get_launch_source" default="&quot;&quot;">
+			A string typically used to distinguish where the deeplink came from. For instance, a DEEPLINK launch type could be coming from events or rich presence.
+		</member>
+		<member name="launch_type" type="int" setter="" getter="get_launch_type" enum="MetaPlatformSDK.LaunchType" default="0">
+		</member>
+		<member name="lobby_session_id" type="String" setter="" getter="get_lobby_session_id" default="&quot;&quot;">
+			If provided, the intended lobby the user would like to be in.
+		</member>
+		<member name="match_session_id" type="String" setter="" getter="get_match_session_id" default="&quot;&quot;">
+			If provided, the intended session the user would like to be in.
+		</member>
+		<member name="tracking_id" type="String" setter="" getter="get_tracking_id" default="&quot;&quot;">
+			A unique identifer to keep track of a user going through the deeplinking flow.
+		</member>
+		<member name="users" type="MetaPlatformSDK_UserArray" setter="" getter="get_users">
+			If provided, the intended users the user would like to be with.
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+	</members>
+</class>

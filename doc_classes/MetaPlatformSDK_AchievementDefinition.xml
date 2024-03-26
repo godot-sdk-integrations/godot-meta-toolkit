@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AchievementDefinition" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the definition of an acheivement.
+	</brief_description>
+	<description>
+		Represents the definition of an acheivement.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="bitfield_length" type="int" setter="" getter="get_bitfield_length" default="0">
+			The length of the bitfield, if the [member type] is [constant MetaPlatformSDK.ACHIEVEMENT_TYPE_BITFIELD].
+		</member>
+		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			The name of the achievement.
+		</member>
+		<member name="target" type="int" setter="" getter="get_target" default="0">
+		</member>
+		<member name="type" type="int" setter="" getter="get_type" enum="MetaPlatformSDK.AchievementType" default="0">
+			The type of achievement.
+		</member>
+	</members>
+</class>

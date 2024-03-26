@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ApplicationVersion" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an app version.
+	</brief_description>
+	<description>
+		Represents an app version.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="current_code" type="int" setter="" getter="get_current_code" default="0">
+			Version code number for the version of the application currently installed on the device.
+		</member>
+		<member name="current_name" type="String" setter="" getter="get_current_name" default="&quot;&quot;">
+			Version name string for the version of the application currently installed on the device.
+		</member>
+		<member name="latest_code" type="int" setter="" getter="get_latest_code" default="0">
+			Version code number of the latest update of the application. This may or may not be currently installed on the device.
+		</member>
+		<member name="latest_name" type="String" setter="" getter="get_latest_name" default="&quot;&quot;">
+			Version name string of the latest update of the application. This may or may not be currently installed on the device.
+		</member>
+		<member name="release_date" type="int" setter="" getter="get_release_date" default="0">
+			Seconds since the UNIX epoch when the latest application update was released.
+		</member>
+		<member name="size" type="String" setter="" getter="get_size" default="&quot;&quot;">
+			Size of the latest application update in bytes.
+		</member>
+	</members>
+</class>

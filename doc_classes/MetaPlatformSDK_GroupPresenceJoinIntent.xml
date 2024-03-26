@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_GroupPresenceJoinIntent" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the intent to join group presence.
+	</brief_description>
+	<description>
+		Represents the intent to join group presence.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="deeplink_message" type="String" setter="" getter="get_deeplink_message" default="&quot;&quot;">
+			An opaque string provided by the developer to help them deeplink to content.
+		</member>
+		<member name="destination_api_name" type="String" setter="" getter="get_destination_api_name" default="&quot;&quot;">
+			If populated, the destination the current user wants to go to.
+		</member>
+		<member name="lobby_session_id" type="String" setter="" getter="get_lobby_session_id" default="&quot;&quot;">
+			If populated, the lobby session the current user wants to go to.
+		</member>
+		<member name="match_session_id" type="String" setter="" getter="get_match_session_id" default="&quot;&quot;">
+			If populated, the match session the current user wants to go to.
+		</member>
+	</members>
+</class>

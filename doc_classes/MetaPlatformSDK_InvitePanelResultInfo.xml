@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_InvitePanelResultInfo" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result to using the invite panel.
+	</brief_description>
+	<description>
+		Represents the result to using the invite panel.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="invites_sent" type="bool" setter="" getter="get_invites_sent" default="false">
+			A boolean for whether or not any invites has been sent.
+		</member>
+	</members>
+</class>

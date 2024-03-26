@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_PlatformInitialize" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of initializing the Meta Platform SDK.
+	</brief_description>
+	<description>
+		Represents the result of initializing the Meta Platform SDK.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="result" type="int" setter="" getter="get_result" enum="MetaPlatformSDK.PlatformInitializeResult" default="0">
+		</member>
+	</members>
+</class>

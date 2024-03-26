@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncSession" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a net sync session.
+	</brief_description>
+	<description>
+		Represents a net sync session.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="connection_id" type="int" setter="" getter="get_connection_id" default="0">
+			Which connection this session exists within.
+		</member>
+		<member name="muted" type="bool" setter="" getter="get_muted" default="false">
+			True if the local session has muted this session.
+		</member>
+		<member name="session_id" type="int" setter="" getter="get_session_id" default="0">
+			The cloud networking internal session ID that represents this connection.
+		</member>
+		<member name="user_id" type="int" setter="" getter="get_user_id" default="0">
+			The ID of the user behind this session.
+		</member>
+		<member name="voip_group" type="String" setter="" getter="get_voip_group" default="&quot;&quot;">
+			The name of the VoIP group that this session is subscribed to.
+		</member>
+	</members>
+</class>

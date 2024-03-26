@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AvatarEditorOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options for the avatar editor.
+	</brief_description>
+	<description>
+		Represents options for the avatar editor.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_source_override">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Optional: Override for where the request is coming from.
+			</description>
+		</method>
+	</methods>
+</class>

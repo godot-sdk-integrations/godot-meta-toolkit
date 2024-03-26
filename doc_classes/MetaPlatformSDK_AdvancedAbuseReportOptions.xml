@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AdvancedAbuseReportOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents advanced options for an abuse report.
+	</brief_description>
+	<description>
+		Represents advanced options for an abuse report.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_suggested_user">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+				Provide a list of users to suggest for reporting. This list should include users that the reporter has recently interacted with to aid them in selecting the right user to report.
+			</description>
+		</method>
+		<method name="clear_developer_defined_context">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="clear_suggested_users">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="set_developer_defined_context_string">
+			<return type="void" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
+				This field is intended to allow developers to pass custom metadata through the report flow. The metadata passed through is included with the report received by the developer.
+			</description>
+		</method>
+		<method name="set_object_type">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				If report_type is object/content, a string representing the type of content being reported. This should correspond to the object_type string used in the UI.
+			</description>
+		</method>
+		<method name="set_report_type">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.AbuseReportType" />
+			<description>
+				The intended entity being reported, whether user or object/content.
+			</description>
+		</method>
+		<method name="set_video_mode">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.AbuseReportVideoMode" />
+			<description>
+				The video mode controls whether or not the abuse report flow should collect evidence and whether it is optional or not. "Collect" requires video evidence to be provided by the user. "Optional" presents the user with the option to provide video evidence. "Skip" bypasses the video evidence collection step altogether.
+			</description>
+		</method>
+	</methods>
+</class>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AppDownloadProgressResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the progress of downloading an app.
+	</brief_description>
+	<description>
+		Represents the progress of downloading an app.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="download_bytes" type="int" setter="" getter="get_download_bytes" default="0">
+			Total number of bytes that need to be downloaded.
+		</member>
+		<member name="downloaded_bytes" type="int" setter="" getter="get_downloaded_bytes" default="0">
+			Number of bytes that have already been downloaded.
+		</member>
+		<member name="status_code" type="int" setter="" getter="get_status_code" enum="MetaPlatformSDK.AppStatus" default="0">
+			Status code of the current app status. Can be used to find if app is downloading, etc.
+		</member>
+	</members>
+</class>

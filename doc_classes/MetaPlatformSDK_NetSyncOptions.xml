@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options for net sync.
+	</brief_description>
+	<description>
+		Represents options for net sync.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_voip_group">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				If provided, immediately set the voip_group to this value upon connection.
+			</description>
+		</method>
+		<method name="set_voip_stream_default">
+			<return type="void" />
+			<param index="0" name="value" type="int" enum="MetaPlatformSDK.NetSyncVoipStreamMode" />
+			<description>
+				When a new remote voip user connects, default that connection to this stream type by default.
+			</description>
+		</method>
+		<method name="set_zone_id">
+			<return type="void" />
+			<param index="0" name="value" type="String" />
+			<description>
+				Set the unique identifier within the current application grouping.
+			</description>
+		</method>
+	</methods>
+</class>

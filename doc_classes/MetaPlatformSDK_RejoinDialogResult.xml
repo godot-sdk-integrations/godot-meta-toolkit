@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_RejoinDialogResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of the rejoin dialog.
+	</brief_description>
+	<description>
+		Represents the result of the rejoin dialog.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="rejoin_selected" type="bool" setter="" getter="get_rejoin_selected" default="false">
+			Will be [code]true[/code] if the user decided to rejoin.
+		</member>
+	</members>
+</class>

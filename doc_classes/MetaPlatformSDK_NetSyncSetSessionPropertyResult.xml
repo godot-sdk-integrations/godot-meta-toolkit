@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncSetSessionPropertyResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of setting a net sync property.
+	</brief_description>
+	<description>
+		Represents the result of setting a net sync property.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="session" type="MetaPlatformSDK_NetSyncSession" setter="" getter="get_session">
+			Which session the operation was modifying.
+		</member>
+	</members>
+</class>

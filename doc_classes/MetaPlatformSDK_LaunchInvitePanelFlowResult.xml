@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchInvitePanelFlowResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of launching the invite panel flow.
+	</brief_description>
+	<description>
+		Represents the result of launching the invite panel flow.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="invited_users" type="MetaPlatformSDK_UserArray" setter="" getter="get_invited_users">
+			A list of users that were sent an invitation to the session.
+		</member>
+	</members>
+</class>

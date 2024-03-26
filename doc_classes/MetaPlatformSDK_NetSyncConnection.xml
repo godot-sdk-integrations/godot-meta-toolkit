@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncConnection" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a net sync connection.
+	</brief_description>
+	<description>
+		Represents a net sync connection.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="connection_id" type="int" setter="" getter="get_connection_id" default="0">
+		</member>
+		<member name="disconnect_reason" type="int" setter="" getter="get_disconnect_reason" enum="MetaPlatformSDK.NetSyncDisconnectReason" default="0">
+			If status is Disconnected, specifies the reason.
+		</member>
+		<member name="session_id" type="int" setter="" getter="get_session_id" default="0">
+			The ID of the local session. Will be null if the connection is not active.
+		</member>
+		<member name="status" type="int" setter="" getter="get_status" enum="MetaPlatformSDK.NetSyncConnectionStatus" default="0">
+		</member>
+		<member name="zone_id" type="String" setter="" getter="get_zone_id" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_UserCapability" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a user capability.
+	</brief_description>
+	<description>
+		Represents a user capability.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="description" type="String" setter="" getter="get_description" default="&quot;&quot;">
+			Human readable description of the capability, describing what possessing it entails for a given user.
+		</member>
+		<member name="is_enabled" type="bool" setter="" getter="get_is_enabled" default="false">
+			Whether the capability is currently enabled for the user.
+		</member>
+		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			Unique identifer for the capability.
+		</member>
+		<member name="reason_code" type="String" setter="" getter="get_reason_code" default="&quot;&quot;">
+			If present, specifies the reason the capability was enabled or disabled.
+		</member>
+	</members>
+</class>

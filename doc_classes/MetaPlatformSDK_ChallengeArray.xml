@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ChallengeArray" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		An array of challenges.
+	</brief_description>
+	<description>
+		An array of [MetaPlatformSDK_Challenge]s.
+		[b]NOTE:[/b] This isn't a Godot [Array], but you can loop over it using [code]for x in arr[/code] just like a Godot [Array].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_element" qualifiers="const">
+			<return type="MetaPlatformSDK_Challenge" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns an element in the array by index.
+			</description>
+		</method>
+		<method name="has_next_page" qualifiers="const">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if there is next page of elements.
+			</description>
+		</method>
+		<method name="has_previous_page">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if there is previous page of elements.
+			</description>
+		</method>
+		<method name="size" qualifiers="const">
+			<return type="int" />
+			<description>
+				Returns the size of the array.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="next_url" type="String" setter="" getter="get_next_url" default="&quot;&quot;">
+			The URL used to request the next page of elements.
+		</member>
+		<member name="previous_url" type="String" setter="" getter="get_previous_url" default="&quot;&quot;">
+			The URL used to request the previous page of elements.
+		</member>
+		<member name="total_count" type="int" setter="" getter="get_total_count" default="0">
+			The total count of elements on all pages.
+		</member>
+	</members>
+</class>

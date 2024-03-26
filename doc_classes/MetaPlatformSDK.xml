@@ -1,0 +1,1886 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A singleton that is your main entry-point for working with Meta's Platform SDK.
+	</brief_description>
+	<description>
+		The [b]MetaPlatformSDK[/b] singleton is your main entry-point for working with Meta's Platform SDK.
+		Before you can use the Platform SDK, you'll need to:
+		1. [url=https://developer.oculus.com/sign-up/]Create a developer account[/url] for Meta Quest.
+		2. Create an app within the Meta Quest [url=https://developer.oculus.com/manage/]Developer Dashboard[/url].
+		3. Visit the "API" tab within the developer dashboard for your app, and make note of your "App ID" - you'll need this to initialize the Platform SDK.
+		4. Make a release build of your application, using the real "Unique Name" and release keystore. At this point, your application probably doesn't do much, which is fine.
+		5. Upload this build using the [url=https://developer.oculus.com/meta-quest-developer-hub/]Meta Quest Developer Hub[/url] to the ALPHA channel.
+		6. Complete a [url=https://developer.oculus.com/resources/publish-data-use/]Data Use Checkup[/url] (DUC), including all the features of the Platform SDK you intend to use. You won't have access to any features you don't include in your DUC.
+		7. Wait for your DUC to be approved.
+		After that process is complete, you'll be able to use the Platform SDK, for example:
+		[codeblock]
+		        func setup_meta_platform_sdk():
+		            var result: MetaPlatformSDK_Message
+
+		            # Replace "1234" with your App ID.
+		            result = await MetaPlatformSDK.initialize_platform_async("1234").completed
+		            if result.is_error():
+		                print("Unable to initialize the platform SDK: ", result.error)
+		                return
+
+		            # Check that the user owns this app and is entitled to use it.
+		            result = await MetaPlatformSDK.entitlement_get_is_viewer_entitled_async().completed
+		            if result.is_error():
+		                print("The user isn't entitled: ", result.error)
+		                return
+
+		            # Get the list of the user's friends who also own this app.
+		            # NOTE: This will only work if you requested access to "Friends" on your DUC (see earlier instructions).
+		            result = await MetaPlatformSDK.user_get_logged_in_user_friends_async().completed
+		            if result.is_error():
+		                print("Unable to get friends: ", result.error)
+		                return
+
+		            print("My friends:")
+		            for user in result.data:
+		                print("- ", user)
+		[/codeblock]
+		Be sure to initialize the Platform SDK using [method initialize_platform_async] or [method initialize_platform] before calling any other methods.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="abuse_report_report_request_handled_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="response" type="int" enum="MetaPlatformSDK.ReportRequestResponse" />
+			<description>
+				Responds to the an abuse report request notification sent to the current app to indicate that we want to show the in-app reporting flow or that we choose to ignore the request.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="achievements_add_count_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="name" type="String" />
+			<param index="1" name="count" type="int" />
+			<description>
+				Adds [param count] to the achievement with the given name. This must be a COUNT achievement. The largest number that is supported by this method is the max value of a signed 64-bit integer. If the number is larger than that, it is clamped to that max value before being passed to the servers.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_update] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementUpdate] in this case.
+			</description>
+		</method>
+		<method name="achievements_add_fields_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="name" type="String" />
+			<param index="1" name="fields" type="String" />
+			<description>
+				Unlocks fields of a BITFIELD achievement.
+				- [param name]: The name of the achievement to unlock.
+				- [param fields]: A string containing either '0' or '1' characters. Every '1' will unlock the field in the corresponding position.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_update] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementUpdate] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_all_definitions_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Requests all achievement definitions for this app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_definition_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementDefinitionArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_all_progress_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Requests the progress for the user on all achievements in this app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_progress_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementProgressArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_definitions_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="names" type="PackedStringArray" />
+			<description>
+				Requests the achievement definitions that match the specified names.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_definition_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementDefinitionArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_next_achievement_definition_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_AchievementDefinitionArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_definition_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementDefinitionArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_next_achievement_progress_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_AchievementProgressArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_progress_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementProgressArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_get_progress_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="names" type="PackedStringArray" />
+			<description>
+				Requests the user's progress on the specified achievements.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_progress_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementProgressArray] in this case.
+			</description>
+		</method>
+		<method name="achievements_unlock_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="name" type="String" />
+			<description>
+				Unlocks the achievement with the given name. This can be of any achievement type.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_achievement_update] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AchievementUpdate] in this case.
+			</description>
+		</method>
+		<method name="application_cancel_app_download_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Cancels an app download that is in progress. It will return a result when the download is cancelled.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_app_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AppDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="application_check_app_download_progress_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Tracks download progress for an app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_app_download_progress_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AppDownloadProgressResult] in this case.
+			</description>
+		</method>
+		<method name="application_get_version_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Requests version information, including the version code and version name of the currently installed app and version code, version name, size and release date of the latest app update.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_application_version] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ApplicationVersion] in this case.
+			</description>
+		</method>
+		<method name="application_install_app_update_and_relaunch_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="deeplink_options" type="MetaPlatformSDK_ApplicationOptions" />
+			<description>
+				Installs the app update that was previously downloaded. Once the install begins the application will exit automatically. After the installation process is complete, the app will be relaunched based on the options passed.
+				- [param deeplink_options]: Additional configuration for this relaunch. Optional.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_app_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AppDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="application_launch_other_app_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="app_id" type="int" />
+			<param index="1" name="deeplink_options" type="MetaPlatformSDK_ApplicationOptions" />
+			<description>
+				Launches a different application in the user's library. If the user does not have that application installed, they will be taken to that app's page in the Oculus Store.
+				- [param app_id]: The ID of the app to launch.
+				- [param deeplink_options]: Additional configuration for this requests. Optional.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_string] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [String] in this case.
+			</description>
+		</method>
+		<method name="application_lifecycle_get_launch_details">
+			<return type="MetaPlatformSDK_LaunchDetails" />
+			<description>
+				Returns information about how the application was started.
+			</description>
+		</method>
+		<method name="application_lifecycle_log_deeplink_result">
+			<return type="void" />
+			<param index="0" name="tracking_id" type="String" />
+			<param index="1" name="result" type="int" enum="MetaPlatformSDK.LaunchResult" />
+			<description>
+				Logs if the user successfully deeplinked to a destination.
+			</description>
+		</method>
+		<method name="application_start_app_download_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Starts an app download. It will return a result when the download is finished. Download progress can be monitored using [method application_check_app_download_progress_async].
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_app_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AppDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_delete_by_id_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_id" type="int" />
+			<description>
+				Removes an previously installed asset file from the device by its ID. Result payload is an object containing the asset ID and file name, and a success flag.
+				- [param asset_file_id]: The asset file ID.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_delete_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDeleteResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_delete_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_name" type="String" />
+			<description>
+				Removes an previously installed asset file from the device by its name. Result payload is an object containing the asset ID and file name, and a success flag.
+				- [param asset_file_name]: The asset file name.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_delete_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDeleteResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_download_by_id_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_id" type="int" />
+			<description>
+				Downloads an asset file by its ID on demand. Result payload is an object containing the asset ID and filepath. Sends periodic [constant MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE] messages to track the downloads.
+				- [param asset_file_id]: The asset file ID.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_download_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_name" type="String" />
+			<description>
+				Downloads an asset file by its name on demand. Result payload is an object containing the asset ID and filepath. Sends periodic [constant MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE] messages to track the downloads.
+				- [param asset_file_name]: The asset file name.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_download_cancel_by_id_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_id" type="int" />
+			<description>
+				Cancels a previously spawned download request for an asset file by its ID. Result payload is an object containing the asset ID and file path, and a success flag.
+				- [param asset_file_id]: The asset file ID.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_download_cancel_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDownloadCancelResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_download_cancel_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_name" type="String" />
+			<description>
+				Cancels a previously spawned download request for an asset file by its name. Result payload an object containing the asset ID and file path, and a success flag.
+				- [param asset_file_name]: The asset file name.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_download_cancel_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDownloadCancelResult] in this case.
+			</description>
+		</method>
+		<method name="asset_file_get_list_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets an array of objects with asset file names and their associated IDs, and and whether it's currently installed.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_details_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetDetailsArray] in this case.
+			</description>
+		</method>
+		<method name="asset_file_status_by_id_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_id" type="int" />
+			<description>
+				Gets the details on a single asset: ID, file name, and whether it's currently installed.
+				- [param asset_file_id]: The asset file ID.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_details] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetDetails] in this case.
+			</description>
+		</method>
+		<method name="asset_file_status_by_name_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="asset_file_name" type="String" />
+			<description>
+				Gets the details on a single asset: ID, file name, and whether it's currently installed.
+				- [param asset_file_name]: The asset file name.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_details] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetDetails] in this case.
+			</description>
+		</method>
+		<method name="avatar_launch_avatar_editor_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="options" type="MetaPlatformSDK_AvatarEditorOptions" />
+			<description>
+				Launches the Avatar Editor.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_avatar_editor_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AvatarEditorResult] in this case.
+			</description>
+		</method>
+		<method name="challenges_decline_invite_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<description>
+				Declines an invite to a challenge.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Challenge] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<description>
+				Gets the information for a single challenge.
+				- [param challenge_id]: The id of the challenge whose entries to return.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Challenge] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_entries_after_rank_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="after_rank" type="int" />
+			<description>
+				Requests an array of challenge entries.
+				- [param challenge_id]: The id of the challenge whose entries to return.
+				- [param limit]: The maximum number of entries to return.
+				- [param after_rank]: The position after which to start.  For example, 10 returns challenge results starting with the 11th user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeEntryArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="filter" type="int" enum="MetaPlatformSDK.LeaderboardFilterType" />
+			<param index="3" name="start_at" type="int" enum="MetaPlatformSDK.LeaderboardStartAt" />
+			<description>
+				Requests an array of challenge entries.
+				- [param challenge_id]: The id of the challenge whose entries to return.
+				- [param limit]: Defines the maximum number of entries to return.
+				- [param filter]: By using [constant LEADERBOARD_FILTER_FRIENDS], this allows you to filter the returned values to bidirectional followers.
+				- [param start_at]: Defines whether to center the query on the user or start at the top of the challenge.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeEntryArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_entries_by_ids_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="start_at" type="int" enum="MetaPlatformSDK.LeaderboardStartAt" />
+			<param index="3" name="user_ids" type="PackedInt64Array" />
+			<description>
+				Requests an array of challenge entries. Will return only entries matching the user IDs passed in.
+				- [param challenge_id]: The id of the challenge whose entries to return.
+				- [param limit]: Defines the maximum number of entries to return.
+				- [param start_at]: Defines whether to center the query on the user or start at the top of the challenge. If this is [constant LEADERBOARD_START_AT_CENTERED_ON_VIEWER] or [constant LEADERBOARD_START_AT_CENTERED_ON_VIEWER_OR_TOP], then the current user's ID will be automatically added to the query.
+				- [param user_ids]: Defines a list of user ids to get entries for.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeEntryArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_list_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_options" type="MetaPlatformSDK_ChallengeOptions" />
+			<param index="1" name="limit" type="int" />
+			<description>
+				Requests an array of challenges.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_next_challenges_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ChallengeArray" />
+			<description>
+				Requests the next page of challenges.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_next_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ChallengeEntryArray" />
+			<description>
+				Requests the next page of challenge entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeEntryArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_previous_challenges_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ChallengeArray" />
+			<description>
+				Requests the previous page of challenges.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_get_previous_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ChallengeEntryArray" />
+			<description>
+				Requests the previous page of challenge entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ChallengeEntryArray] in this case.
+			</description>
+		</method>
+		<method name="challenges_join_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<description>
+				Joins a challenge, if the current user has permission.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Challenge] in this case.
+			</description>
+		</method>
+		<method name="challenges_leave_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_id" type="int" />
+			<description>
+				Leaves a challenge, if the user has permission.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_challenge] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Challenge] in this case.
+			</description>
+		</method>
+		<method name="cowatching_get_next_cowatch_viewer_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_CowatchViewerArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_cowatch_viewer_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_CowatchViewerArray] in this case.
+			</description>
+		</method>
+		<method name="cowatching_get_presenter_data_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets the presenter data for the active cowatching session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_string] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [String] in this case.
+			</description>
+		</method>
+		<method name="cowatching_get_viewers_data_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets the viewer data of everyone who is in a cowatching session whose data was set by [method cowatching_set_viewer_data_async]. This can be called when there is an active cowatching session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_cowatch_viewer_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_CowatchViewerArray] in this case.
+			</description>
+		</method>
+		<method name="cowatching_is_in_session_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Checks whether the current user is in the current cowatching session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_cowatching_state] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_CowatchingState] in this case.
+			</description>
+		</method>
+		<method name="cowatching_join_session_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Joins the current cowatching session. Viewer data can only be updated by users who are in the session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_launch_invite_dialog_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Launches a dialog for inviting users to cowatch in Copresent Home.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_leave_session_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Leaves the current cowatching session. Viewer data will no longer be relevant.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_request_to_present_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Requests to start a cowatching session as the presenter while copresent in home.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_resign_from_presenting_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Stops being the presenter. This will end the cowatching session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_set_presenter_data_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="video_title" type="String" />
+			<param index="1" name="presenter_data" type="String" />
+			<description>
+				Sets the data that drives a cowatching session. This method is only callable by the presenter. Video title cannot exceed 100 characters, and data size is limited to 500 characters. The data will be eventually consistent across all users.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="cowatching_set_viewer_data_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="viewer_data" type="String" />
+			<description>
+				Sets the current user's viewer data to be shared with copresent users. This can be called when there is an active cowatching session. Data size is limited to 500 characters. The data will be eventually consistent across all users.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="device_application_integrity_get_integrity_token_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="challenge_nonce" type="String" />
+			<description>
+				Gets Device and Application Integrity Attestation JSON Web Token. The token has format of header.claims.signature encoded in base64. Header contains algorithm type (PS256) and token type (JWT).
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_string] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [String] in this case.
+			</description>
+		</method>
+		<method name="entitlement_get_is_viewer_entitled_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Checks whether the current user is entitled to the current app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_clear_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Clears group presence for this app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_get_invitable_users_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="options" type="MetaPlatformSDK_InviteOptions" />
+			<description>
+				Gets a list of users that can be invited to your current lobby. These are pulled from your bidirectional followers and recently met lists.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserArray] in this case.
+			</description>
+		</method>
+		<method name="group_presence_get_next_application_invite_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ApplicationInviteArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_application_invite_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ApplicationInviteArray] in this case.
+			</description>
+		</method>
+		<method name="group_presence_get_sent_invites_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets the application invites which have been sent by the user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_application_invite_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ApplicationInviteArray] in this case.
+			</description>
+		</method>
+		<method name="group_presence_launch_invite_panel_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="options" type="MetaPlatformSDK_InviteOptions" />
+			<description>
+				Launches the flow to allow the user to invite others to their current session. This can only be used if the user is in a joinable session.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_invite_panel_result_info] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_InvitePanelResultInfo] in this case.
+			</description>
+		</method>
+		<method name="group_presence_launch_multiplayer_error_dialog_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="options" type="MetaPlatformSDK_MultiplayerErrorOptions" />
+			<description>
+				Launches an error dialog with predefined messages for common multiplayer errors.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_launch_rejoin_dialog_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="lobby_session_id" type="String" />
+			<param index="1" name="match_session_id" type="String" />
+			<param index="2" name="destination_api_name" type="String" />
+			<description>
+				Launches the dialog which will allow the user to rejoin a previous lobby/match. Either the lobby_session_id or the match_session_id, or both, must be populated.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_rejoin_dialog_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_RejoinDialogResult] in this case.
+			</description>
+		</method>
+		<method name="group_presence_launch_roster_panel_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="options" type="MetaPlatformSDK_RosterOptions" />
+			<description>
+				Launches the panel which displays the current users in the roster. Users with the same lobby and match session id as part of their presence will show up here.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_send_invites_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_ids" type="PackedInt64Array" />
+			<description>
+				Sends application invites to the passed in user ids.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_send_invites_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_SendInvitesResult] in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="group_presence_options" type="MetaPlatformSDK_GroupPresenceOptions" />
+			<description>
+				Sets group presence for this app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_deeplink_message_override_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="deeplink_message" type="String" />
+			<description>
+				Sets the user's deeplink message while keeping the other group presence parameters the same. If the destination of the user is not set, the deeplink message cannot be set as there's no deeplink message to override.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_destination_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="api_name" type="String" />
+			<description>
+				Replaces the user's current destination for the provided one. All other existing group presence parameters will remain the same.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_is_joinable_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="is_joinable" type="bool" />
+			<description>
+				Sets if the current user's destination and session is joinable while keeping the other group presence parameters the same. If the destination or session ids of the user is not set, they cannot be set to joinable.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_lobby_session_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="id" type="String" />
+			<description>
+				Replaces the user's current lobby session id for the provided one. All other existing group presence parameters will remain the same.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="group_presence_set_match_session_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="id" type="String" />
+			<description>
+				Replaces the user's current match session id for the provided one. All other existing group presence parameters will remain the same.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="iap_consume_purchase_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="sku" type="String" />
+			<description>
+				Allows the consumable IAP product to be purchased again. Conceptually, this indicates that the item was used or consumed.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="iap_get_next_product_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_ProductArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_product_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ProductArray] in this case.
+			</description>
+		</method>
+		<method name="iap_get_next_purchase_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_PurchaseArray" />
+			<description>
+				Gets the next page of entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_purchase_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_PurchaseArray] in this case.
+			</description>
+		</method>
+		<method name="iap_get_products_by_sku_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="skus" type="PackedStringArray" />
+			<description>
+				Retrieves a list of IAP products that can be purchased.
+				- [param skus]: The SKUs of the products to retrieve.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_product_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ProductArray] in this case.
+			</description>
+		</method>
+		<method name="iap_get_viewer_purchases_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieves a list of Purchase that the Logged-In-User has made. This list will also contain consumable purchases that have not been consumed.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_purchase_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_PurchaseArray] in this case.
+			</description>
+		</method>
+		<method name="iap_get_viewer_purchases_durable_cache_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieves a list of Purchase that the Logged-In-User has made. This list will only contain durable purchase (non-consumable) and is populated from a device cache. It is recommended in all cases to use [method iap_get_viewer_purchases_async] first and only check the cache if that fails.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_purchase_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_PurchaseArray] in this case.
+			</description>
+		</method>
+		<method name="iap_launch_checkout_flow_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="sku" type="String" />
+			<description>
+				Launches the checkout flow to purchase the existing product. Oculus Home tries handle and fix as many errors as possible. Home returns the appropriate error message and how to resolveit, if possible. Returns a purchase on success, empty purchase on cancel, and an error on error.
+				- [param sku]: IAP sku for the item the user wishes to purchase.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_purchase] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Purchase] in this case.
+			</description>
+		</method>
+		<method name="initialize_platform">
+			<return type="int" enum="MetaPlatformSDK.PlatformInitializeResult" />
+			<param index="0" name="app_id" type="String" />
+			<param index="1" name="options" type="Dictionary" default="{}" />
+			<description>
+				Synchronously initializes the Platform SDK. This method or [method initialize_platform_async] must be called before calling any other methods (except for [method is_platform_initialized]).
+				- [param app_id]: The "App ID" from the "API" tab within the developer dashboard.
+				- [param options]: A [Dictionary] with the following keys:
+				  - [code]"disable_p2p_networking"[/code]: (bool) Will disable peer-to-peer networking if set to [code]true[/code].
+				  - [code]"enable_cowatching"[/code]: (bool) Will enable cowatching if set to [code]true[/code].
+				[b]Note:[/b] Using [method initialize_platform_async] instead, in order to initialize asynchronously, is recommended.
+			</description>
+		</method>
+		<method name="initialize_platform_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="app_id" type="String" />
+			<description>
+				Asynchronously initializes the Platform SDK. This method or [method initialize_platform] must be called before calling any other methods (except for [method is_platform_initialized]).
+				- [param app_id]: The "App ID" from the "API" tab within the developer dashboard.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_platform_initialize] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_PlatformInitialize] in this case.
+			</description>
+		</method>
+		<method name="is_platform_initialized" qualifiers="const">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the Platform SDK has been initialized via either [method initialize_platform_async] or [method initialize_platform].
+			</description>
+		</method>
+		<method name="language_pack_get_current_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets the currently installed and selected language pack for an app in the view of the `asset_details`. Use `language` field to extract neeeded language info. A particular language can be download and installed by a user from the Oculus app on the application page.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_details] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetDetails] in this case.
+			</description>
+		</method>
+		<method name="language_pack_set_current_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="tag" type="String" />
+			<description>
+				Sets the current language to specified. The parameter is the BCP47 language tag. If a language pack is not downloaded yet, spawns automatically the [method asset_file_download_by_name_async] request, and sends periodic [constant MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE] messages to track the downloads. Once the language asset file is downloaded, call [method language_pack_get_current_async] to retrive the data, and use the language at runtime.
+				- [param tag]: BCP47 language tag.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_asset_file_download_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_AssetFileDownloadResult] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<description>
+				Gets the information for a single leaderboard.
+				- [param leaderboard_name]: The name of the leaderboard to return.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_entries_after_rank_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="after_rank" type="int" />
+			<description>
+				Requests a block of leaderboard entries after the given rank.
+				- [param leaderboard_name]: The name of the leaderboard.
+				- [param limit]: The maximum number of entries to return.
+				- [param after_rank]: The position after which to start.  For example, 10 returns leaderboard results starting with the 11th user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardEntryArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="filter" type="int" enum="MetaPlatformSDK.LeaderboardFilterType" />
+			<param index="3" name="start_at" type="int" enum="MetaPlatformSDK.LeaderboardStartAt" />
+			<description>
+				Requests a block of leaderboard entries based on the given filter.
+				- [param leaderboard_name]: The name of the leaderboard whose entries to return.
+				- [param limit]: Defines the maximum number of entries to return.
+				- [param filter]: By using [constant LEADERBOARD_FILTER_FRIENDS], this allows you to filter the returned values to bidirectional followers.
+				- [param start_at]: Defines whether to center the query on the user or start at the top of the leaderboard.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardEntryArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_entries_by_ids_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<param index="1" name="limit" type="int" />
+			<param index="2" name="start_at" type="int" enum="MetaPlatformSDK.LeaderboardStartAt" />
+			<param index="3" name="user_ids" type="PackedInt64Array" />
+			<description>
+				Requests a block of leaderboard entries matching the user IDs passed in.
+				- [param leaderboard_name]: The name of the leaderboard whose entries to return.
+				- [param limit]: Defines the maximum number of entries to return.
+				- [param start_at]: Defines whether to center the query on the user or start at the top of the leaderboard. If this is [constant LEADERBOARD_START_AT_CENTERED_ON_VIEWER] or [constant LEADERBOARD_START_AT_CENTERED_ON_VIEWER_OR_TOP], then the current user's ID will be automatically added to the query.
+				- [param user_ids]: Defines a list of user ids to get entries for.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardEntryArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_next_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_LeaderboardEntryArray" />
+			<description>
+				Requests the next block of leaderboard entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardEntryArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_next_leaderboard_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_LeaderboardArray" />
+			<description>
+				Get the next page of leaderboards.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_get_previous_entries_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_LeaderboardEntryArray" />
+			<description>
+				Requests the previous block of leaderboard entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_entry_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardEntryArray] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_write_entry_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<param index="1" name="score" type="int" />
+			<param index="2" name="extra_data" type="PackedByteArray" />
+			<param index="3" name="force_update" type="bool" />
+			<description>
+				Writes a single entry to a leaderboard.
+				- [param leaderboard_name]: The leaderboard for which to write the entry.
+				- [param score]: The score to write.
+				- [param extra_data]: A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer.
+				- [param force_update]: If true, the score always updates.  This happens even if it is not the user's best score.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_update_status] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardUpdateStatus] in this case.
+			</description>
+		</method>
+		<method name="leaderboard_write_entry_with_supplementary_metric_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="leaderboard_name" type="String" />
+			<param index="1" name="score" type="int" />
+			<param index="2" name="supplementary_metric" type="int" />
+			<param index="3" name="extra_data" type="PackedByteArray" />
+			<param index="4" name="force_update" type="bool" />
+			<description>
+				Writes a single entry to a leaderboard, including supplementary metrics.
+				- [param leaderboard_name]: The leaderboard for which to write the entry.
+				- [param score]: The score to write.
+				- [param supplementary_metric]: A metric that can be used for tiebreakers.
+				- [param extra_data]: A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer.
+				- [param force_update]: If true, the score always updates. This happens ecen if it is not the user's best score.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_leaderboard_update_status] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LeaderboardUpdateStatus] in this case.
+			</description>
+		</method>
+		<method name="media_share_to_facebook_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="post_text_suggestion" type="String" />
+			<param index="1" name="file_path" type="String" />
+			<param index="2" name="content_type" type="int" enum="MetaPlatformSDK.MediaContentType" />
+			<description>
+				Launch the Share to Facebook modal via a deeplink to Home on Gear VR, allowing users to share local media files to Facebook. Accepts a postTextSuggestion string for the default text of the Facebook post. Requires a filePath string as the path to the image to be shared to Facebook. This image should be located in your app's internal storage directory. Requires a contentType indicating the type of media to be shared (only 'photo' is currently supported.).
+				- [param post_text_suggestion]: this text will prepopulate the facebook status text-input box within the share modal.
+				- [param file_path]: path to the file to be shared to facebook.
+				- [param content_type]: content type of the media to be shared.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_share_media_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_ShareMediaResult] in this case.
+			</description>
+		</method>
+		<method name="notification_mark_as_read_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="notification_id" type="int" />
+			<description>
+				Mark a notification as read. This causes it to disappear from the Universal Menu, the Oculus App, Oculus Home, and in-app retrieval.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="party_get_current_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Load the party the current user is in.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_party] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Party] in this case.
+			</description>
+		</method>
+		<method name="rich_presence_get_destinations_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets all the destinations that rich presence can be set to.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_destination_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_DestinationArray] in this case.
+			</description>
+		</method>
+		<method name="rich_presence_get_next_destination_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_DestinationArray" />
+			<description>
+				Get the next page of rich presence entries.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_destination_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_DestinationArray] in this case.
+			</description>
+		</method>
+		<method name="user_age_category_get_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieve the user age category for the current user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_account_age_category] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserAccountAgeCategory] in this case.
+			</description>
+		</method>
+		<method name="user_age_category_report_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="age_category" type="int" enum="MetaPlatformSDK.AppAgeCategory" />
+			<description>
+				Report the current user's age category to Meta.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				Check if this request was successful by calling [method MetaPlatformSDK_Message.is_success] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [code]bool[/code] containing the same value in this case.
+			</description>
+		</method>
+		<method name="user_get_access_token_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Return an access token for this user, suitable for making REST calls against graph.oculus.com.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_string] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [String] in this case.
+			</description>
+		</method>
+		<method name="user_get_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Retrieve the user with the given ID. This might fail if the ID is invalid or the user is blocked.
+				NOTE: Users will have a unique ID per application.
+				- [param user_id]: User ID retrieved with this application.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_User] in this case.
+			</description>
+		</method>
+		<method name="user_get_blocked_users_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets the IDs of users entitled to use the current app that are blocked by the specified user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_blocked_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_BlockedUserArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_logged_in_user_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieve the currently signed in user. This call is available offline.
+				NOTE: This will not return the user's presence as it should always be 'online' in your application.
+				NOTE: Users will have a unique ID per application.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_User] in this case.
+			</description>
+		</method>
+		<method name="user_get_logged_in_user_friends_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieve a list of the logged in user's bidirectional followers who are also entitled to use the current app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_logged_in_user_id">
+			<return type="int" />
+			<description>
+				Returns the id of the currently logged in user, or a 0 id if there is none.
+			</description>
+		</method>
+		<method name="user_get_logged_in_user_locale">
+			<return type="String" />
+			<description>
+				Returns the currently logged-in user's locale as a string, or empty string on error. Return value format conforms to [url=https://tools.ietf.org/html/bcp47]BCP47[/url]. The return value is borrowed, and should not be freed
+			</description>
+		</method>
+		<method name="user_get_next_blocked_user_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_BlockedUserArray" />
+			<description>
+				Get the next page of blocked users.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_blocked_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_BlockedUserArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_next_user_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_UserArray" />
+			<description>
+				Get the next page of users.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_next_user_capability_array_page_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="handle" type="MetaPlatformSDK_UserCapabilityArray" />
+			<description>
+				Get the next page of user capabilities.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_capability_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserCapabilityArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_org_scoped_id_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Gets an ID which is unique per organization. Allows different apps within the same organization to identify the user.
+				- [param user_id]: The normal user ID, which is scoped only to the current app.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_org_scoped_id] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_OrgScopedID] in this case.
+			</description>
+		</method>
+		<method name="user_get_sdk_accounts_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets all accounts belonging to this user. Accounts are the Oculus user and x-users that are linked to this user.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_sdk_account_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_SdkAccountArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_user_proof_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Part of the scheme to confirm the identity of a particular user in your backend. You can pass the result of [method user_get_user_proof_async] and a user ID from [method user_get_async] to your your backend. Your server can then make an HTTP request to verify their identity: [code]https://graph.oculus.com/user_nonce_validate?nonce=USE R_PROOF&amp;user_id=USER_ID&amp;access_token=ACCESS_TOKEN'[/code].
+				NOTE: The nonce is only good for one check and then it is invalidated.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_user_proof] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_UserProof] in this case.
+			</description>
+		</method>
+		<method name="user_launch_block_flow_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Launch the flow for blocking the given user. You can't follow, be followed, invited, or searched by a blocked user, for example. You can remove the block via [method user_launch_unblock_flow_async].
+				- [param user_id]: User ID of user being blocked.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_launch_block_flow_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LaunchBlockFlowResult] in this case.
+			</description>
+		</method>
+		<method name="user_launch_friend_request_flow_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Launch the flow for sending a follow request to a user.
+				- [param user_id]: User ID of user to send a follow request to.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_launch_friend_request_flow_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LaunchFriendRequestFlowResult] in this case.
+			</description>
+		</method>
+		<method name="user_launch_unblock_flow_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Launch the flow for unblocking a user that the viewer has blocked.
+				- [param user_id]: User ID of user to unblock.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_launch_unblock_flow_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LaunchUnblockFlowResult] in this case.
+			</description>
+		</method>
+		<method name="voip_get_microphone_availability_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Gets whether the microphone is currently available to the app. This can be used to show if the user's voice is able to be heard by other users.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_microphone_availability_state] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_MicrophoneAvailabilityState] in this case.
+			</description>
+		</method>
+		<method name="voip_get_system_voip_microphone_muted">
+			<return type="int" enum="MetaPlatformSDK.VoipMuteState" />
+			<description>
+				Returns the System VoIP microphone's mute state.
+			</description>
+		</method>
+		<method name="voip_get_system_voip_status">
+			<return type="int" enum="MetaPlatformSDK.SystemVoipStatus" />
+			<description>
+				Returns the System VoIP status.
+			</description>
+		</method>
+		<method name="voip_set_system_voip_suppressed_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="suppressed" type="bool" />
+			<description>
+				Sets whether System VoIP should be suppressed so that this app's custom VoIP can use the mic and play incoming VoIP audio. Once microphone switching functionality for the user is released, this function will no longer work. You can use [method voip_get_microphone_availability_async] to see if the user has allowed the app access to the microphone.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_system_voip_state] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_SystemVoipState] in this case.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="notification_received">
+			<param index="0" name="message" type="MetaPlatformSDK_Message" />
+			<description>
+				Emitted when a notification message is received.
+			</description>
+		</signal>
+	</signals>
+	<constants>
+		<constant name="PARTY_UPDATE_ACTION_UNKNOWN" value="0" enum="PartyUpdateAction">
+		</constant>
+		<constant name="PARTY_UPDATE_ACTION_JOIN" value="1" enum="PartyUpdateAction">
+		</constant>
+		<constant name="PARTY_UPDATE_ACTION_LEAVE" value="2" enum="PartyUpdateAction">
+		</constant>
+		<constant name="PARTY_UPDATE_ACTION_INVITE" value="3" enum="PartyUpdateAction">
+		</constant>
+		<constant name="PARTY_UPDATE_ACTION_UNINVITE" value="4" enum="PartyUpdateAction">
+		</constant>
+		<constant name="CHALLENGE_CREATION_TYPE_UNKNOWN" value="0" enum="ChallengeCreationType">
+		</constant>
+		<constant name="CHALLENGE_CREATION_TYPE_USER_CREATED" value="1" enum="ChallengeCreationType">
+		</constant>
+		<constant name="CHALLENGE_CREATION_TYPE_DEVELOPER_CREATED" value="2" enum="ChallengeCreationType">
+		</constant>
+		<constant name="SERVICE_PROVIDER_UNKNOWN" value="0" enum="ServiceProvider">
+		</constant>
+		<constant name="SERVICE_PROVIDER_DROPBOX" value="1" enum="ServiceProvider">
+		</constant>
+		<constant name="SERVICE_PROVIDER_FACEBOOK" value="2" enum="ServiceProvider">
+		</constant>
+		<constant name="SERVICE_PROVIDER_GOOGLE" value="3" enum="ServiceProvider">
+		</constant>
+		<constant name="SERVICE_PROVIDER_INSTAGRAM" value="4" enum="ServiceProvider">
+		</constant>
+		<constant name="SERVICE_PROVIDER_REMOTE_MEDIA" value="5" enum="ServiceProvider">
+		</constant>
+		<constant name="SHARE_MEDIA_STATUS_UNKNOWN" value="0" enum="ShareMediaStatus">
+		</constant>
+		<constant name="SHARE_MEDIA_STATUS_SHARED" value="1" enum="ShareMediaStatus">
+		</constant>
+		<constant name="SHARE_MEDIA_STATUS_CANCELED" value="2" enum="ShareMediaStatus">
+		</constant>
+		<constant name="NET_SYNC_VOIP_STREAM_MODE_UNKNOWN" value="0" enum="NetSyncVoipStreamMode">
+		</constant>
+		<constant name="NET_SYNC_VOIP_STREAM_MODE_AMBISONIC" value="1" enum="NetSyncVoipStreamMode">
+		</constant>
+		<constant name="NET_SYNC_VOIP_STREAM_MODE_MONO" value="2" enum="NetSyncVoipStreamMode">
+		</constant>
+		<constant name="TIME_WINDOW_UNKNOWN" value="0" enum="TimeWindow">
+		</constant>
+		<constant name="TIME_WINDOW_ONE_HOUR" value="1" enum="TimeWindow">
+		</constant>
+		<constant name="TIME_WINDOW_ONE_DAY" value="2" enum="TimeWindow">
+		</constant>
+		<constant name="TIME_WINDOW_ONE_WEEK" value="3" enum="TimeWindow">
+		</constant>
+		<constant name="TIME_WINDOW_THIRTY_DAYS" value="4" enum="TimeWindow">
+		</constant>
+		<constant name="TIME_WINDOW_NINETY_DAYS" value="5" enum="TimeWindow">
+		</constant>
+		<constant name="MESSAGE_UNKNOWN" value="0" enum="MessageType">
+			This value should never appear on the message queue. If it does, it indicates that something has gone horribly, horribly wrong.
+		</constant>
+		<constant name="MESSAGE_ABUSE_REPORT_REPORT_REQUEST_HANDLED" value="1267661958" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_ADD_COUNT" value="65495601" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_ADD_FIELDS" value="346693929" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_ALL_DEFINITIONS" value="64177549" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_ALL_PROGRESS" value="1335877149" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_DEFINITIONS_BY_NAME" value="1653670332" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_NEXT_ACHIEVEMENT_DEFINITION_ARRAY_PAGE" value="712888917" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_NEXT_ACHIEVEMENT_PROGRESS_ARRAY_PAGE" value="792913703" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_GET_PROGRESS_BY_NAME" value="354837425" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ACHIEVEMENTS_UNLOCK" value="1497156573" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_LIFECYCLE_GET_REGISTERED_PIDS" value="82169698" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_LIFECYCLE_GET_SESSION_KEY" value="984570141" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_LIFECYCLE_REGISTER_SESSION_KEY" value="1303818232" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_CANCEL_APP_DOWNLOAD" value="2082496734" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_CHECK_APP_DOWNLOAD_PROGRESS" value="1429514532" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_GET_VERSION" value="1751583246" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_INSTALL_APP_UPDATE_AND_RELAUNCH" value="343960453" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_LAUNCH_OTHER_APP" value="1424151032" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_APPLICATION_START_APP_DOWNLOAD" value="1157365870" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DELETE" value="1834842246" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DELETE_BY_ID" value="1525206354" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DELETE_BY_NAME" value="1108001231" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD" value="289710021" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_BY_ID" value="755009938" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_BY_NAME" value="1664536314" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL" value="134927303" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL_BY_ID" value="1365611796" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL_BY_NAME" value="1147858170" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_GET_LIST" value="1258057588" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_STATUS" value="47394656" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_STATUS_BY_ID" value="1570069816" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ASSET_FILE_STATUS_BY_NAME" value="1104140880" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_AVATAR_LAUNCH_AVATAR_EDITOR" value="99737939" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_CREATE" value="1750718017" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_DECLINE_INVITE" value="1452177088" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_DELETE" value="642287050" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET" value="2002276083" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES" value="303739999" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES_AFTER_RANK" value="143202943" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES_BY_IDS" value="828705244" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_LIST" value="1126581078" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_NEXT_CHALLENGES" value="1534894518" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_NEXT_ENTRIES" value="2135728326" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_PREVIOUS_CHALLENGES" value="246678541" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_GET_PREVIOUS_ENTRIES" value="2026439792" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_JOIN" value="556040297" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_LEAVE" value="694228709" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_CHALLENGES_UPDATE_INFO" value="292929120" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_GET_NEXT_COWATCH_VIEWER_ARRAY_PAGE" value="490748210" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_GET_PRESENTER_DATA" value="1233536821" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_GET_VIEWERS_DATA" value="1557635663" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_IS_IN_SESSION" value="1696286852" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_JOIN_SESSION" value="1669899604" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_LAUNCH_INVITE_DIALOG" value="580072087" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_LEAVE_SESSION" value="1017005773" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_REQUEST_TO_PRESENT" value="2138684586" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_RESIGN_FROM_PRESENTING" value="1263124994" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_SET_PRESENTER_DATA" value="1830586630" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_COWATCHING_SET_VIEWER_DATA" value="1021044774" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_DEVICE_APPLICATION_INTEGRITY_GET_INTEGRITY_TOKEN" value="846310362" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_ENTITLEMENT_GET_IS_VIEWER_ENTITLED" value="409688241" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_CLEAR" value="1839897795" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_GET_INVITABLE_USERS" value="592167921" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_GET_NEXT_APPLICATION_INVITE_ARRAY_PAGE" value="83411186" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_GET_SENT_INVITES" value="136710833" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_INVITE_PANEL" value="262066079" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_MULTIPLAYER_ERROR_DIALOG" value="693481252" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_REJOIN_DIALOG" value="360121199" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_ROSTER_PANEL" value="896698498" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SEND_INVITES" value="231461732" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET" value="1734302756" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET_DEEPLINK_MESSAGE_OVERRIDE" value="1377492749" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET_DESTINATION" value="1281042058" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET_IS_JOINABLE" value="714018901" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET_LOBBY_SESSION" value="1224693182" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_GROUP_PRESENCE_SET_MATCH_SESSION" value="827098296" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_CONSUME_PURCHASE" value="532378329" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_GET_NEXT_PRODUCT_ARRAY_PAGE" value="467225263" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_GET_NEXT_PURCHASE_ARRAY_PAGE" value="1196886677" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_GET_PRODUCTS_BY_SKU" value="2124073717" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_GET_VIEWER_PURCHASES" value="974095385" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_GET_VIEWER_PURCHASES_DURABLE_CACHE" value="1666817579" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_IAP_LAUNCH_CHECKOUT_FLOW" value="1067126029" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LANGUAGE_PACK_GET_CURRENT" value="529592533" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LANGUAGE_PACK_SET_CURRENT" value="1531952096" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET" value="1792298744" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES" value="1572030284" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES_AFTER_RANK" value="406293487" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES_BY_IDS" value="962624508" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_NEXT_ENTRIES" value="1310751961" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_NEXT_LEADERBOARD_ARRAY_PAGE" value="905344667" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_GET_PREVIOUS_ENTRIES" value="1224858304" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_WRITE_ENTRY" value="293587198" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_LEADERBOARD_WRITE_ENTRY_WITH_SUPPLEMENTARY_METRIC" value="1925616378" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_MEDIA_SHARE_TO_FACEBOOK" value="14912239" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_MARK_AS_READ" value="1903319523" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_PARTY_GET_CURRENT" value="1200830304" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_RICH_PRESENCE_CLEAR" value="1471632051" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_RICH_PRESENCE_GET_DESTINATIONS" value="1483681044" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_RICH_PRESENCE_GET_NEXT_DESTINATION_ARRAY_PAGE" value="1731624773" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_RICH_PRESENCE_SET" value="1007973641" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_AGE_CATEGORY_GET" value="567009472" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_AGE_CATEGORY_REPORT" value="776853718" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET" value="1808768583" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_ACCESS_TOKEN" value="111696574" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_BLOCKED_USERS" value="2099254614" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER" value="1131361373" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER_FRIENDS" value="1484532365" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_NEXT_BLOCKED_USER_ARRAY_PAGE" value="2083192267" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_NEXT_USER_ARRAY_PAGE" value="645723971" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_NEXT_USER_CAPABILITY_ARRAY_PAGE" value="587854745" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_ORG_SCOPED_ID" value="418426907" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_SDK_ACCOUNTS" value="1733454467" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_GET_USER_PROOF" value="578880643" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_LAUNCH_BLOCK_FLOW" value="1876305192" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_LAUNCH_FRIEND_REQUEST_FLOW" value="151303576" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_USER_LAUNCH_UNBLOCK_FLOW" value="346172055" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_VOIP_GET_MICROPHONE_AVAILABILITY" value="1951195973" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_VOIP_SET_SYSTEM_VOIP_SUPPRESSED" value="1161808298" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_ABUSE_REPORT_REPORT_BUTTON_PRESSED" value="608644972" enum="MessageType">
+			The user has tapped the report button in the panel that appears after pressing the Oculus button.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_APPLICATION_LIFECYCLE_LAUNCH_INTENT_CHANGED" value="78859427" enum="MessageType">
+			Sent when a launch intent is received (for both cold and warm starts). The payload is the type of the intent. [method application_lifecycle_get_launch_details] should be called to get the other details.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE" value="803015885" enum="MessageType">
+			Sent to indicate download progress for asset files.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_API_NOT_READY" value="1711880577" enum="MessageType">
+			Sent when user is no longer copresent. Cowatching actions should not be performed.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_API_READY" value="160786067" enum="MessageType">
+			Sent when user is in copresent and cowatching is ready to go.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_IN_SESSION_CHANGED" value="234434835" enum="MessageType">
+			Sent when the current user joins/leaves the cowatching session.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_INITIALIZED" value="1960397043" enum="MessageType">
+			Sent when cowatching api has been initialized. The api is not yet ready at this stage.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_PRESENTER_DATA_CHANGED" value="1309118190" enum="MessageType">
+			Sent when the presenter updates the presenter data.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_SESSION_STARTED" value="1931580316" enum="MessageType">
+			Sent when a user has started a cowatching session whose id is reflected in the payload.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_SESSION_STOPPED" value="1239866362" enum="MessageType">
+			Sent when a cowatching session has ended.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_COWATCHING_VIEWERS_DATA_CHANGED" value="1760752127" enum="MessageType">
+			Sent when a user joins or updates their viewer data.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_GROUP_PRESENCE_INVITATIONS_SENT" value="1738179766" enum="MessageType">
+			Sent when the user is finished using the invite panel to send out invitations. Contains a list of invitees.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_GROUP_PRESENCE_JOIN_INTENT_RECEIVED" value="2000194038" enum="MessageType">
+			Sent when a user has chosen to join the destination/lobby/match. Read all the fields to figure out where the user wants to go and take the appropriate actions to bring them there. If the user is unable to go there, provide adequate messaging to the user on why they cannot go there. These notifications should be responded to immediately.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_GROUP_PRESENCE_LEAVE_INTENT_RECEIVED" value="1194846749" enum="MessageType">
+			Sent when the user has chosen to leave the destination/lobby/match from the Oculus menu. Read the specific fields to check the user is currently from the destination/lobby/match and take the appropriate actions to remove them. Update the user's presence clearing the appropriate fields to indicate the user has left.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_HTTP_TRANSFER" value="2111073839" enum="MessageType">
+			Sent to indicate that more data has been read or an error occured.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_LIVESTREAMING_STATUS_CHANGE" value="575101294" enum="MessageType">
+			Indicates that the livestreaming session has been updated. You can use this information to throttle your game performance or increase CPU/GPU performance.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_NET_SYNC_CONNECTION_STATUS_CHANGED" value="120882378" enum="MessageType">
+			Sent when the status of a connection has changed.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_NET_SYNC_SESSIONS_CHANGED" value="947814198" enum="MessageType">
+			Sent when the list of known connected sessions has changed. Contains the new list of sessions.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_PARTY_PARTY_UPDATE" value="487688882" enum="MessageType">
+			Indicates that party has been updated.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_VOIP_MICROPHONE_AVAILABILITY_STATE_UPDATE" value="1042336599" enum="MessageType">
+			Indicates that the current microphone availability state has been updated. Use [method voip_get_microphone_availability_async] to extract the microphone availability state.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_VOIP_SYSTEM_VOIP_STATE" value="1490179237" enum="MessageType">
+			Sent to indicate that some part of the overall state of System VoIP has changed.
+			Note that the state may have changed further since the notification was generated, and that you may call the [method voip_get_system_voip_status] or [method voip_get_system_voip_microphone_muted] methods at any time to get the current state directly.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_VRCAMERA_GET_DATA_CHANNEL_MESSAGE_UPDATE" value="1860498236" enum="MessageType">
+			Get vr camera related webrtc data channel messages for update.
+		</constant>
+		<constant name="MESSAGE_NOTIFICATION_VRCAMERA_GET_SURFACE_UPDATE" value="938610820" enum="MessageType">
+			Get surface and update action from platform webrtc for update.
+		</constant>
+		<constant name="MESSAGE_PLATFORM_INITIALIZE_WITH_ACCESS_TOKEN" value="896085803" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_PLATFORM_INITIALIZE_STANDALONE_OCULUS" value="1375260172" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_PLATFORM_INITIALIZE_ANDROID_ASYNCHRONOUS" value="450037684" enum="MessageType">
+		</constant>
+		<constant name="MESSAGE_PLATFORM_INITIALIZE_WINDOWS_ASYNCHRONOUS" value="1839708815" enum="MessageType">
+		</constant>
+		<constant name="REPORT_REQUEST_RESPONSE_UNKNOWN" value="0" enum="ReportRequestResponse">
+		</constant>
+		<constant name="REPORT_REQUEST_RESPONSE_HANDLED" value="1" enum="ReportRequestResponse">
+			Response to the platform notification that the in-app reporting flow request is handled.
+		</constant>
+		<constant name="REPORT_REQUEST_RESPONSE_UNHANDLED" value="2" enum="ReportRequestResponse">
+			Response to the platform notification that the in-app reporting flow request is not handled.
+		</constant>
+		<constant name="REPORT_REQUEST_RESPONSE_UNAVAILABLE" value="3" enum="ReportRequestResponse">
+			Response to the platform notification that the in-app reporting flow is unavailable or non-existent.
+		</constant>
+		<constant name="LEADERBOARD_FILTER_NONE" value="0" enum="LeaderboardFilterType">
+		</constant>
+		<constant name="LEADERBOARD_FILTER_FRIENDS" value="1" enum="LeaderboardFilterType">
+		</constant>
+		<constant name="LEADERBOARD_FILTER_UNKNOWN" value="2" enum="LeaderboardFilterType">
+		</constant>
+		<constant name="LEADERBOARD_FILTER_USER_IDS" value="3" enum="LeaderboardFilterType">
+		</constant>
+		<constant name="VOIP_MUTE_STATE_UNKNOWN" value="0" enum="VoipMuteState">
+		</constant>
+		<constant name="VOIP_MUTE_STATE_MUTED" value="1" enum="VoipMuteState">
+		</constant>
+		<constant name="VOIP_MUTE_STATE_UNMUTED" value="2" enum="VoipMuteState">
+		</constant>
+		<constant name="ABUSE_REPORT_TYPE_UNKNOWN" value="0" enum="AbuseReportType">
+		</constant>
+		<constant name="ABUSE_REPORT_TYPE_OBJECT" value="1" enum="AbuseReportType">
+			A report for something besides a user, like a world.
+		</constant>
+		<constant name="ABUSE_REPORT_TYPE_USER" value="2" enum="AbuseReportType">
+			A report for a user's behavior or profile.
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_SUCCESS" value="1" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_UNKNOWN" value="0" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_NO_PACKAGE_SET" value="-1" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_NO_FB_CONNECT" value="-2" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_NO_SESSION_ID" value="-3" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="LIVESTREAMING_START_STATUS_MISSING_PARAMETERS" value="-4" enum="LivestreamingStartStatus">
+		</constant>
+		<constant name="SDK_ACCOUNT_TYPE_UNKNOWN" value="0" enum="SdkAccountType">
+		</constant>
+		<constant name="SDK_ACCOUNT_TYPE_OCULUS" value="1" enum="SdkAccountType">
+		</constant>
+		<constant name="SDK_ACCOUNT_TYPE_FACEBOOK_GAMEROOM" value="2" enum="SdkAccountType">
+		</constant>
+		<constant name="LAUNCH_RESULT_UNKNOWN" value="0" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_SUCCESS" value="1" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_FAILED_ROOM_FULL" value="2" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_FAILED_GAME_ALREADY_STARTED" value="3" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_FAILED_ROOM_NOT_FOUND" value="4" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_FAILED_USER_DECLINED" value="5" enum="LaunchResult">
+		</constant>
+		<constant name="LAUNCH_RESULT_FAILED_OTHER_REASON" value="6" enum="LaunchResult">
+		</constant>
+		<constant name="LEADERBOARD_START_AT_TOP" value="0" enum="LeaderboardStartAt">
+		</constant>
+		<constant name="LEADERBOARD_START_AT_CENTERED_ON_VIEWER" value="1" enum="LeaderboardStartAt">
+		</constant>
+		<constant name="LEADERBOARD_START_AT_CENTERED_ON_VIEWER_OR_TOP" value="2" enum="LeaderboardStartAt">
+		</constant>
+		<constant name="LEADERBOARD_START_AT_UNKNOWN" value="3" enum="LeaderboardStartAt">
+		</constant>
+		<constant name="APP_INSTALL_RESULT_UNKNOWN" value="0" enum="AppInstallResult">
+		</constant>
+		<constant name="APP_INSTALL_RESULT_LOW_STORAGE" value="1" enum="AppInstallResult">
+			Install of the app failed due to low storage on the device.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_NETWORK_ERROR" value="2" enum="AppInstallResult">
+			Install of the app failed due to a network error.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_DUPLICATE_REQUEST" value="3" enum="AppInstallResult">
+			Install of the app failed because another install request for this application is already being processed by the installer.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_INSTALLER_ERROR" value="4" enum="AppInstallResult">
+			Install of the app failed due to an internal installer error.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_USER_CANCELLED" value="5" enum="AppInstallResult">
+			Install of the app failed because the user cancelled the install operation.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_AUTHORIZATION_ERROR" value="6" enum="AppInstallResult">
+			Install of the app failed due to a user authorization error.
+		</constant>
+		<constant name="APP_INSTALL_RESULT_SUCCESS" value="7" enum="AppInstallResult">
+			Install of the app succeeded.
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_SUCCESS" value="0" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_UNINITIALIZED" value="-1" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_PRE_LOADED" value="-2" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_FILE_INVALID" value="-3" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_SIGNATURE_INVALID" value="-4" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_UNABLE_TO_VERIFY" value="-5" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_VERSION_MISMATCH" value="-6" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_UNKNOWN" value="-7" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_INVALID_CREDENTIALS" value="-8" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="PLATFORM_INITIALIZE_NOT_ENTITLED" value="-9" enum="PlatformInitializeResult">
+		</constant>
+		<constant name="NET_SYNC_CONNECTION_STATUS_UNKNOWN" value="0" enum="NetSyncConnectionStatus">
+		</constant>
+		<constant name="NET_SYNC_CONNECTION_STATUS_CONNECTING" value="1" enum="NetSyncConnectionStatus">
+		</constant>
+		<constant name="NET_SYNC_CONNECTION_STATUS_DISCONNECTED" value="2" enum="NetSyncConnectionStatus">
+		</constant>
+		<constant name="NET_SYNC_CONNECTION_STATUS_CONNECTED" value="3" enum="NetSyncConnectionStatus">
+		</constant>
+		<constant name="CHALLENGE_VISIBILITY_UNKNOWN" value="0" enum="ChallengeVisibility">
+		</constant>
+		<constant name="CHALLENGE_VISIBILITY_INVITE_ONLY" value="1" enum="ChallengeVisibility">
+			Only those invited can participate in this challenge, but everyone can see it.
+		</constant>
+		<constant name="CHALLENGE_VISIBILITY_PUBLIC" value="2" enum="ChallengeVisibility">
+			Everyone can participate and see this challenge.
+		</constant>
+		<constant name="CHALLENGE_VISIBILITY_PRIVATE" value="3" enum="ChallengeVisibility">
+			Only those invited can participate and see this challenge.
+		</constant>
+		<constant name="LAUNCH_TYPE_UNKNOWN" value="0" enum="LaunchType">
+		</constant>
+		<constant name="LAUNCH_TYPE_NORMAL" value="1" enum="LaunchType">
+			Normal launch from the user's library.
+		</constant>
+		<constant name="LAUNCH_TYPE_INVITE" value="2" enum="LaunchType">
+			Launch from the user accepting an invite.
+		</constant>
+		<constant name="LAUNCH_TYPE_COORDINATED" value="3" enum="LaunchType">
+			DEPRECATED
+		</constant>
+		<constant name="LAUNCH_TYPE_DEEPLINK" value="4" enum="LaunchType">
+			Launched from [method application_launch_other_app_async].
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_UNKNOWN" value="0" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_DESTINATION_UNAVAILABLE" value="1" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_DLC_REQUIRED" value="2" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_GENERAL" value="3" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_GROUP_FULL" value="4" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_INVITER_NOT_JOINABLE" value="5" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_LEVEL_NOT_HIGH_ENOUGH" value="6" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_LEVEL_NOT_UNLOCKED" value="7" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_NETWORK_TIMEOUT" value="8" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_NO_LONGER_AVAILABLE" value="9" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_UPDATE_REQUIRED" value="10" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_TUTORIAL_REQUIRED" value="11" enum="MultiplayerErrorErrorKey">
+		</constant>
+		<constant name="NET_SYNC_DISCONNECT_REASON_UNKNOWN" value="0" enum="NetSyncDisconnectReason">
+		</constant>
+		<constant name="NET_SYNC_DISCONNECT_REASON_LOCAL_TERMINATED" value="1" enum="NetSyncDisconnectReason">
+			Disconnect was requested.
+		</constant>
+		<constant name="NET_SYNC_DISCONNECT_REASON_SERVER_TERMINATED" value="2" enum="NetSyncDisconnectReason">
+			Server intentionally closed the connection.
+		</constant>
+		<constant name="NET_SYNC_DISCONNECT_REASON_FAILED" value="3" enum="NetSyncDisconnectReason">
+			Initial connection never succeeded.
+		</constant>
+		<constant name="NET_SYNC_DISCONNECT_REASON_LOST" value="4" enum="NetSyncDisconnectReason">
+			Network timeout.
+		</constant>
+		<constant name="ACCOUNT_AGE_CATEGORY_UNKNOWN" value="0" enum="AccountAgeCategory">
+		</constant>
+		<constant name="ACCOUNT_AGE_CATEGORY_CH" value="1" enum="AccountAgeCategory">
+			Child age group for users between the ages of 10-12 (age may vary by region).
+		</constant>
+		<constant name="ACCOUNT_AGE_CATEGORY_TN" value="2" enum="AccountAgeCategory">
+			Teenage age group for users between the ages of 13-17 (age may vary by region).
+		</constant>
+		<constant name="ACCOUNT_AGE_CATEGORY_AD" value="3" enum="AccountAgeCategory">
+			Adult age group for users ages 18 and up (age may vary by region).
+		</constant>
+		<constant name="USER_PRESENCE_STATUS_UNKNOWN" value="0" enum="UserPresenceStatus">
+		</constant>
+		<constant name="USER_PRESENCE_STATUS_ONLINE" value="1" enum="UserPresenceStatus">
+		</constant>
+		<constant name="USER_PRESENCE_STATUS_OFFLINE" value="2" enum="UserPresenceStatus">
+		</constant>
+		<constant name="MEDIA_CONTENT_TYPE_UNKNOWN" value="0" enum="MediaContentType">
+		</constant>
+		<constant name="MEDIA_CONTENT_TYPE_PHOTO" value="1" enum="MediaContentType">
+		</constant>
+		<constant name="CHALLENGE_VIEWER_FILTER_UNKNOWN" value="0" enum="ChallengeViewerFilter">
+		</constant>
+		<constant name="CHALLENGE_VIEWER_FILTER_ALL_VISIBLE" value="1" enum="ChallengeViewerFilter">
+		</constant>
+		<constant name="CHALLENGE_VIEWER_FILTER_PARTICIPATING" value="2" enum="ChallengeViewerFilter">
+		</constant>
+		<constant name="CHALLENGE_VIEWER_FILTER_INVITED" value="3" enum="ChallengeViewerFilter">
+		</constant>
+		<constant name="CHALLENGE_VIEWER_FILTER_PARTICIPATING_OR_INVITED" value="4" enum="ChallengeViewerFilter">
+		</constant>
+		<constant name="ACHIEVEMENT_TYPE_UNKNOWN" value="0" enum="AchievementType">
+		</constant>
+		<constant name="ACHIEVEMENT_TYPE_SIMPLE" value="1" enum="AchievementType">
+		</constant>
+		<constant name="ACHIEVEMENT_TYPE_BITFIELD" value="2" enum="AchievementType">
+		</constant>
+		<constant name="ACHIEVEMENT_TYPE_COUNT" value="3" enum="AchievementType">
+		</constant>
+		<constant name="SYSTEM_VOIP_STATUS_UNKNOWN" value="0" enum="SystemVoipStatus">
+		</constant>
+		<constant name="SYSTEM_VOIP_STATUS_UNAVAILABLE" value="1" enum="SystemVoipStatus">
+		</constant>
+		<constant name="SYSTEM_VOIP_STATUS_SUPPRESSED" value="2" enum="SystemVoipStatus">
+		</constant>
+		<constant name="SYSTEM_VOIP_STATUS_ACTIVE" value="3" enum="SystemVoipStatus">
+		</constant>
+		<constant name="APP_STATUS_UNKNOWN" value="0" enum="AppStatus">
+		</constant>
+		<constant name="APP_STATUS_ENTITLED" value="1" enum="AppStatus">
+			User has valid entitlement to the app, but it is not currently installed on the device.
+		</constant>
+		<constant name="APP_STATUS_DOWNLOAD_QUEUED" value="2" enum="AppStatus">
+			Download of the app is currently queued.
+		</constant>
+		<constant name="APP_STATUS_DOWNLOADING" value="3" enum="AppStatus">
+			Download of the app is currently in progress.
+		</constant>
+		<constant name="APP_STATUS_INSTALLING" value="4" enum="AppStatus">
+			Install of the app is currently in progress.
+		</constant>
+		<constant name="APP_STATUS_INSTALLED" value="5" enum="AppStatus">
+			App is installed on the device.
+		</constant>
+		<constant name="APP_STATUS_UNINSTALLING" value="6" enum="AppStatus">
+			App is being uninstalled from the device.
+		</constant>
+		<constant name="APP_STATUS_INSTALL_QUEUED" value="7" enum="AppStatus">
+			Install of the app is currently queued.
+		</constant>
+		<constant name="ABUSE_REPORT_VIDEO_MODE_UNKNOWN" value="0" enum="AbuseReportVideoMode">
+		</constant>
+		<constant name="ABUSE_REPORT_VIDEO_MODE_COLLECT" value="1" enum="AbuseReportVideoMode">
+			The UI will collect video evidence if the object_type supports it.
+		</constant>
+		<constant name="ABUSE_REPORT_VIDEO_MODE_OPTIONAL" value="2" enum="AbuseReportVideoMode">
+			The UI will try to collect video evidence if the object_type supports it, but will allow the user to skip that step if they wish.
+		</constant>
+		<constant name="ABUSE_REPORT_VIDEO_MODE_SKIP" value="3" enum="AbuseReportVideoMode">
+			The UI will not collect video evidence.
+		</constant>
+		<constant name="APP_AGE_CATEGORY_UNKNOWN" value="0" enum="AppAgeCategory">
+		</constant>
+		<constant name="APP_AGE_CATEGORY_CH" value="1" enum="AppAgeCategory">
+			Child age group for users between the ages of 10-12 (age may vary by region).
+		</constant>
+		<constant name="APP_AGE_CATEGORY_NCH" value="2" enum="AppAgeCategory">
+			Non-child age group for users ages 13 and up (age may vary by region).
+		</constant>
+	</constants>
+</class>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ChallengeEntry" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an entry to a challenge.
+	</brief_description>
+	<description>
+		Represents an entry to a challenge.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="display_score" type="String" setter="" getter="get_display_score" default="&quot;&quot;">
+		</member>
+		<member name="extra_data" type="String" setter="" getter="get_extra_data" default="&quot;&quot;">
+		</member>
+		<member name="extra_data_length" type="int" setter="" getter="get_extra_data_length" default="0">
+		</member>
+		<member name="id" type="int" setter="" getter="get_id" default="0">
+		</member>
+		<member name="rank" type="int" setter="" getter="get_rank" default="0">
+		</member>
+		<member name="score" type="int" setter="" getter="get_score" default="0">
+		</member>
+		<member name="timestamp" type="int" setter="" getter="get_timestamp" default="0">
+		</member>
+		<member name="user" type="MetaPlatformSDK_User" setter="" getter="get_user">
+		</member>
+	</members>
+</class>

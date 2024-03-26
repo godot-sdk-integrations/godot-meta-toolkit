@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LivestreamingVideoStats" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents livestreaming video stats.
+	</brief_description>
+	<description>
+		Represents livestreaming video stats.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="comment_count" type="int" setter="" getter="get_comment_count" default="0">
+		</member>
+		<member name="reaction_count" type="int" setter="" getter="get_reaction_count" default="0">
+		</member>
+		<member name="total_views" type="String" setter="" getter="get_total_views" default="&quot;&quot;">
+		</member>
+	</members>
+</class>

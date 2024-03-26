@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Error" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an error received from the Meta Platform SDK.
+	</brief_description>
+	<description>
+		Represents an error received from the Meta Platform SDK.
+		Retrieved from [method MetaPlatformSDK_Message.get_error].
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="code" type="int" setter="" getter="get_code" default="0">
+		</member>
+		<member name="displayable_message" type="String" setter="" getter="get_displayable_message" default="&quot;&quot;">
+			Human readable description of the error that can be displayed to the user. Might be the empty string if there is no user-appropriate description available. Not intended to be parsed as it might change at any time or be translated.
+		</member>
+		<member name="http_code" type="int" setter="" getter="get_http_code" default="0">
+		</member>
+		<member name="message" type="String" setter="" getter="get_message" default="&quot;&quot;">
+			Technical description of what went wrong intended for developers. For use in logs or developer consoles.
+		</member>
+	</members>
+</class>

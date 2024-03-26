@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_LaunchBlockFlowResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of launching the user block flow.
+	</brief_description>
+	<description>
+		Represents the result of launching the user block flow.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="did_block" type="bool" setter="" getter="get_did_block" default="false">
+			Whether the viewer successfully blocked the user.
+		</member>
+		<member name="did_cancel" type="bool" setter="" getter="get_did_cancel" default="false">
+			Whether the viewer chose to cancel the block flow.
+		</member>
+	</members>
+</class>

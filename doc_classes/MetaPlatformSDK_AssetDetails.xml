@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_AssetDetails" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents details about an asset file.
+	</brief_description>
+	<description>
+		Represents details about an asset file.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="asset_id" type="int" setter="" getter="get_asset_id" default="0">
+			ID of the asset file
+		</member>
+		<member name="asset_type" type="String" setter="" getter="get_asset_type" default="&quot;&quot;">
+			One of 'default', 'store', or 'language_pack'. The 'default' type denotes this Asset File is used purely as an implementation detail (to download extra content post-installation). The 'store' type indicates that the Asset File should be shown in Store. The 'language_pack' is a special type used to manage different languages and translation data, which can be downloaded post-installation.
+		</member>
+		<member name="download_status" type="String" setter="" getter="get_download_status" default="&quot;&quot;">
+			One of 'installed', 'available', or 'in-progress'.
+		</member>
+		<member name="filepath" type="String" setter="" getter="get_filepath" default="&quot;&quot;">
+			File path of the asset file.
+		</member>
+		<member name="iap_status" type="String" setter="" getter="get_iap_status" default="&quot;&quot;">
+			One of 'free', 'entitled', or 'not-entitled'.
+		</member>
+		<member name="language" type="MetaPlatformSDK_LanguagePackInfo" setter="" getter="get_language">
+			For 'language_pack' assets type, contains language info.
+			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="metadata" type="String" setter="" getter="get_metadata" default="&quot;&quot;">
+			Extra metadata associated with this asset file.
+		</member>
+	</members>
+</class>

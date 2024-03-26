@@ -1,0 +1,192 @@
+# Workflow to automatically create the Godot Meta Toolkit addon
+name: Build on push
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  # Only used for the cache key. Increment version to force clean build.
+  GODOT_BASE_BRANCH: main
+  SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
+
+jobs:
+  build:
+    name: Building for ${{ matrix.name }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          # Godot Meta Toolkit
+          - name: Godot Meta Toolkit Linux (x86_64)
+            os: ubuntu-20.04
+            platform: linux
+            flags: arch=x86_64
+            artifact_name: godotmetatoolkit-build-files-linux-x86_64
+            artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/linux/*/*/*.so
+            cache-name: linux-x86_64
+          - name: Godot Meta Toolkit Windows
+            os: windows-latest
+            platform: windows
+            artifact_name: godotmetatoolkit-build-files-windows
+            artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/windows/*/*/*.dll
+            cache-name: windows-x86_64
+          - name: Godot Meta Toolkit MacOS
+            os: macos-latest
+            platform: macos
+            flags: arch=universal
+            artifact_name: godotmetatoolkit-build-files-macos
+            artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/macos/*/*.framework
+            cache-name: macos-universal
+          - name: Godot Meta Toolkit Android
+            os: ubuntu-20.04
+            platform: android
+            flags: arch=arm64
+            artifact_name: godotmetatoolkit-build-files-android
+            artifact_path: |
+              godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/android/*/*.aar
+              godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/android/*/*/*.so
+            cache-name: android
+
+    # Note, to satisfy the asset library we need to make sure our zip files have a root folder
+    # this is why we checkout into godot_meta_toolkit and build into asset
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: godot_meta_toolkit
+          submodules: recursive
+          lfs: 'true'
+      - name: Setup Godot build cache
+        uses: ./godot_meta_toolkit/thirdparty/godot-cpp/.github/actions/godot-cache
+        with:
+          cache-name: ${{ matrix.cache-name }}
+        continue-on-error: true
+      - name: Download Meta Platform SDK (POSIX)
+        run: |
+          wget "${{ secrets.META_PLATFORM_SDK_URL }}" -O meta_platform_sdk.zip
+          cd godot_meta_toolkit/thirdparty/ovr_platform_sdk
+          unzip -a ../../../meta_platform_sdk.zip
+          cd ../../..
+          rm meta_platform_sdk.zip
+        if: runner.os != 'Windows'
+      - name: Download Meta Platform SDK (Windows)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "${{ secrets.META_PLATFORM_SDK_URL }}" -OutFile "meta_platform_sdk.zip"
+          Set-Location "godot_meta_toolkit/thirdparty/ovr_platform_sdk"
+          Expand-Archive -Path "../../../meta_platform_sdk.zip" -DestinationPath "."
+          Set-Location "../../.."
+          Remove-Item "meta_platform_sdk.zip"
+        if: runner.os == 'Windows'
+      - name: Set up Python (for SCons)
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Android dependencies
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r23c
+          link-to-sdk: true
+      - name: Install scons
+        run: |
+          python -m pip install scons==4.0.0
+      - name: Create extension library
+        run: |
+          cd godot_meta_toolkit
+          scons platform=${{ matrix.platform }} target=template_debug ${{ matrix.flags }}
+          scons platform=${{ matrix.platform }} target=template_release ${{ matrix.flags }}
+          cd ..
+
+      # On Android we build our loaders and build our extension with gradlew
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: "adopt"
+        if: matrix.platform == 'android'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+        if: matrix.platform == 'android'
+      - name: Create Godot-CPP library
+        run: |
+          cd godot_meta_toolkit/thirdparty/godot-cpp
+          scons platform=${{ matrix.platform }} target=template_debug arch=arm64
+          scons platform=${{ matrix.platform }} target=template_release arch=arm64
+          scons platform=${{ matrix.platform }} target=template_debug arch=x86_64
+          scons platform=${{ matrix.platform }} target=template_release arch=x86_64
+          cd ../../..
+        if: matrix.platform == 'android'
+      - name: Create Godot Meta Toolkit AARs
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          build-root-directory: godot_meta_toolkit
+          arguments: build
+        if: matrix.platform == 'android'
+
+      - name: Upload build files (artifacts)
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            ${{ matrix.artifact_path }}
+
+  # GODOT 4.2 ADDON GENERATION SECTION
+  asset:
+    name: Assembling the asset
+    runs-on: ubuntu-20.04
+    needs: build
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: godot_meta_toolkit
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+      - name: Create Godot Meta Toolkit Addon
+        run: |
+          mkdir asset
+          cp -r godot_meta_toolkit/demo/addons asset
+
+      - name: Copying artifacts
+        run: |
+          mkdir -p asset/addons/godot_meta_toolkit/.bin/android/
+          cp -r godotmetatoolkit-build-files-android/* asset/addons/godot_meta_toolkit/.bin/android/
+
+          mkdir -p asset/addons/godot_meta_toolkit/.bin/linux/
+          cp -r godotmetatoolkit-build-files-linux-x86_64/* asset/addons/godot_meta_toolkit/.bin/linux/
+
+          mkdir -p asset/addons/godot_meta_toolkit/.bin/windows/
+          cp -r godotmetatoolkit-build-files-windows/* asset/addons/godot_meta_toolkit/.bin/windows/
+
+          mkdir -p asset/addons/godot_meta_toolkit/.bin/macos/
+          cp -r godotmetatoolkit-build-files-macos/* asset/addons/godot_meta_toolkit/.bin/macos/
+
+      - name: Create Godot Meta Toolkit addon artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: GodotMetaToolkitAddon
+          path: |
+            asset
+      - name: Zip addon
+        run: |
+          zip -qq -r godotmetatoolkitaddon.zip asset
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      - name: Create and upload asset
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "godotmetatoolkitaddon.zip"
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_NetSyncVoipAttenuationValue" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a net sync VoIP attenuation value.
+	</brief_description>
+	<description>
+		Represents a net sync VoIP attenuation value.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="decibels" type="float" setter="" getter="get_decibels" default="0.0">
+			Decibel fall-off value.
+		</member>
+		<member name="distance" type="float" setter="" getter="get_distance" default="0.0">
+			The starting distance of this attenuation value.
+		</member>
+	</members>
+</class>

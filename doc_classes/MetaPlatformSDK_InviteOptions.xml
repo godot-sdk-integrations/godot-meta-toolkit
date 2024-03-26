@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_InviteOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents options to an invite.
+	</brief_description>
+	<description>
+		Represents options to an invite.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_suggested_user">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+				Adds suggested users to the invitable users list.
+			</description>
+		</method>
+		<method name="clear_suggested_users">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

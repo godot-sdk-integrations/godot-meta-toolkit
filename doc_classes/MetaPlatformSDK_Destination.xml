@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Destination" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents an app destination.
+	</brief_description>
+	<description>
+		Represents an app destination.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="api_name" type="String" setter="" getter="get_api_name" default="&quot;&quot;">
+			Pass it into [method MetaPlatformSDK_GroupPresenceOptions.set_destination_api_name] when calling [method MetaPlatformSDK.group_presence_set_async] to set this user's group presence.
+		</member>
+		<member name="deeplink_message" type="String" setter="" getter="get_deeplink_message" default="&quot;&quot;">
+			The information that will be in [member MetaPlatformSDK_LaunchDetails.deeplink_message] when a user enters via deeplink. Alternatively will be in [member MetaPlatformSDK_User.presence_deeplink_message] if the rich presence is set for the user.
+		</member>
+		<member name="display_name" type="String" setter="" getter="get_display_name" default="&quot;&quot;">
+		</member>
+		<member name="shareable_uri" type="String" setter="" getter="get_shareable_uri" default="&quot;&quot;">
+			A URL that allows the user to deeplink directly to this destination.
+		</member>
+	</members>
+</class>
