@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0ol8en13wpk3"]
+[gd_scene load_steps=8 format=3 uid="uid://c0ol8en13wpk3"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_t3hrc"]
+[ext_resource type="Script" uid="uid://ddnlhr5fm2mk6" path="res://main.gd" id="1_t3hrc"]
 [ext_resource type="PackedScene" uid="uid://b8a73fckkvdxx" path="res://assets/gltf/turkey.glb" id="2_lrsmu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h1cjv"]
@@ -13,6 +13,13 @@ sky_material = SubResource("ProceduralSkyMaterial_h1cjv")
 [sub_resource type="Environment" id="Environment_jc7i8"]
 sky = SubResource("Sky_a1pyg")
 tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_h2yge"]
+size = Vector3(0.01, 0.01, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="Main" type="XROrigin3D"]
 script = ExtResource("1_t3hrc")
@@ -27,6 +34,8 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 transform = Transform3D(-0.866025, -0.433013, 0.25, -0.12941, -0.288849, -0.948588, 0.482963, -0.853854, 0.194114, 0, 0, 0)
 
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.655479, 0)
+current = true
 
 [node name="turkey" parent="." instance=ExtResource("2_lrsmu")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0.5, -0.7)
@@ -53,4 +62,45 @@ hand_tracker = &"/user/right"
 
 [node name="RightHandModel" type="OpenXRFbHandTrackingMesh" parent="RightXRHandModifier3D"]
 hand = 1
-use_scale_override = false
+bones/0/name = "RightPalm"
+bones/1/name = "RightHand"
+bones/2/name = "RightThumbMetacarpal"
+bones/3/name = "RightThumbProximal"
+bones/4/name = "RightThumbDistal"
+bones/5/name = "RightThumbTip"
+bones/6/name = "RightIndexMetacarpal"
+bones/7/name = "RightIndexProximal"
+bones/8/name = "RightIndexIntermediate"
+bones/9/name = "RightIndexDistal"
+bones/10/name = "RightIndexTip"
+bones/11/name = "RightMiddleMetacarpal"
+bones/12/name = "RightMiddleProximal"
+bones/13/name = "RightMiddleIntermediate"
+bones/14/name = "RightMiddleDistal"
+bones/15/name = "RightMiddleTip"
+bones/16/name = "RightRingMetacarpal"
+bones/17/name = "RightRingProximal"
+bones/18/name = "RightRingIntermediate"
+bones/19/name = "RightRingDistal"
+bones/20/name = "RightRingTip"
+bones/21/name = "RightLittleMetacarpal"
+bones/22/name = "RightLittleProximal"
+bones/23/name = "RightLittleIntermediate"
+bones/24/name = "RightLittleDistal"
+bones/25/name = "RightLittleTip"
+
+[node name="PanelSwitcherMarker" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2779, -1.2729)
+
+[node name="RightControllerPointer" type="XRController3D" parent="."]
+tracker = &"right_hand"
+pose = &"aim"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightControllerPointer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+mesh = SubResource("BoxMesh_h2yge")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
+
+[connection signal="button_pressed" from="RightControllerPointer" to="." method="_on_right_controller_pointer_button_pressed"]
+[connection signal="button_released" from="RightControllerPointer" to="." method="_on_right_controller_pointer_button_released"]

@@ -24,6 +24,16 @@ MetaToolkitExportPlugin::MetaToolkitExportPlugin() {
             PROPERTY_USAGE_DEFAULT,
             false,
             true);
+
+    _hybrid_app_option = _generate_export_option(
+            "meta_toolkit/hybrid_app",
+            "",
+            Variant::Type::INT,
+            PROPERTY_HINT_ENUM,
+            "Disabled,Start As Immersive,Start As Panel",
+            PROPERTY_USAGE_DEFAULT,
+            HYBRID_TYPE_DISABLED,
+            false);
 }
 
 void MetaToolkitExportPlugin::_bind_methods() {}
@@ -64,6 +74,14 @@ bool MetaToolkitExportPlugin::_get_bool_option(const godot::String &p_option) co
     return false;
 }
 
+int MetaToolkitExportPlugin::_get_int_option(const godot::String &p_option) const {
+    Variant option_value = get_option(p_option);
+    if (option_value.get_type() == Variant::Type::INT) {
+        return option_value;
+    }
+    return 0;
+}
+
 TypedArray<Dictionary> MetaToolkitExportPlugin::_get_export_options(const Ref<godot::EditorExportPlatform> &p_platform) const {
     TypedArray<Dictionary> export_options;
     if (!_supports_platform(p_platform)) {
@@ -71,9 +89,21 @@ TypedArray<Dictionary> MetaToolkitExportPlugin::_get_export_options(const Ref<go
     }
 
     export_options.append(_enable_meta_toolkit_option);
+    export_options.append(_hybrid_app_option);
 
     return export_options;
 }
+
+// @todo Needs a newer extension_api.json for godot-cpp
+/*
+bool MetaToolkitExportPlugin::_get_export_option_visibility(const Ref<EditorExportPlatform> &p_platform, const String &p_option) const {
+    if (p_option.begins_with("meta_toolkit/") && p_option != "meta_toolkit/enable_meta_toolkit") {
+        return _get_bool_option("meta_toolkit/enable_meta_toolkit");
+    }
+
+    return true;
+}
+*/
 
 String MetaToolkitExportPlugin::_get_export_option_warning(
         const Ref<godot::EditorExportPlatform> &p_platform, const godot::String &p_option) const {
@@ -91,6 +121,8 @@ Dictionary MetaToolkitExportPlugin::_get_export_options_overrides(
     if (!_get_bool_option("meta_toolkit/enable_meta_toolkit")) {
         return overrides;
     }
+
+    HybridType hybrid_type = (HybridType)_get_int_option("meta_toolkit/hybrid_app");
 
     // Gradle build overrides
     overrides["gradle_build/use_gradle_build"] = true;
@@ -160,7 +192,22 @@ Dictionary MetaToolkitExportPlugin::_get_export_options_overrides(
     overrides["xr_features/enable_meta_plugin"] = true;
     overrides["xr_features/enable_pico_plugin"] = false;
 
+    // Unless this is a hybrid app that launches as a panel, then we want to force this option on.
+    // Otherwise, it needs to be off, so that the panel activity can be the one that's launched by default.
+    overrides["package/show_in_app_library"] = (hybrid_type != HYBRID_TYPE_START_AS_PANEL);
+
     return overrides;
+}
+
+PackedStringArray MetaToolkitExportPlugin::_get_export_features(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const {
+    PackedStringArray features;
+
+    HybridType hybrid_type = (HybridType)_get_int_option("meta_toolkit/hybrid_app");
+    if (hybrid_type != HYBRID_TYPE_DISABLED) {
+        features.push_back("meta_hybrid_app");
+    }
+
+    return features;
 }
 
 PackedStringArray MetaToolkitExportPlugin::_get_android_libraries(const Ref<godot::EditorExportPlatform> &p_platform, bool p_debug) const {
@@ -171,10 +218,55 @@ PackedStringArray MetaToolkitExportPlugin::_get_android_libraries(const Ref<godo
 
     // Check if the Godot Meta toolkit aar dependency is available
     const String debug_label = p_debug ? "debug" : "release";
-	const String toolkit_aar_file_path = "res://addons/godot_meta_toolkit/.bin/android/" + debug_label + "/godot_meta_toolkit-" + debug_label + ".aar";
-	if (FileAccess::file_exists(toolkit_aar_file_path)) {
+    const String toolkit_aar_file_path = "res://addons/godot_meta_toolkit/.bin/android/" + debug_label + "/godot_meta_toolkit-" + debug_label + ".aar";
+    if (FileAccess::file_exists(toolkit_aar_file_path)) {
         dependencies.append(toolkit_aar_file_path);
     }
 
     return dependencies;
+}
+
+String MetaToolkitExportPlugin::_get_android_manifest_application_element_contents(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const {
+    HybridType hybrid_type = (HybridType)_get_int_option("meta_toolkit/hybrid_app");
+
+    if (hybrid_type != HYBRID_TYPE_DISABLED) {
+        String manifest_text =
+                "        <activity android:name=\"com.meta.w4.godot.toolkit.GodotPanelApp\" "
+                "android:process=\":GodotPanelApp\" "
+                "android:label=\"@string/godot_project_name_string\" "
+                "android:theme=\"@style/GodotAppSplashTheme\" "
+                "android:launchMode=\"singleInstancePerTask\" "
+                "android:excludeFromRecents=\"false\" "
+                "android:exported=\"true\" "
+                "android:screenOrientation=\"landscape\" "
+                "android:configChanges=\"orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode\" "
+                "android:resizeableActivity=\"true\" "
+                "tools:ignore=\"UnusedAttribute\" >\n"
+                "          <intent-filter>\n"
+                "            <action android:name=\"android.intent.action.MAIN\" />\n"
+                "            <category android:name=\"android.intent.category.DEFAULT\" />\n"
+                "            <category android:name=\"com.oculus.intent.category.2D\" />\n";
+
+        if (hybrid_type == HYBRID_TYPE_START_AS_PANEL) {
+            manifest_text += "            <category android:name=\"android.intent.category.LAUNCHER\" />\n";
+        }
+
+        manifest_text +=
+                "          </intent-filter>\n"
+                "          <meta-data android:name=\"com.oculus.vrshell.free_resizing_lock_aspect_ratio\" android:value=\"true\" />"
+                "        </activity>\n";
+
+        return manifest_text;
+    }
+
+    return "";
+}
+
+String MetaToolkitExportPlugin::_get_android_manifest_element_contents(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const {
+    String manifest_text =
+            "    <horizonos:uses-horizonos-sdk xmlns:horizonos=\"http://schemas.horizonos/sdk\" "
+            "horizonos:minSdkVersion=\"69\" "
+            "horizonos:targetSdkVersion=\"69\" />\n";
+
+    return manifest_text;
 }

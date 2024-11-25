@@ -11,6 +11,12 @@ class MetaToolkitExportPlugin : public EditorExportPlugin {
     GDCLASS(MetaToolkitExportPlugin, EditorExportPlugin)
 
 public:
+    enum HybridType {
+        HYBRID_TYPE_DISABLED,
+        HYBRID_TYPE_START_AS_IMMERSIVE,
+        HYBRID_TYPE_START_AS_PANEL,
+    };
+
     MetaToolkitExportPlugin();
 
     String _get_name() const override {
@@ -23,9 +29,17 @@ public:
 
     TypedArray<Dictionary> _get_export_options(const Ref<EditorExportPlatform> &p_platform) const override;
 
+    // @todo Needs a newer extension_api.json for godot-cpp
+    //bool _get_export_option_visibility(const Ref<EditorExportPlatform> &p_platform, const String &p_option) const override;
+
     Dictionary _get_export_options_overrides(const Ref<EditorExportPlatform> &p_platform) const override;
 
+    PackedStringArray _get_export_features(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const override;
+
     bool _supports_platform(const Ref<EditorExportPlatform> &p_platform) const override;
+
+    String _get_android_manifest_application_element_contents(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const override;
+    String _get_android_manifest_element_contents(const Ref<EditorExportPlatform> &p_platform, bool p_debug) const override;
 
 protected:
     static void _bind_methods();
@@ -40,6 +54,8 @@ private:
                                               bool p_update_visibility);
 
     bool _get_bool_option(const String &p_option) const;
+    int _get_int_option(const String &p_option) const;
 
     Dictionary _enable_meta_toolkit_option;
+    Dictionary _hybrid_app_option;
 };

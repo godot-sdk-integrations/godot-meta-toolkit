@@ -61,6 +61,10 @@ android {
 
 dependencies {
     compileOnly libraries.godotAndroidLib
+
+    // @todo Can these be compileOnly also?
+    implementation "androidx.fragment:fragment:$versions.fragmentVersion"
+    implementation "androidx.core:core-splashscreen:$versions.splashscreenVersion"
 }
 
 task cleanAssets(type: Delete) {
