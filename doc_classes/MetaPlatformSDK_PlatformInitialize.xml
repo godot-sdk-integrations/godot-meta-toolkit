@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="result" type="int" setter="" getter="get_result" enum="MetaPlatformSDK.PlatformInitializeResult" default="0">
+			The result of attempting to initialize the platform.
 		</member>
 	</members>
 </class>

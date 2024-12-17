@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			A unique identifier of this party.
 		</member>
 		<member name="invited_users" type="MetaPlatformSDK_UserArray" setter="" getter="get_invited_users">
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.

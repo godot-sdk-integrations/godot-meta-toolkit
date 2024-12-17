@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="streaming_enabled" type="bool" setter="" getter="get_streaming_enabled" default="false">
+			This is a boolean field and represents whether the app is allowed to do the livestreaming or not.
 		</member>
 	</members>
 </class>

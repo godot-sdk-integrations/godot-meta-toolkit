@@ -10,12 +10,22 @@
 	</tutorials>
 	<members>
 		<member name="description" type="String" setter="" getter="get_description" default="&quot;&quot;">
+			The description for the product. The description should be meaningful and explanatory to help outline the product and its features.
 		</member>
 		<member name="formatted_price" type="String" setter="" getter="get_formatted_price" default="&quot;&quot;">
+			The formatted string for the [MetaPlatformSDK_Price].
 		</member>
 		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			The name of the product. This will be used as a the display name and should be aligned with the user facing title.
+		</member>
+		<member name="price" type="MetaPlatformSDK_Price" setter="" getter="get_price">
+			The [MetaPlatformSDK_Price] of the product contains the currency code, the amount in hundredths, and the formatted string representation.
 		</member>
 		<member name="sku" type="String" setter="" getter="get_sku" default="&quot;&quot;">
+			The unique string that you use to reference the product in your app. The SKU is case-sensitive and should match the SKU reference in your code.
+		</member>
+		<member name="type" type="int" setter="" getter="get_type" enum="MetaPlatformSDK.ProductType" default="0">
+			The type of product.
 		</member>
 	</members>
 </class>

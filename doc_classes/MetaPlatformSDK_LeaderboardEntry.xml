@@ -10,23 +10,30 @@
 	</tutorials>
 	<members>
 		<member name="display_score" type="String" setter="" getter="get_display_score" default="&quot;&quot;">
+			The formatted score that will be displayed in the leaderboard of this entry. You can select a score type to determine how scores are displayed on Leaderboard. See [url=https://developer.oculus.com/documentation/native/ps-leaderboards/#create]here[/url] for examples of different score type.
 		</member>
 		<member name="extra_data" type="String" setter="" getter="get_extra_data" default="&quot;&quot;">
+			A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer. It will be used by two entry methods: [method MetaPlatformSDK.leaderboard_write_entry_async] and [method MetaPlatformSDK.leaderboard_write_entry_with_supplementary_metric_async].
 		</member>
 		<member name="extra_data_length" type="int" setter="" getter="get_extra_data_length" default="0">
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			This is a unique identifier for the leaderboard entry. It is of type `id` and is optional.
 		</member>
 		<member name="rank" type="int" setter="" getter="get_rank" default="0">
+			The rank of this leaderboard entry in the leaderboard. It can be used in [method MetaPlatformSDK.leaderboard_get_entries_after_rank_async] to retrieve leaderboard entries starting from a specified rank.
 		</member>
 		<member name="score" type="int" setter="" getter="get_score" default="0">
+			The raw underlying value of the score achieved by the user in the leaderboard. It's of type `long_as_string` and it's used to determine the user's rank in the leaderboard.
 		</member>
 		<member name="supplementary_metric" type="MetaPlatformSDK_SupplementaryMetric" setter="" getter="get_supplementary_metric">
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
 		</member>
 		<member name="timestamp" type="int" setter="" getter="get_timestamp" default="0">
+			The timestamp of this entry being created in the leaderboard.
 		</member>
 		<member name="user" type="MetaPlatformSDK_User" setter="" getter="get_user">
+			User of this leaderboard entry. You can request a block of leaderboard entries for the specified user ID(s) by [method MetaPlatformSDK.leaderboard_get_entries_by_ids_async].
 		</member>
 	</members>
 </class>

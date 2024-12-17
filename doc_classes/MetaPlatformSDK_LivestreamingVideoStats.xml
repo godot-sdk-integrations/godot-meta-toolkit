@@ -10,10 +10,13 @@
 	</tutorials>
 	<members>
 		<member name="comment_count" type="int" setter="" getter="get_comment_count" default="0">
+			The total number of comments left for your livestream video.
 		</member>
 		<member name="reaction_count" type="int" setter="" getter="get_reaction_count" default="0">
+			The total number of reactions your livestream video received.
 		</member>
 		<member name="total_views" type="String" setter="" getter="get_total_views" default="&quot;&quot;">
+			The total number of views of your livestream video.
 		</member>
 	</members>
 </class>

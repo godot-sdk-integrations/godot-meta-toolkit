@@ -10,10 +10,13 @@
 	</tutorials>
 	<members>
 		<member name="bytes" type="PackedByteArray" setter="" getter="get_bytes" default="PackedByteArray()">
+			The packet data. Ideally, it is recommended to keep a message under 1200 bytes so that data can fit into a single packet.
 		</member>
 		<member name="sender_id" type="int" setter="" getter="get_sender_id" default="0">
+			Represents the id of the sender of the packet.
 		</member>
 		<member name="size" type="int" setter="" getter="get_size" default="0">
+			The number of bytes in the packet.
 		</member>
 	</members>
 </class>

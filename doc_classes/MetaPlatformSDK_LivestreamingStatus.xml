@@ -10,14 +10,19 @@
 	</tutorials>
 	<members>
 		<member name="comments_visible" type="bool" setter="" getter="get_comments_visible" default="false">
+			Indicates if the comments from the audience in your livestreaming are visible.
 		</member>
 		<member name="is_paused" type="bool" setter="" getter="get_is_paused" default="false">
+			Indicates if your livestreaming in the app is paused or not.
 		</member>
 		<member name="livestreaming_enabled" type="bool" setter="" getter="get_livestreaming_enabled" default="false">
+			Indicates if your app is livestreaming enabled. If your app is enabled, you will receive a notification by #ovrMessage_Notification_Livestreaming_StatusChange when the livestreaming session gets updated.
 		</member>
 		<member name="livestreaming_type" type="int" setter="" getter="get_livestreaming_type" default="0">
+			Indicates the type of your livestreaming.
 		</member>
 		<member name="mic_enabled" type="bool" setter="" getter="get_mic_enabled" default="false">
+			Indicates if your connected mic is enabled. The speaker will be muted if the field is false.
 		</member>
 	</members>
 </class>

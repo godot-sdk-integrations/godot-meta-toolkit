@@ -10,8 +10,10 @@
 	</tutorials>
 	<members>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the leaderboard that this supplementary metric belongs to.
 		</member>
 		<member name="metric" type="int" setter="" getter="get_metric" default="0">
+			This is the metric that is used to determine tiebreaks.
 		</member>
 	</members>
 </class>

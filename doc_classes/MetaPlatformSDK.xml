@@ -1101,6 +1101,13 @@
 				Returns the currently logged-in user's locale as a string, or empty string on error. Return value format conforms to [url=https://tools.ietf.org/html/bcp47]BCP47[/url]. The return value is borrowed, and should not be freed
 			</description>
 		</method>
+		<method name="user_get_logged_in_user_managed_info_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Retrieve the currently signed in user's managed info. This call is not available offline.
+				NOTE: This will return data only if the logged in user is a managed Meta account (MMA).
+			</description>
+		</method>
 		<method name="user_get_next_blocked_user_array_page_async">
 			<return type="MetaPlatformSDK_Request" />
 			<param index="0" name="handle" type="MetaPlatformSDK_BlockedUserArray" />
@@ -1238,18 +1245,24 @@
 		<constant name="PARTY_UPDATE_ACTION_UNKNOWN" value="0" enum="PartyUpdateAction">
 		</constant>
 		<constant name="PARTY_UPDATE_ACTION_JOIN" value="1" enum="PartyUpdateAction">
+			Indicates the user joined the party.
 		</constant>
 		<constant name="PARTY_UPDATE_ACTION_LEAVE" value="2" enum="PartyUpdateAction">
+			Indicates the user left the party.
 		</constant>
 		<constant name="PARTY_UPDATE_ACTION_INVITE" value="3" enum="PartyUpdateAction">
+			Indicates the user was invited to the party.
 		</constant>
 		<constant name="PARTY_UPDATE_ACTION_UNINVITE" value="4" enum="PartyUpdateAction">
+			Indicates the user was uninvited to the party.
 		</constant>
 		<constant name="CHALLENGE_CREATION_TYPE_UNKNOWN" value="0" enum="ChallengeCreationType">
 		</constant>
 		<constant name="CHALLENGE_CREATION_TYPE_USER_CREATED" value="1" enum="ChallengeCreationType">
+			The challenge was created by a User. This means that a regular user of the app created the challenge, and it may be a community-driven challenge or a personal challenge created by the user for themselves or others.
 		</constant>
 		<constant name="CHALLENGE_CREATION_TYPE_DEVELOPER_CREATED" value="2" enum="ChallengeCreationType">
+			The challenge was created by the app developer. This means that the challenge was created by the team behind the app, and it may be an official challenge or a special event created by the developers to engage with the community or promote specific features of the app.
 		</constant>
 		<constant name="SERVICE_PROVIDER_UNKNOWN" value="0" enum="ServiceProvider">
 		</constant>
@@ -1269,11 +1282,24 @@
 		</constant>
 		<constant name="SHARE_MEDIA_STATUS_CANCELED" value="2" enum="ShareMediaStatus">
 		</constant>
+		<constant name="PRODUCT_TYPE_UNKNOWN" value="0" enum="ProductType">
+		</constant>
+		<constant name="PRODUCT_TYPE_DURABLE" value="1" enum="ProductType">
+			This product is a durable IAP item that can be consumed multiple times. It can be purchased only once.
+		</constant>
+		<constant name="PRODUCT_TYPE_CONSUMABLE" value="2" enum="ProductType">
+			This product is an IAP item that can be consumed only once. It can only be purchased again after it is consumed.
+		</constant>
+		<constant name="PRODUCT_TYPE_SUBSCRIPTION" value="3" enum="ProductType">
+			This product represents a subscription. Subscriptions provide a way for users to purchase your app or its premium content by way of a recurring payment model.
+		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_UNKNOWN" value="0" enum="NetSyncVoipStreamMode">
 		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_AMBISONIC" value="1" enum="NetSyncVoipStreamMode">
+			Represents the ambisonic steam mode the VoIP stream uses. It is the default value of [method MetaPlatformSDK_NetSyncOptions.set_voip_stream_default]. Since it allows for the creation of immersive, surround sound experiences that simulate real-world audio environments, it typically used in virtual reality (VR) and augmented reality (AR) applications.
 		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_MONO" value="2" enum="NetSyncVoipStreamMode">
+			Represents the mono steam mode the VoIP stream uses. The advantages mono stream mode has over ambisonic steam mode is the audio encoding and decoding require less computational resources and thus audio streams require less bandwidth. So it is typically used in applications with limited network resources.
 		</constant>
 		<constant name="TIME_WINDOW_UNKNOWN" value="0" enum="TimeWindow">
 		</constant>
@@ -1506,6 +1532,8 @@
 		</constant>
 		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER_FRIENDS" value="1484532365" enum="MessageType">
 		</constant>
+		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER_MANAGED_INFO" value="1891252974" enum="MessageType">
+		</constant>
 		<constant name="MESSAGE_USER_GET_NEXT_BLOCKED_USER_ARRAY_PAGE" value="2083192267" enum="MessageType">
 		</constant>
 		<constant name="MESSAGE_USER_GET_NEXT_USER_ARRAY_PAGE" value="645723971" enum="MessageType">
@@ -1618,12 +1646,15 @@
 			Response to the platform notification that the in-app reporting flow is unavailable or non-existent.
 		</constant>
 		<constant name="LEADERBOARD_FILTER_NONE" value="0" enum="LeaderboardFilterType">
+			No filter enabled on the leaderboard.
 		</constant>
 		<constant name="LEADERBOARD_FILTER_FRIENDS" value="1" enum="LeaderboardFilterType">
+			Indicates that the leaderboard should be filtered to include only friends (bidirectional followers) of the current user.
 		</constant>
 		<constant name="LEADERBOARD_FILTER_UNKNOWN" value="2" enum="LeaderboardFilterType">
 		</constant>
 		<constant name="LEADERBOARD_FILTER_USER_IDS" value="3" enum="LeaderboardFilterType">
+			Filter the leaderboard to include specific user IDs. Use this filter to get rankings for users that are competing against each other. You specify the leaderboard name and whether to start at the top, or for the results to center on the (client) user. Note that if you specify the results to center on the client user, their leaderboard entry will be included in the returned array, regardless of whether their ID is explicitly specified in the list of IDs.
 		</constant>
 		<constant name="VOIP_MUTE_STATE_UNKNOWN" value="0" enum="VoipMuteState">
 		</constant>
@@ -1640,16 +1671,21 @@
 			A report for a user's behavior or profile.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_SUCCESS" value="1" enum="LivestreamingStartStatus">
+			Represents a successful start of the livestreaming session.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_UNKNOWN" value="0" enum="LivestreamingStartStatus">
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_NO_PACKAGE_SET" value="-1" enum="LivestreamingStartStatus">
+			Represents an error where the package was not set during the livestreaming start process.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_NO_FB_CONNECT" value="-2" enum="LivestreamingStartStatus">
+			Represents an error where Facebook Connect was not enabled during the livestreaming start process.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_NO_SESSION_ID" value="-3" enum="LivestreamingStartStatus">
+			Represents an error where a session ID was not provided during the livestreaming start process.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_MISSING_PARAMETERS" value="-4" enum="LivestreamingStartStatus">
+			Represents an error where required parameters were missing during the livestreaming start process.
 		</constant>
 		<constant name="SDK_ACCOUNT_TYPE_UNKNOWN" value="0" enum="SdkAccountType">
 		</constant>
@@ -1660,22 +1696,31 @@
 		<constant name="LAUNCH_RESULT_UNKNOWN" value="0" enum="LaunchResult">
 		</constant>
 		<constant name="LAUNCH_RESULT_SUCCESS" value="1" enum="LaunchResult">
+			The application launched successfully.
 		</constant>
 		<constant name="LAUNCH_RESULT_FAILED_ROOM_FULL" value="2" enum="LaunchResult">
+			The application launch failed because the room was full.
 		</constant>
 		<constant name="LAUNCH_RESULT_FAILED_GAME_ALREADY_STARTED" value="3" enum="LaunchResult">
+			The application launch failed because the game has already started.
 		</constant>
 		<constant name="LAUNCH_RESULT_FAILED_ROOM_NOT_FOUND" value="4" enum="LaunchResult">
+			The appplicatin launch failed because the room couldn't be found.
 		</constant>
 		<constant name="LAUNCH_RESULT_FAILED_USER_DECLINED" value="5" enum="LaunchResult">
+			The application launch failed because the user declined the invitation.
 		</constant>
 		<constant name="LAUNCH_RESULT_FAILED_OTHER_REASON" value="6" enum="LaunchResult">
+			The application launch failed due to some other reason.
 		</constant>
 		<constant name="LEADERBOARD_START_AT_TOP" value="0" enum="LeaderboardStartAt">
+			Indicates that the leaderboard entries should start at the top of the leaderboard.
 		</constant>
 		<constant name="LEADERBOARD_START_AT_CENTERED_ON_VIEWER" value="1" enum="LeaderboardStartAt">
+			Indicates that the leaderboard entries should start at the viewer's position on the leaderboard
 		</constant>
 		<constant name="LEADERBOARD_START_AT_CENTERED_ON_VIEWER_OR_TOP" value="2" enum="LeaderboardStartAt">
+			Indicates that the leaderboard entries should start at the viewer's position on the leaderboard, or at the top of the leaderboard if the viewer is not present.
 		</constant>
 		<constant name="LEADERBOARD_START_AT_UNKNOWN" value="3" enum="LeaderboardStartAt">
 		</constant>
@@ -1703,32 +1748,44 @@
 			Install of the app succeeded.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_SUCCESS" value="0" enum="PlatformInitializeResult">
+			Oculus Platform SDK initialization succeeded.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_UNINITIALIZED" value="-1" enum="PlatformInitializeResult">
+			Oculus Platform SDK was not initialized.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_PRE_LOADED" value="-2" enum="PlatformInitializeResult">
+			Oculus Platform SDK failed to initialize because the pre-loaded module was on a different path than the validated library.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_FILE_INVALID" value="-3" enum="PlatformInitializeResult">
+			Oculus Platform SDK files failed to load.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_SIGNATURE_INVALID" value="-4" enum="PlatformInitializeResult">
+			Oculus Platform SDK failed to initialize due to an invalid signature in the signed certificate.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_UNABLE_TO_VERIFY" value="-5" enum="PlatformInitializeResult">
+			Oculus Platform SDK failed to initialize due to unable to verify the application's signature during initialization.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_VERSION_MISMATCH" value="-6" enum="PlatformInitializeResult">
+			There was a mismatch between the version of Oculus Platform SDK used by the application and the version installed on the Oculus user's device.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_UNKNOWN" value="-7" enum="PlatformInitializeResult">
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_INVALID_CREDENTIALS" value="-8" enum="PlatformInitializeResult">
+			Oculus Platform SDK failed to initialize because the Oculus user had an invalid account access token.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_NOT_ENTITLED" value="-9" enum="PlatformInitializeResult">
+			Oculus Platform SDK failed to initialize because the Oculus user does not have the application entitlement.
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_UNKNOWN" value="0" enum="NetSyncConnectionStatus">
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_CONNECTING" value="1" enum="NetSyncConnectionStatus">
+			Indicates that the connection of the network sync has been started and the process is ongoing.
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_DISCONNECTED" value="2" enum="NetSyncConnectionStatus">
+			Indicates that the current status of the network sync connection is not connected.
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_CONNECTED" value="3" enum="NetSyncConnectionStatus">
+			Indicates that the current status of the network sync connection is connected.
 		</constant>
 		<constant name="CHALLENGE_VISIBILITY_UNKNOWN" value="0" enum="ChallengeVisibility">
 		</constant>
@@ -1758,20 +1815,28 @@
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_UNKNOWN" value="0" enum="MultiplayerErrorErrorKey">
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_DESTINATION_UNAVAILABLE" value="1" enum="MultiplayerErrorErrorKey">
+			Indicates that the travel destination is not available any more.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_DLC_REQUIRED" value="2" enum="MultiplayerErrorErrorKey">
+			Indicates that the downloadable content will be needed.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_GENERAL" value="3" enum="MultiplayerErrorErrorKey">
+			Indicates a broad range of general errors which are not be covered by the members of the enum.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_GROUP_FULL" value="4" enum="MultiplayerErrorErrorKey">
+			Indicates that the user failed to join the group because it was full.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_INVITER_NOT_JOINABLE" value="5" enum="MultiplayerErrorErrorKey">
+			Indicates that the user cannot invite a recepient successfully. The group presence can be set to joinable by using [method group_presence_set_is_joinable_async].
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_LEVEL_NOT_HIGH_ENOUGH" value="6" enum="MultiplayerErrorErrorKey">
+			Indicates that certain features will not be available to the user in the app because the user's level does not reach to certain level.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_LEVEL_NOT_UNLOCKED" value="7" enum="MultiplayerErrorErrorKey">
+			Indicates that the failure occurred becasue some level has not been reached.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_NETWORK_TIMEOUT" value="8" enum="MultiplayerErrorErrorKey">
+			When the predefined network timeout has reached, the ongoing activity would be stopped. The dialog will use this error key to give the user the information.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_NO_LONGER_AVAILABLE" value="9" enum="MultiplayerErrorErrorKey">
 		</constant>
@@ -1807,30 +1872,40 @@
 		<constant name="USER_PRESENCE_STATUS_UNKNOWN" value="0" enum="UserPresenceStatus">
 		</constant>
 		<constant name="USER_PRESENCE_STATUS_ONLINE" value="1" enum="UserPresenceStatus">
+			The user status is currently online.
 		</constant>
 		<constant name="USER_PRESENCE_STATUS_OFFLINE" value="2" enum="UserPresenceStatus">
+			The user status is currently offline.
 		</constant>
 		<constant name="MEDIA_CONTENT_TYPE_UNKNOWN" value="0" enum="MediaContentType">
 		</constant>
 		<constant name="MEDIA_CONTENT_TYPE_PHOTO" value="1" enum="MediaContentType">
+			Indicates that the media content is a photo.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_UNKNOWN" value="0" enum="ChallengeViewerFilter">
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_ALL_VISIBLE" value="1" enum="ChallengeViewerFilter">
+			Returns all public and invite-only challenges in which the user is a participant or invitee. Excludes private challenges. This filter is useful for users who want to see all challenges they are involved in, regardless of their visibility settings.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_PARTICIPATING" value="2" enum="ChallengeViewerFilter">
+			Returns challenges in which the user is a participant. This filter is useful for users who want to see only the challenges they are actively participating in.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_INVITED" value="3" enum="ChallengeViewerFilter">
+			Returns challenges that the user has been invited to. This filter is useful for users who want to see only the challenges they have been explicitly invited to.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_PARTICIPATING_OR_INVITED" value="4" enum="ChallengeViewerFilter">
+			Returns challenges the user is either participating in or invited to. This filter is useful for users who want to see all challenges they are involved in, whether as a participant or an invitee.
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_UNKNOWN" value="0" enum="AchievementType">
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_SIMPLE" value="1" enum="AchievementType">
+			Simple achievements are unlocked by a single event or objective completion. They are often used to reward players for completing specific tasks or milestones within the game.
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_BITFIELD" value="2" enum="AchievementType">
+			Bitfield achievements are unlocked when a target number of bits are set within a bitfield.
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_COUNT" value="3" enum="AchievementType">
+			Count achievements are unlocked when a counter reaches a defined target. The counter is incremented each time the player completes the required action, and when it reaches the target value, the achievement is unlocked.
 		</constant>
 		<constant name="SYSTEM_VOIP_STATUS_UNKNOWN" value="0" enum="SystemVoipStatus">
 		</constant>

@@ -10,16 +10,21 @@
 	</tutorials>
 	<members>
 		<member name="developer_payload" type="String" setter="" getter="get_developer_payload" default="&quot;&quot;">
+			The developer payload feature is unimplemented.
 		</member>
 		<member name="expiration_time" type="int" setter="" getter="get_expiration_time" default="0">
+			The time when the purchased [MetaPlatformSDK_Product] expires. This value only applies to subscriptions, and will be null for durable and consumable IAP items.
 		</member>
 		<member name="grant_time" type="int" setter="" getter="get_grant_time" default="0">
+			The timestamp that represents when the user was granted entitlement to the [MetaPlatformSDK_Product] that was purchased.
 		</member>
 		<member name="purchase_str_id" type="String" setter="" getter="get_purchase_str_id" default="&quot;&quot;">
 		</member>
 		<member name="reporting_id" type="String" setter="" getter="get_reporting_id" default="&quot;&quot;">
+			The Reporting ID feature is not implemented.
 		</member>
 		<member name="sku" type="String" setter="" getter="get_sku" default="&quot;&quot;">
+			The SKU of the IAP [MetaPlatformSDK_Product] that was purchased. This value is case-sensitive. To retrieve the product information, you can use this value when calling [method MetaPlatformSDK.iap_get_products_by_sku_async].
 		</member>
 	</members>
 </class>

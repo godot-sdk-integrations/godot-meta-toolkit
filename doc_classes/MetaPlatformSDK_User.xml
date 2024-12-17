@@ -10,13 +10,19 @@
 	</tutorials>
 	<members>
 		<member name="display_name" type="String" setter="" getter="get_display_name" default="&quot;&quot;">
-			A potentially non unique displayable name chosen by the user. Could also be the same as the oculus_ID
+			A potentially non unique displayable name chosen by the user. Could also be the same as the [member oculus_id].
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the user. This is a unique value for every individual user.
 		</member>
 		<member name="image_url" type="String" setter="" getter="get_image_url" default="&quot;&quot;">
+			The url of the profile picture that is chosen by the user.
+		</member>
+		<member name="managed_info" type="MetaPlatformSDK_ManagedInfo" setter="" getter="get_managed_info">
+			Managed account info for the user which contains further metadata that is only available if the user is a Meta Managed Account(MMA). There must be user consent via dialog during installation, your app must have DUC enabled, and the app must be admin-approved. This method may return null. This indicates that the value is not present or that the curent app or user is not permitted to access it.
 		</member>
 		<member name="oculus_id" type="String" setter="" getter="get_oculus_id" default="&quot;&quot;">
+			The oculus ID of the user. This is used across the developer dashboard and is unique to oculus.
 		</member>
 		<member name="presence" type="String" setter="" getter="get_presence" default="&quot;&quot;">
 			Human readable string of what the user is currently doing. Not intended to be parsed as it might change at anytime or be translated.
@@ -37,6 +43,7 @@
 			Enum value of what the user is currently doing.
 		</member>
 		<member name="small_image_url" type="String" setter="" getter="get_small_image_url" default="&quot;&quot;">
+			The url of the smaller/secondary profile picture that is chosen by the user.
 		</member>
 	</members>
 </class>

@@ -16,8 +16,10 @@
 			A displayable string of the challenge's description.
 		</member>
 		<member name="end_date" type="int" setter="" getter="get_end_date" default="0">
+			The timestamp when this challenge ends. You can retrieve this field from the response of the challenge creation request.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the challenge. This is an unique string that the application will refer to this challenge in your app.
 		</member>
 		<member name="invited_users" type="MetaPlatformSDK_UserArray" setter="" getter="get_invited_users">
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
@@ -29,6 +31,7 @@
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
 		</member>
 		<member name="start_date" type="int" setter="" getter="get_start_date" default="0">
+			The timestamp when this challenge begins. You can retrieve this field from the response of the challenge creation request.
 		</member>
 		<member name="title" type="String" setter="" getter="get_title" default="&quot;&quot;">
 			A displayable string of the challenge's title.

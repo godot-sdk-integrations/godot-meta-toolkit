@@ -10,11 +10,13 @@
 	</tutorials>
 	<members>
 		<member name="api_name" type="String" setter="" getter="get_api_name" default="&quot;&quot;">
+			The API name of this leaderboard. This is a unique string that your application will refer to this leaderboard in your app code.
 		</member>
 		<member name="destination" type="MetaPlatformSDK_Destination" setter="" getter="get_destination">
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The generated GUID of this leaderboard.
 		</member>
 	</members>
 </class>

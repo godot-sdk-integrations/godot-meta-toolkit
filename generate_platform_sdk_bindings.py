@@ -1688,6 +1688,7 @@ def update_docs_xml(plan, docs_path, overwrite_docs=False):
             xml_data = re.sub(r'^<class (xmlns:xsi="[^"]*" )(.*) xsi:', r'<class \2 \1xsi:', xml_data, flags=re.MULTILINE)
             xml_data = re.sub(r'(\S)/>', r'\1 />', xml_data)
             xml_data = re.sub(r'>([^<]+)<', lambda m: '>'+m.group(1).replace('&quot;', '"')+'<', xml_data)
+            xml_data += "\n"
 
             with open(xml_path, 'wt') as fd:
                 fd.write(xml_data)

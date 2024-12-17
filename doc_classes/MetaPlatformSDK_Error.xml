@@ -11,11 +11,20 @@
 	</tutorials>
 	<members>
 		<member name="code" type="int" setter="" getter="get_code" default="0">
+			Represents the error code:
+			- [code]UNKNOWN_ERROR[/code]: [code]1[/code]
+			- [code]AUTHENTICATION_ERROR[/code]: [code]2[/code]
+			- [code]NETWORK_ERROR[/code]: [code]3[/code]
+			- [code]STORE_INSTALLATION_ERROR[/code]: [code]4[/code]
+			- [code]CALLER_NOT_SIGNED[/code]: [code]5[/code]
+			- [code]UNKNOWN_SERVER_ERROR[/code]: [code]6[/code]
+			- [code]PERMISSIONS_FAILURE[/code]: [code]7[/code]
 		</member>
 		<member name="displayable_message" type="String" setter="" getter="get_displayable_message" default="&quot;&quot;">
 			Human readable description of the error that can be displayed to the user. Might be the empty string if there is no user-appropriate description available. Not intended to be parsed as it might change at any time or be translated.
 		</member>
 		<member name="http_code" type="int" setter="" getter="get_http_code" default="0">
+			It contains the HTTP status code for the error. More information about the http code can be found [url=https://en.wikipedia.org/wiki/List_of_HTTP_status_codes]here[/url].
 		</member>
 		<member name="message" type="String" setter="" getter="get_message" default="&quot;&quot;">
 			Technical description of what went wrong intended for developers. For use in logs or developer consoles.

@@ -13,11 +13,13 @@
 			<return type="int" />
 			<param index="0" name="index" type="int" />
 			<description>
+				If the leaderboard is updated, this represents the updated challenge IDs. The updated challenge IDs can be used by [method MetaPlatformSDK.challenges_get_entries_async], [method MetaPlatformSDK.challenges_get_entries_after_rank_async] or [method MetaPlatformSDK.challenges_get_entries_by_ids_async].
 			</description>
 		</method>
 	</methods>
 	<members>
 		<member name="did_update" type="bool" setter="" getter="get_did_update" default="false">
+			A `boolean` indicates whether the leaderboard was updated.
 		</member>
 		<member name="updated_challenge_ids_size" type="int" setter="" getter="get_updated_challenge_ids_size" default="0">
 		</member>

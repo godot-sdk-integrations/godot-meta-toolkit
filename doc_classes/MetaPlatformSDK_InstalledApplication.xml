@@ -10,14 +10,19 @@
 	</tutorials>
 	<members>
 		<member name="application_id" type="String" setter="" getter="get_application_id" default="&quot;&quot;">
+			Represents the ID of the application, which is a unique identifier for the app.
 		</member>
 		<member name="package_name" type="String" setter="" getter="get_package_name" default="&quot;&quot;">
+			The package name of the installed application.
 		</member>
 		<member name="status" type="String" setter="" getter="get_status" default="&quot;&quot;">
+			Represents the status of the installed application.
 		</member>
 		<member name="version_code" type="int" setter="" getter="get_version_code" default="0">
+			Represents the current version code of the installed application.
 		</member>
 		<member name="version_name" type="String" setter="" getter="get_version_name" default="&quot;&quot;">
+			Represents the current version name of the installed application.
 		</member>
 	</members>
 </class>

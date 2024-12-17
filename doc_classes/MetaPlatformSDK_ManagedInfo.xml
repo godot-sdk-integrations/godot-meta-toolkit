@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ManagedInfo" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents information about a user with a managed device.
+	</brief_description>
+	<description>
+		Represents information about a user with a managed device.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="department" type="String" setter="" getter="get_department" default="&quot;&quot;">
+			The department name in the organization to which the user blongs to.
+		</member>
+		<member name="email" type="String" setter="" getter="get_email" default="&quot;&quot;">
+			The email address of the account user which owns the MMA (Meta Managed Account).
+		</member>
+		<member name="employee_number" type="String" setter="" getter="get_employee_number" default="&quot;&quot;">
+			The employee number of the person who owns MMA (Meta Managed Account).
+		</member>
+		<member name="external_id" type="String" setter="" getter="get_external_id" default="&quot;&quot;">
+			A string which can be used to uniquely identify the user of the MMA (Meta Managed Account).
+		</member>
+		<member name="location" type="String" setter="" getter="get_location" default="&quot;&quot;">
+			The location of the user.
+		</member>
+		<member name="manager" type="String" setter="" getter="get_manager" default="&quot;&quot;">
+			The manager of the user.
+		</member>
+		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			The user's name.
+		</member>
+		<member name="organization_id" type="String" setter="" getter="get_organization_id" default="&quot;&quot;">
+			A string which can be used to uniquely identify the organization which owns the MMA (Meta Managed Account).
+		</member>
+		<member name="organization_name" type="String" setter="" getter="get_organization_name" default="&quot;&quot;">
+			The name of the organization to which the MMA (Meta Managed Account) account user belongs to.
+		</member>
+		<member name="position" type="String" setter="" getter="get_position" default="&quot;&quot;">
+			The user's position.
+		</member>
+	</members>
+</class>

@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="streaming_result" type="int" setter="" getter="get_streaming_result" enum="MetaPlatformSDK.LivestreamingStartStatus" default="1">
+			This livestreaming result represents the start status of your livestream.
 		</member>
 	</members>
 </class>

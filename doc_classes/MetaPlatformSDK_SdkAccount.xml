@@ -10,8 +10,10 @@
 	</tutorials>
 	<members>
 		<member name="account_type" type="int" setter="" getter="get_account_type" enum="MetaPlatformSDK.SdkAccountType" default="0">
+			The specific type of account that this sdk account represents.
 		</member>
 		<member name="user_id" type="int" setter="" getter="get_user_id" default="0">
+			The ID of the user of the sdk account. This is a unique value for every [MetaPlatformSDK_User].
 		</member>
 	</members>
 </class>

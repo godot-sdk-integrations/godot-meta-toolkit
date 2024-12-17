@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="status" type="int" setter="" getter="get_status" enum="MetaPlatformSDK.ShareMediaStatus" default="0">
+			The status of the share media result.
 		</member>
 	</members>
 </class>

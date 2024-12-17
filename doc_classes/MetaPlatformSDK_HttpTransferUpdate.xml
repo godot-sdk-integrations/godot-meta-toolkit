@@ -12,11 +12,13 @@
 		<method name="is_completed" qualifiers="const">
 			<return type="bool" />
 			<description>
+				Indicates whether the HTTP transfer has been completed or not.
 			</description>
 		</method>
 	</methods>
 	<members>
 		<member name="bytes" type="PackedByteArray" setter="" getter="get_bytes" default="PackedByteArray()">
+			An array of bytes that represents the data being transferred.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
 		</member>
