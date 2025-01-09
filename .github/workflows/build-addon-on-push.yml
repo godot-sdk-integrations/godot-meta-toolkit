@@ -13,6 +13,8 @@ env:
   # Only used for the cache key. Increment version to force clean build.
   GODOT_BASE_BRANCH: main
   SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
+  # Meta Platform SDK v67.0.
+  META_PLATFORM_SDK_URL: "https://securecdn.oculus.com/binaries/download/?id=6176126005844383"
 
 jobs:
   build:
@@ -69,7 +71,7 @@ jobs:
         continue-on-error: true
       - name: Download Meta Platform SDK (POSIX)
         run: |
-          wget "${{ secrets.META_PLATFORM_SDK_URL }}" -O meta_platform_sdk.zip
+          wget "${{ env.META_PLATFORM_SDK_URL }}" -O meta_platform_sdk.zip
           cd godot_meta_toolkit/thirdparty/ovr_platform_sdk
           unzip -a ../../../meta_platform_sdk.zip
           cd ../../..
@@ -78,7 +80,7 @@ jobs:
       - name: Download Meta Platform SDK (Windows)
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "${{ secrets.META_PLATFORM_SDK_URL }}" -OutFile "meta_platform_sdk.zip"
+          Invoke-WebRequest -Uri "${{ env.META_PLATFORM_SDK_URL }}" -OutFile "meta_platform_sdk.zip"
           Set-Location "godot_meta_toolkit/thirdparty/ovr_platform_sdk"
           Expand-Archive -Path "../../../meta_platform_sdk.zip" -DestinationPath "."
           Set-Location "../../.."
