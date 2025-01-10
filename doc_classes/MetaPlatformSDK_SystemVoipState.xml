@@ -10,8 +10,10 @@
 	</tutorials>
 	<members>
 		<member name="microphone_muted" type="int" setter="" getter="get_microphone_muted" enum="MetaPlatformSDK.VoipMuteState" default="0">
+			A flag that is used to indicate the current state of the microphone.
 		</member>
 		<member name="status" type="int" setter="" getter="get_status" enum="MetaPlatformSDK.SystemVoipStatus" default="0">
+			The status enum that indicates the current state of the system VoIP.
 		</member>
 	</members>
 </class>

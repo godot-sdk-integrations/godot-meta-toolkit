@@ -13,30 +13,35 @@
 			<return type="void" />
 			<param index="0" name="value" type="String" />
 			<description>
+				The description of the challenge is a detailed and informative text that provides a comprehensive overview of the challenge's objectives, rules, and requirements.
 			</description>
 		</method>
 		<method name="set_end_date">
 			<return type="void" />
 			<param index="0" name="value" type="int" />
 			<description>
+				The challenge end date is the timestamp when this challenge ends.
 			</description>
 		</method>
 		<method name="set_include_active_challenges">
 			<return type="void" />
 			<param index="0" name="value" type="bool" />
 			<description>
+				This option indicates whether to include challenges that are currently active in the search results. By default, this is set to true, meaning that only active challenges will be returned.
 			</description>
 		</method>
 		<method name="set_include_future_challenges">
 			<return type="void" />
 			<param index="0" name="value" type="bool" />
 			<description>
+				This option indicates whether to include challenges that have not yet started in the search results. By default, this is set to false, meaning that only active will be returned.
 			</description>
 		</method>
 		<method name="set_include_past_challenges">
 			<return type="void" />
 			<param index="0" name="value" type="bool" />
 			<description>
+				This option indicates whether to include challenges that have already ended in the search results. By default, this is set to false, meaning that only active will be returned.
 			</description>
 		</method>
 		<method name="set_leaderboard_name">
@@ -50,24 +55,29 @@
 			<return type="void" />
 			<param index="0" name="value" type="int" />
 			<description>
+				The challenge start date is the timestamp when this challenge begins.
 			</description>
 		</method>
 		<method name="set_title">
 			<return type="void" />
 			<param index="0" name="value" type="String" />
 			<description>
+				The title of the challenge is a descriptive label that provides a concise summary of the challenge's purpose and objectives.
 			</description>
 		</method>
 		<method name="set_viewer_filter">
 			<return type="void" />
 			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ChallengeViewerFilter" />
 			<description>
+				An enum that specifies what filter to apply to the list of returned challenges.
+				Returns all public and invite-only challenges in which the user is a participant or invitee. Excludes private challenges.
 			</description>
 		</method>
 		<method name="set_visibility">
 			<return type="void" />
 			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ChallengeVisibility" />
 			<description>
+				The challenge visibility setting specifies who can see and participate in this challenge.
 			</description>
 		</method>
 	</methods>

@@ -10,20 +10,27 @@
 	</tutorials>
 	<members>
 		<member name="display_score" type="String" setter="" getter="get_display_score" default="&quot;&quot;">
+			A displayable score for this challenge entry. The score is formatted with thousands separators and the relevant units are appended based on the associated leaderboard's score type.
 		</member>
 		<member name="extra_data" type="String" setter="" getter="get_extra_data" default="&quot;&quot;">
+			A 2KB custom data field that is associated with the challenge entry.
 		</member>
 		<member name="extra_data_length" type="int" setter="" getter="get_extra_data_length" default="0">
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The unique identifier of this challenge entry which can be used by [method MetaPlatformSDK.challenges_get_entries_by_ids_async] and [method MetaPlatformSDK.challenges_get_entries_async].
 		</member>
 		<member name="rank" type="int" setter="" getter="get_rank" default="0">
+			Challenges can be ranked by highest or lowest scores within a time period. This indicates the position of this challenge entry.
 		</member>
 		<member name="score" type="int" setter="" getter="get_score" default="0">
+			The raw underlying value of the challenge entry score. It is a type of string that is returned by a long integer.
 		</member>
 		<member name="timestamp" type="int" setter="" getter="get_timestamp" default="0">
+			The timestamp of the creation of this entry in the challenge.
 		</member>
 		<member name="user" type="MetaPlatformSDK_User" setter="" getter="get_user">
+			The user corresponding to this entry within the challenge.
 		</member>
 	</members>
 </class>

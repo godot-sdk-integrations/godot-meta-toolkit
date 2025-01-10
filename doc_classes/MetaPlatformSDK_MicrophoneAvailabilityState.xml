@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="microphone_available" type="bool" setter="" getter="get_microphone_available" default="false">
+			Indicates whether the microphone is currently available or not. If there is any update on the microphone availability, it will be retrieved as a notification using [constant MetaPlatformSDK.MESSAGE_NOTIFICATION_VOIP_MICROPHONE_AVAILABILITY_STATE_UPDATE].
 		</member>
 	</members>
 </class>

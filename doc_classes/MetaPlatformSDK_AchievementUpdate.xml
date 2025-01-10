@@ -10,8 +10,10 @@
 	</tutorials>
 	<members>
 		<member name="just_unlocked" type="bool" setter="" getter="get_just_unlocked" default="false">
+			This indicates if this update caused the achievement to unlock.
 		</member>
 		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
+			The unique name used to reference the updated achievement, as specified in the developer dashboard.
 		</member>
 	</members>
 </class>

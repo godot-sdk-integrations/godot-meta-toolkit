@@ -13,12 +13,16 @@
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the application invite.
 		</member>
 		<member name="is_active" type="bool" setter="" getter="get_is_active" default="false">
+			A boolean value indicating whether the invite is still active or not.
 		</member>
 		<member name="lobby_session_id" type="String" setter="" getter="get_lobby_session_id" default="&quot;&quot;">
+			The lobby session id to which the recipient is invited.
 		</member>
 		<member name="match_session_id" type="String" setter="" getter="get_match_session_id" default="&quot;&quot;">
+			The match session id to which the recipient is invited.
 		</member>
 		<member name="recipient" type="MetaPlatformSDK_User" setter="" getter="get_recipient">
 			This may be [code]null[/code], which indicates that the value is not present or that the curent app or user is not permitted to access it.

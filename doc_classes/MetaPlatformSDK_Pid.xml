@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="id" type="String" setter="" getter="get_id" default="&quot;&quot;">
+			Unique identifier assigned to each process running in a system, used for tracking and managing purposes.
 		</member>
 	</members>
 </class>

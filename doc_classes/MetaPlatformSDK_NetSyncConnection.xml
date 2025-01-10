@@ -10,16 +10,19 @@
 	</tutorials>
 	<members>
 		<member name="connection_id" type="int" setter="" getter="get_connection_id" default="0">
+			An ID which can be used to uniquely identify the network synchronization connection.
 		</member>
 		<member name="disconnect_reason" type="int" setter="" getter="get_disconnect_reason" enum="MetaPlatformSDK.NetSyncDisconnectReason" default="0">
-			If status is Disconnected, specifies the reason.
+			If status is disconnected, specifies the reason.
 		</member>
 		<member name="session_id" type="int" setter="" getter="get_session_id" default="0">
-			The ID of the local session. Will be null if the connection is not active.
+			The ID of the local session. Will be [code]null[/code] if the connection is not active.
 		</member>
 		<member name="status" type="int" setter="" getter="get_status" enum="MetaPlatformSDK.NetSyncConnectionStatus" default="0">
+			The status of the network synchronization connection.
 		</member>
 		<member name="zone_id" type="String" setter="" getter="get_zone_id" default="&quot;&quot;">
+			Represents the unique identifier within the current application grouping.
 		</member>
 	</members>
 </class>

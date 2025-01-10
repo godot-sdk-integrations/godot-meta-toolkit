@@ -13,23 +13,27 @@
 			<return type="int" />
 			<param index="0" name="key" type="String" />
 			<description>
+				It's a method that takes a string key as a parameter and returns a boolean value indicating whether the key exists in the data store.
 			</description>
 		</method>
 		<method name="get_key" qualifiers="const">
 			<return type="String" />
 			<param index="0" name="index" type="int" />
 			<description>
+				It's a string that represents a single key in the data store. It allows you to retrieve a specific key from the data store by its index
 			</description>
 		</method>
 		<method name="get_value" qualifiers="const">
 			<return type="String" />
 			<param index="0" name="key" type="String" />
 			<description>
+				It's a generic field that can hold any type of data. It allows you to store and retrieve data using a string key, and it can be used to store a variety of data types
 			</description>
 		</method>
 	</methods>
 	<members>
 		<member name="num_keys" type="int" setter="" getter="get_num_keys" default="0">
+			It's an integer that represents the number of keys in the data store.
 		</member>
 	</members>
 </class>

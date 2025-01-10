@@ -16,6 +16,7 @@
 			The information that will be in [member MetaPlatformSDK_LaunchDetails.deeplink_message] when a user enters via deeplink. Alternatively will be in [member MetaPlatformSDK_User.presence_deeplink_message] if the rich presence is set for the user.
 		</member>
 		<member name="display_name" type="String" setter="" getter="get_display_name" default="&quot;&quot;">
+			A displayable string of the destination name.
 		</member>
 		<member name="shareable_uri" type="String" setter="" getter="get_shareable_uri" default="&quot;&quot;">
 			A URL that allows the user to deeplink directly to this destination.

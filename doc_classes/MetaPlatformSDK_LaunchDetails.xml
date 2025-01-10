@@ -19,6 +19,7 @@
 			A string typically used to distinguish where the deeplink came from. For instance, a DEEPLINK launch type could be coming from events or rich presence.
 		</member>
 		<member name="launch_type" type="int" setter="" getter="get_launch_type" enum="MetaPlatformSDK.LaunchType" default="0">
+			A launch type that defines the different ways in which an application can be launched.
 		</member>
 		<member name="lobby_session_id" type="String" setter="" getter="get_lobby_session_id" default="&quot;&quot;">
 			If provided, the intended lobby the user would like to be in.

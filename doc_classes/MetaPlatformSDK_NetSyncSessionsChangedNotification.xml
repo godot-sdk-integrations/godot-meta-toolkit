@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="connection_id" type="int" setter="" getter="get_connection_id" default="0">
+			An ID which can be used to uniquely identify the network synchronization connection.
 		</member>
 		<member name="sessions" type="MetaPlatformSDK_NetSyncSessionArray" setter="" getter="get_sessions">
 			The new list of sessions.

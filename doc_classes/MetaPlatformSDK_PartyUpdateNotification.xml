@@ -10,18 +10,25 @@
 	</tutorials>
 	<members>
 		<member name="action" type="int" setter="" getter="get_action" enum="MetaPlatformSDK.PartyUpdateAction" default="0">
+			The type of action related to the party and user that this notification holds.
 		</member>
 		<member name="party_id" type="int" setter="" getter="get_party_id" default="0">
+			The ID of the party that will be updated.
 		</member>
 		<member name="sender_id" type="int" setter="" getter="get_sender_id" default="0">
+			The id of the [MetaPlatformSDK_User] who initiated the action that this party update status notification is in reference to.
 		</member>
 		<member name="update_timestamp" type="String" setter="" getter="get_update_timestamp" default="&quot;&quot;">
+			A timestamp denoting when the party action occurred that this status update notification refers to.
 		</member>
 		<member name="user_alias" type="String" setter="" getter="get_user_alias" default="&quot;&quot;">
+			The alias of the [MetaPlatformSDK_User] whose party status has changed. This is an alias that is set by the user.
 		</member>
 		<member name="user_id" type="int" setter="" getter="get_user_id" default="0">
+			The ID of the user, whose party status has changed.
 		</member>
 		<member name="user_name" type="String" setter="" getter="get_user_name" default="&quot;&quot;">
+			The displayable name of the [MetaPlatformSDK_User] whose party status has changed.
 		</member>
 	</members>
 </class>

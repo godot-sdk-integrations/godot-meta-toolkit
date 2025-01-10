@@ -10,6 +10,7 @@
 	</tutorials>
 	<members>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The party ID can be used to retrieve a [MetaPlatformSDK_Party]. Every party will have a unique ID that is associated with it.
 		</member>
 	</members>
 </class>

@@ -13,23 +13,27 @@
 			<return type="void" />
 			<param index="0" name="value" type="int" enum="MetaPlatformSDK.ServiceProvider" />
 			<description>
+				Specifies a service provider for which linked accounts should be retrieved. Can be called multiple times to specify multiple service providers.
 			</description>
 		</method>
 		<method name="clear_service_providers">
 			<return type="void" />
 			<description>
+				Clears the list of services providers that was created by calling [method add_service_provider].
 			</description>
 		</method>
 		<method name="set_max_users">
 			<return type="void" />
 			<param index="0" name="value" type="int" />
 			<description>
+				This field specifies the maximum number of users that should be returned in the response.
 			</description>
 		</method>
 		<method name="set_time_window">
 			<return type="void" />
 			<param index="0" name="value" type="int" enum="MetaPlatformSDK.TimeWindow" />
 			<description>
+				This field specifies the time window in seconds for which the linked accounts should be retrieved.
 			</description>
 		</method>
 	</methods>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_Price" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a price.
+	</brief_description>
+	<description>
+		Represents a price.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="amount_in_hundredths" type="int" setter="" getter="get_amount_in_hundredths" default="0">
+			The price of the product in hundredths of currency units.
+		</member>
+		<member name="currency" type="String" setter="" getter="get_currency" default="&quot;&quot;">
+			The ISO 4217 currency code for the price of the product. For example, "USD", "GBP", "JPY".
+		</member>
+		<member name="formatted" type="String" setter="" getter="get_formatted" default="&quot;&quot;">
+			The formatted string representation of the price, e.g., "$0.78". The value depends on the [member currency] and [member amount_in_hundredths].
+		</member>
+	</members>
+</class>
