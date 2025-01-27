@@ -65,35 +65,41 @@ task buildSconsArtifacts {
             break
         }
     }
-    if (sconsExecutableFile == null) {
-        throw new GradleException("Unable to find executable path for the '$sconsName' command.")
-    } else {
-        logger.debug("Found executable path for $sconsName: ${sconsExecutableFile.absolutePath}")
+
+    // Using `doFirst` so the exception doesn't happen until this task actually runs.
+    doFirst {
+        if (sconsExecutableFile == null) {
+            throw new GradleException("Unable to find executable path for the '$sconsName' command.")
+        } else {
+            logger.debug("Found executable path for $sconsName: ${sconsExecutableFile.absolutePath}")
+        }
     }
 
-    // Build the Godot-CPP bindings
-    tasks.create(name: "buildGodotCPPDebug", type: Exec) {
-        executable sconsExecutableFile.absolutePath
-        args "--directory=thirdparty/godot-cpp", "platform=android", "target=template_debug", "arch=arm64"
-    }
-    tasks.create(name: "buildGodotCPPRelease", type: Exec) {
-        executable sconsExecutableFile.absolutePath
-        args "--directory=thirdparty/godot-cpp", "platform=android", "target=template_release", "arch=arm64"
-    }
+    if (sconsExecutableFile != null) {
+        // Build the GDExtension library for Android.
+        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Debug", type: Exec) {
+            executable sconsExecutableFile.absolutePath
+            args "--directory=.", "platform=android", "target=template_debug", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
+        }
+        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Release", type: Exec) {
+            executable sconsExecutableFile.absolutePath
+            args "--directory=.", "platform=android", "target=template_release", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
+        }
 
-    dependsOn 'buildGodotCPPDebug'
-    dependsOn 'buildGodotCPPRelease'
+        dependsOn 'buildGodotMetaToolkitAndroidArm64Debug'
+        dependsOn 'buildGodotMetaToolkitAndroidArm64Release'
 
-    // Creating gradle task to generate the editor gdextension binaries for the godot_meta_toolkit addon
-    tasks.create(name: "buildGodotMetaToolkitDebugGDExtension", type: Exec) {
-        executable sconsExecutableFile.absolutePath
-        args "--directory=.", "target=template_debug"
-    }
-    tasks.create(name: "buildGodotMetaToolkitReleaseGDExtension", type: Exec) {
-        executable sconsExecutableFile.absolutePath
-        args "--directory=.", "target=template_release"
-    }
+        // Build the GDExtension library for desktop.
+        tasks.create(name: "buildGodotMetaToolkitDesktopDebug", type: Exec) {
+            executable sconsExecutableFile.absolutePath
+            args "--directory=.", "target=template_debug", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
+        }
+        tasks.create(name: "buildGodotMetaToolkitDesktopRelease", type: Exec) {
+            executable sconsExecutableFile.absolutePath
+            args "--directory=.", "target=template_release", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
+        }
 
-    dependsOn 'buildGodotMetaToolkitDebugGDExtension'
-    dependsOn 'buildGodotMetaToolkitReleaseGDExtension'
+        dependsOn 'buildGodotMetaToolkitDesktopDebug'
+        dependsOn 'buildGodotMetaToolkitDesktopRelease'
+    }
 }
