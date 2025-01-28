@@ -24,34 +24,32 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          # Godot Meta Toolkit
-          - name: Godot Meta Toolkit Linux (x86_64)
+          - name: 🐧 Linux (x86_64)
             os: ubuntu-20.04
             platform: linux
             flags: arch=x86_64
             artifact_name: godotmetatoolkit-build-files-linux-x86_64
             artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/linux/*/*/*.so
             cache-name: linux-x86_64
-          - name: Godot Meta Toolkit Windows
+          - name: 🏁 Windows (x86_64)
             os: windows-latest
             platform: windows
             artifact_name: godotmetatoolkit-build-files-windows
             artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/windows/*/*/*.dll
             cache-name: windows-x86_64
-          - name: Godot Meta Toolkit MacOS
+          - name: 🍎 MacOS (universal)
             os: macos-latest
             platform: macos
             flags: arch=universal
             artifact_name: godotmetatoolkit-build-files-macos
             artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/macos/*/*.framework
             cache-name: macos-universal
-          - name: Godot Meta Toolkit Android
+          - name: 🤖 Android (arm64)
             os: ubuntu-20.04
             platform: android
             flags: arch=arm64
             artifact_name: godotmetatoolkit-build-files-android
             artifact_path: |
-              godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/android/*/*.aar
               godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/android/*/*/*.so
             cache-name: android
 
@@ -59,13 +57,13 @@ jobs:
     # this is why we checkout into godot_meta_toolkit and build into asset
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: godot_meta_toolkit
           submodules: recursive
           lfs: 'true'
-      - name: Setup Godot build cache
-        uses: ./godot_meta_toolkit/thirdparty/godot-cpp/.github/actions/godot-cache
+      - name: Restore Godot build cache
+        uses: ./godot_meta_toolkit/thirdparty/godot-cpp/.github/actions/godot-cache-restore
         with:
           cache-name: ${{ matrix.cache-name }}
         continue-on-error: true
@@ -74,6 +72,7 @@ jobs:
           wget "${{ env.META_PLATFORM_SDK_URL }}" -O meta_platform_sdk.zip
           cd godot_meta_toolkit/thirdparty/ovr_platform_sdk
           unzip -a ../../../meta_platform_sdk.zip
+          rm -rf Android/libs/armeabi-v7a
           cd ../../..
           rm meta_platform_sdk.zip
         if: runner.os != 'Windows'
@@ -87,7 +86,7 @@ jobs:
           Remove-Item "meta_platform_sdk.zip"
         if: runner.os == 'Windows'
       - name: Set up Python (for SCons)
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
       - name: Android dependencies
@@ -95,63 +94,68 @@ jobs:
         with:
           ndk-version: r23c
           link-to-sdk: true
+        if: matrix.platform == 'android'
       - name: Install scons
         run: |
           python -m pip install scons==4.0.0
       - name: Create extension library
         run: |
           cd godot_meta_toolkit
-          scons platform=${{ matrix.platform }} target=template_debug ${{ matrix.flags }}
-          scons platform=${{ matrix.platform }} target=template_release ${{ matrix.flags }}
+          scons platform=${{ matrix.platform }} target=template_debug ${{ matrix.flags }} build_profile=thirdparty/godot_cpp_build_profile/build_profile.json
+          scons platform=${{ matrix.platform }} target=template_release ${{ matrix.flags }} build_profile=thirdparty/godot_cpp_build_profile/build_profile.json
           cd ..
-
-      # On Android we build our loaders and build our extension with gradlew
-      - name: Setup java
-        uses: actions/setup-java@v3
+      - name: Save Godot build cache
+        uses: ./godot_meta_toolkit/thirdparty/godot-cpp/.github/actions/godot-cache-save
         with:
-          java-version: 17
-          distribution: "adopt"
-        if: matrix.platform == 'android'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-        if: matrix.platform == 'android'
-      - name: Create Godot-CPP library
-        run: |
-          cd godot_meta_toolkit/thirdparty/godot-cpp
-          scons platform=${{ matrix.platform }} target=template_debug arch=arm64
-          scons platform=${{ matrix.platform }} target=template_release arch=arm64
-          scons platform=${{ matrix.platform }} target=template_debug arch=x86_64
-          scons platform=${{ matrix.platform }} target=template_release arch=x86_64
-          cd ../../..
-        if: matrix.platform == 'android'
-      - name: Create Godot Meta Toolkit AARs
-        uses: burrunan/gradle-cache-action@v1
-        with:
-          build-root-directory: godot_meta_toolkit
-          arguments: build
-        if: matrix.platform == 'android'
-
+          cache-name: ${{ matrix.cache-name }}
+        continue-on-error: true
       - name: Upload build files (artifacts)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
+          include-hidden-files: true
           path: |
             ${{ matrix.artifact_path }}
 
-  # GODOT 4.2 ADDON GENERATION SECTION
   asset:
     name: Assembling the asset
     runs-on: ubuntu-20.04
     needs: build
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: godot_meta_toolkit
       - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+      - name: Download Meta Platform SDK
+        run: |
+          wget "${{ env.META_PLATFORM_SDK_URL }}" -O meta_platform_sdk.zip
+          cd godot_meta_toolkit/thirdparty/ovr_platform_sdk
+          unzip -a ../../../meta_platform_sdk.zip
+          rm -rf Android/libs/armeabi-v7a
+          cd ../../..
+          rm meta_platform_sdk.zip
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "adopt"
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Copy Android binaries
+        run: |
+          mkdir -p godot_meta_toolkit/toolkit/src/main/libs/debug/arm64-v8a/arm64-v8a
+          cp godotmetatoolkit-build-files-android/template_debug/arm64/libgodot_meta_toolkit.so godot_meta_toolkit/toolkit/src/main/libs/debug/arm64-v8a/arm64-v8a/
+
+          mkdir -p godot_meta_toolkit/toolkit/src/main/libs/release/arm64-v8a/arm64-v8a
+          cp godotmetatoolkit-build-files-android/template_release/arm64/libgodot_meta_toolkit.so godot_meta_toolkit/toolkit/src/main/libs/release/arm64-v8a/arm64-v8a/
+      - name: Create Godot Meta Toolkit AARs
+        run: |
+          cd godot_meta_toolkit
+          ./gradlew build
+          cd ..
       - name: Create Godot Meta Toolkit Addon
         run: |
           mkdir asset
@@ -172,9 +176,10 @@ jobs:
           cp -r godotmetatoolkit-build-files-macos/* asset/addons/godot_meta_toolkit/.bin/macos/
 
       - name: Create Godot Meta Toolkit addon artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: GodotMetaToolkitAddon
+          include-hidden-files: true
           path: |
             asset
       - name: Zip addon
@@ -186,6 +191,7 @@ jobs:
         with:
           allowUpdates: true
           artifacts: "godotmetatoolkitaddon.zip"
+          draft: true
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
           omitDraftDuringUpdate: true

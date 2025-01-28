@@ -17,12 +17,6 @@ android {
         targetSdk versions.targetSdk
         versionName getReleaseVersion()
 
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
-
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a"
@@ -32,8 +26,14 @@ android {
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
-            version versions.cmakeVersion
         }
+    }
+
+    sourceSets {
+        main.jniLibs.srcDirs += ['../thirdparty/ovr_platform_sdk/Android/libs']
+
+        debug.jniLibs.srcDirs += ['src/main/libs/debug/arm64-v8a']
+        release.jniLibs.srcDirs += ['src/main/libs/release/arm64-v8a']
     }
 
     packagingOptions {
@@ -48,14 +48,15 @@ android {
         jvmTarget = versions.javaVersion
     }
 
-    buildFeatures {
-        prefabPublishing true
-    }
-
-    prefab {
-        godot_meta_toolkit {
-            headers "src/main/cpp/include"
+    tasks.matching { it.name.contains("CMake") || it.name.contains("externalNativeBuild") }.all { task ->
+        def taskPrefix = ""
+        if (project.path != ":") {
+            taskPrefix = project.path + ":"
         }
+
+        // Disable the externalNativeBuild* and *CMake* tasks as they would cause build failures since
+        // the cmake build files are only setup for editing support.
+        gradle.startParameter.excludedTaskNames += taskPrefix + task.name
     }
 }
 
@@ -84,22 +85,6 @@ task copyReleaseAARToAddons(type: Copy) {
     into '../demo/addons/godot_meta_toolkit/.bin/android/release'
 }
 
-task copyPlatformSDKLoaderToAddons(type: Copy) {
-    description 'Copy the Platform SDK loader into the addon'
-
-    from '../thirdparty/ovr_platform_sdk/Android/libs/arm64-v8a'
-    include 'libovrplatformloader.so'
-    into '../demo/addons/godot_meta_toolkit/.bin/android/libs/arm64-v8a'
-}
-
-task copyPlatformSDKLicenseToAddons(type: Copy) {
-    description 'Copy the Platform SDK license into the addon'
-
-    from '../thirdparty/ovr_platform_sdk/'
-    include 'LICENSE.txt'
-    into '../demo/addons/godot_meta_toolkit/.bin/android/libs'
-}
-
 task copyGdExtensionConfigToAssets(type: Copy) {
     description 'Copy toolkit.gdextension from the addons directory to the assets directory'
 
@@ -112,7 +97,5 @@ preBuild.dependsOn(copyGdExtensionConfigToAssets)
 assemble.dependsOn(copyGdExtensionConfigToAssets)
 assemble.finalizedBy(copyDebugAARToAddons)
 assemble.finalizedBy(copyReleaseAARToAddons)
-assemble.finalizedBy(copyPlatformSDKLoaderToAddons)
-assemble.finalizedBy(copyPlatformSDKLicenseToAddons)
 clean.dependsOn(cleanAssets)
 clean.dependsOn(cleanCxx)

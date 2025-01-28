@@ -33,7 +33,12 @@ sources += Glob("#toolkit/src/main/cpp/platform_sdk/*.cpp")
 sources += Glob("#toolkit/gen/src/*.cpp")
 
 binary_path = '#demo/addons/godot_meta_toolkit/.bin'
+android_src_path = '#toolkit/src'
 project_name = 'godot_meta_toolkit'
+
+if env['platform'] == "android":
+    env.Append(LIBPATH=['thirdparty/ovr_platform_sdk/Android/libs/arm64-v8a'])
+    env.Append(LIBS=['ovrplatformloader'])
 
 # Create the library target
 if env["platform"] == "macos":
@@ -61,3 +66,24 @@ else:
 
 Default(library)
 
+if env["platform"] == "android":
+    android_target = "release" if env["target"] == "template_release" else "debug"
+    android_arch = ""
+    if env["arch"] == "arm64":
+        android_arch = "arm64-v8a"
+    elif env["arch"] == "x86_64":
+        android_arch = "x86_64"
+    else:
+        raise Exception("Unable to map %s to Android architecture name" % env["arch"])
+
+    library_copy_path = "{}/main/libs/{}/{}/{}/lib{}{}".format(
+        android_src_path,
+        android_target,
+        android_arch,
+        android_arch,
+        project_name,
+        env["SHLIBSUFFIX"])
+
+    library_copy = env.Command(library_copy_path, library, Copy('$TARGET', '$SOURCE'))
+
+    Default(library_copy)
