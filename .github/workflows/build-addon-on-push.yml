@@ -1,13 +1,7 @@
 # Workflow to automatically create the Godot Meta Toolkit addon
 name: Build on push
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - '*'
+on: [push, pull_request]
 
 env:
   # Only used for the cache key. Increment version to force clean build.
