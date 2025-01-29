@@ -3,6 +3,9 @@ name: Build on push
 
 on: [push, pull_request]
 
+permissions:
+  contents: write
+
 env:
   # Only used for the cache key. Increment version to force clean build.
   GODOT_BASE_BRANCH: main
