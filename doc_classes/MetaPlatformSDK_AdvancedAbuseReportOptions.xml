@@ -19,11 +19,13 @@
 		<method name="clear_developer_defined_context">
 			<return type="void" />
 			<description>
+				Clears the custom metadata of the report.
 			</description>
 		</method>
 		<method name="clear_suggested_users">
 			<return type="void" />
 			<description>
+				Clears the list of users to suggest for reporting.
 			</description>
 		</method>
 		<method name="set_developer_defined_context_string">

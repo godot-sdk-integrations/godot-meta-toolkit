@@ -13,6 +13,7 @@
 			Whether the viewer chose to cancel the report flow.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the user report.
 		</member>
 	</members>
 </class>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="MetaPlatformSDK_ChallengeOptions" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
-		Represents options to a challenge.
+		Represents challenge search options.
 	</brief_description>
 	<description>
-		Represents options to a challenge.
+		Represents challenge search options.
 	</description>
 	<tutorials>
 	</tutorials>

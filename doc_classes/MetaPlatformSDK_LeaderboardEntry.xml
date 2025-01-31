@@ -12,10 +12,11 @@
 		<member name="display_score" type="String" setter="" getter="get_display_score" default="&quot;&quot;">
 			The formatted score that will be displayed in the leaderboard of this entry. You can select a score type to determine how scores are displayed on Leaderboard. See [url=https://developer.oculus.com/documentation/native/ps-leaderboards/#create]here[/url] for examples of different score type.
 		</member>
-		<member name="extra_data" type="String" setter="" getter="get_extra_data" default="&quot;&quot;">
+		<member name="extra_data" type="PackedByteArray" setter="" getter="get_extra_data" default="PackedByteArray()">
 			A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer. It will be used by two entry methods: [method MetaPlatformSDK.leaderboard_write_entry_async] and [method MetaPlatformSDK.leaderboard_write_entry_with_supplementary_metric_async].
 		</member>
 		<member name="extra_data_length" type="int" setter="" getter="get_extra_data_length" default="0">
+			The length in bytes of [member extra_data].
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
 			This is a unique identifier for the leaderboard entry. It is of type `id` and is optional.

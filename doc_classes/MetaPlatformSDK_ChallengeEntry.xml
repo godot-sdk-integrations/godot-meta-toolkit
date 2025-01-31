@@ -12,10 +12,11 @@
 		<member name="display_score" type="String" setter="" getter="get_display_score" default="&quot;&quot;">
 			A displayable score for this challenge entry. The score is formatted with thousands separators and the relevant units are appended based on the associated leaderboard's score type.
 		</member>
-		<member name="extra_data" type="String" setter="" getter="get_extra_data" default="&quot;&quot;">
+		<member name="extra_data" type="PackedByteArray" setter="" getter="get_extra_data" default="PackedByteArray()">
 			A 2KB custom data field that is associated with the challenge entry.
 		</member>
 		<member name="extra_data_length" type="int" setter="" getter="get_extra_data_length" default="0">
+			The length in bytes of [member extra_data].
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
 			The unique identifier of this challenge entry which can be used by [method MetaPlatformSDK.challenges_get_entries_by_ids_async] and [method MetaPlatformSDK.challenges_get_entries_async].
