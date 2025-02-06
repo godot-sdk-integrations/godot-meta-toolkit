@@ -58,4 +58,7 @@ After that process is complete, you'll be able to use the Platform SDK:
         for user in result.data:
             print("- ", user)
 
+If you'd like to see more examples of using the Meta Platform SDK in a Godot project, be sure to check out the Godot Meta Toolkit Demo.
+Source code for the project can be found on `GitHub <https://github.com/godot-sdk-integrations/godot-meta-toolkit/tree/main/demo>`_.
+
 For more information, see the API docs for the :ref:`MetaPlatformSDK<class_metaplatformsdk>` singleton. It's the entry point for doing anything with the Meta Platform SDK.
