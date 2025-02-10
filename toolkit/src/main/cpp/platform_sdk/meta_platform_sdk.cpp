@@ -166,6 +166,44 @@ uint64_t MetaPlatformSDK_HttpTransferUpdate::get_id() const {
 #endif
 }
 
+PackedByteArray MetaPlatformSDK_ChallengeEntry::get_extra_data() const {
+#ifdef ANDROID_ENABLED
+	PackedByteArray result;
+
+	const char *data = ovr_ChallengeEntry_GetExtraData(handle);
+	if (data) {
+		size_t size = ovr_ChallengeEntry_GetExtraDataLength(handle);
+		if (size > 0) {
+			result.resize(size);
+			memcpy(result.ptrw(), data, size);
+		}
+	}
+
+	return result;
+#else
+	return PackedByteArray();
+#endif
+}
+
+PackedByteArray MetaPlatformSDK_LeaderboardEntry::get_extra_data() const {
+#ifdef ANDROID_ENABLED
+	PackedByteArray result;
+
+	const char *data = ovr_LeaderboardEntry_GetExtraData(handle);
+	if (data) {
+		size_t size = ovr_LeaderboardEntry_GetExtraDataLength(handle);
+		if (size > 0) {
+			result.resize(size);
+			memcpy(result.ptrw(), data, size);
+		}
+	}
+
+	return result;
+#else
+	return PackedByteArray();
+#endif
+}
+
 PackedByteArray MetaPlatformSDK_HttpTransferUpdate::get_bytes() const {
 #ifdef ANDROID_ENABLED
 	PackedByteArray result;
