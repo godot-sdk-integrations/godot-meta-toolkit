@@ -19,6 +19,7 @@
 		<method name="clear_suggested_users">
 			<return type="void" />
 			<description>
+				Clears suggested users from the invitable users list.
 			</description>
 		</method>
 	</methods>

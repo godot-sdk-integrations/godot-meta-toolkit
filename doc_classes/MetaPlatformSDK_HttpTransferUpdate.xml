@@ -21,8 +21,10 @@
 			An array of bytes that represents the data being transferred.
 		</member>
 		<member name="id" type="int" setter="" getter="get_id" default="0">
+			The ID of the HTTP transfer update.
 		</member>
 		<member name="size" type="int" setter="" getter="get_size" default="0">
+			The number of bytes contained in [member bytes].
 		</member>
 	</members>
 </class>

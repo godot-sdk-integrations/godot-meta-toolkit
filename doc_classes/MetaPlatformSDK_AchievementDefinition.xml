@@ -16,6 +16,7 @@
 			The name of the achievement.
 		</member>
 		<member name="target" type="int" setter="" getter="get_target" default="0">
+			The target count of the achievement, if the [member type] is [constant MetaPlatformSDK.ACHIEVEMENT_TYPE_COUNT].
 		</member>
 		<member name="type" type="int" setter="" getter="get_type" enum="MetaPlatformSDK.AchievementType" default="0">
 			The type of achievement.

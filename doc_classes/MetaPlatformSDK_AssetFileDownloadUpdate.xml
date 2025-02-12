@@ -13,8 +13,10 @@
 			ID of the asset file.
 		</member>
 		<member name="bytes_total_long" type="int" setter="" getter="get_bytes_total_long" default="0">
+			Total number of bytes.
 		</member>
 		<member name="bytes_transferred_long" type="int" setter="" getter="get_bytes_transferred_long" default="0">
+			Number of bytes that have been downloaded.
 		</member>
 		<member name="completed" type="bool" setter="" getter="get_completed" default="false">
 			Flag indicating a download is completed.

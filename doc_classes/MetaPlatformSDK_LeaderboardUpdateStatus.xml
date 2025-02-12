@@ -22,6 +22,7 @@
 			A `boolean` indicates whether the leaderboard was updated.
 		</member>
 		<member name="updated_challenge_ids_size" type="int" setter="" getter="get_updated_challenge_ids_size" default="0">
+			The count of challenge IDs available in [method get_updated_challenge_id].
 		</member>
 	</members>
 </class>

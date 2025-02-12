@@ -750,7 +750,7 @@
 			<return type="MetaPlatformSDK_Request" />
 			<param index="0" name="sku" type="String" />
 			<description>
-				Launches the checkout flow to purchase the existing product. Oculus Home tries handle and fix as many errors as possible. Home returns the appropriate error message and how to resolveit, if possible. Returns a purchase on success, empty purchase on cancel, and an error on error.
+				Launches the checkout flow to purchase the existing product. Oculus Home tries to handle and fix as many errors as possible. Home returns the appropriate error message and how to resolve it, if possible. Returns a purchase on success, empty purchase on cancel, and an error on error.
 				- [param sku]: IAP sku for the item the user wishes to purchase.
 				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
 				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
@@ -1207,6 +1207,7 @@
 	</signals>
 	<constants>
 		<constant name="PARTY_UPDATE_ACTION_UNKNOWN" value="0" enum="PartyUpdateAction">
+			An unknown party update action type.
 		</constant>
 		<constant name="PARTY_UPDATE_ACTION_JOIN" value="1" enum="PartyUpdateAction">
 			Indicates the user joined the party.
@@ -1221,6 +1222,7 @@
 			Indicates the user was uninvited to the party.
 		</constant>
 		<constant name="CHALLENGE_CREATION_TYPE_UNKNOWN" value="0" enum="ChallengeCreationType">
+			An unknown challenge creation type.
 		</constant>
 		<constant name="CHALLENGE_CREATION_TYPE_USER_CREATED" value="1" enum="ChallengeCreationType">
 			The challenge was created by a User. This means that a regular user of the app created the challenge, and it may be a community-driven challenge or a personal challenge created by the user for themselves or others.
@@ -1229,22 +1231,31 @@
 			The challenge was created by the app developer. This means that the challenge was created by the team behind the app, and it may be an official challenge or a special event created by the developers to engage with the community or promote specific features of the app.
 		</constant>
 		<constant name="SERVICE_PROVIDER_UNKNOWN" value="0" enum="ServiceProvider">
+			Using an unknown service provider.
 		</constant>
 		<constant name="SERVICE_PROVIDER_DROPBOX" value="1" enum="ServiceProvider">
+			Using Dropbox as the service provider.
 		</constant>
 		<constant name="SERVICE_PROVIDER_FACEBOOK" value="2" enum="ServiceProvider">
+			Using Facebook as the service provider.
 		</constant>
 		<constant name="SERVICE_PROVIDER_GOOGLE" value="3" enum="ServiceProvider">
+			Using Google as the service provider.
 		</constant>
 		<constant name="SERVICE_PROVIDER_INSTAGRAM" value="4" enum="ServiceProvider">
+			Using Instagram as the service provider.
 		</constant>
 		<constant name="SERVICE_PROVIDER_REMOTE_MEDIA" value="5" enum="ServiceProvider">
+			Using a remote media service provider.
 		</constant>
 		<constant name="SHARE_MEDIA_STATUS_UNKNOWN" value="0" enum="ShareMediaStatus">
+			An unknown share media status.
 		</constant>
 		<constant name="SHARE_MEDIA_STATUS_SHARED" value="1" enum="ShareMediaStatus">
+			The media was shared.
 		</constant>
 		<constant name="SHARE_MEDIA_STATUS_CANCELED" value="2" enum="ShareMediaStatus">
+			The media share was canceled.
 		</constant>
 		<constant name="PRODUCT_TYPE_UNKNOWN" value="0" enum="ProductType">
 		</constant>
@@ -1258,297 +1269,432 @@
 			This product represents a subscription. Subscriptions provide a way for users to purchase your app or its premium content by way of a recurring payment model.
 		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_UNKNOWN" value="0" enum="NetSyncVoipStreamMode">
+			An unknown VoIP stream type.
 		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_AMBISONIC" value="1" enum="NetSyncVoipStreamMode">
-			Represents the ambisonic steam mode the VoIP stream uses. It is the default value of [method MetaPlatformSDK_NetSyncOptions.set_voip_stream_default]. Since it allows for the creation of immersive, surround sound experiences that simulate real-world audio environments, it typically used in virtual reality (VR) and augmented reality (AR) applications.
+			Represents the ambisonic stream mode the VoIP stream uses. It is the default value of [method MetaPlatformSDK_NetSyncOptions.set_voip_stream_default]. Since it allows for the creation of immersive, surround sound experiences that simulate real-world audio environments, it typically used in virtual reality (VR) and augmented reality (AR) applications.
 		</constant>
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_MONO" value="2" enum="NetSyncVoipStreamMode">
-			Represents the mono steam mode the VoIP stream uses. The advantages mono stream mode has over ambisonic steam mode is the audio encoding and decoding require less computational resources and thus audio streams require less bandwidth. So it is typically used in applications with limited network resources.
+			Represents the mono stream mode the VoIP stream uses. The advantages mono stream mode has over ambisonic stream mode is the audio encoding and decoding require less computational resources and thus audio streams require less bandwidth. So it is typically used in applications with limited network resources.
 		</constant>
 		<constant name="TIME_WINDOW_UNKNOWN" value="0" enum="TimeWindow">
+			An unknown time window.
 		</constant>
 		<constant name="TIME_WINDOW_ONE_HOUR" value="1" enum="TimeWindow">
+			A time window of one hour.
 		</constant>
 		<constant name="TIME_WINDOW_ONE_DAY" value="2" enum="TimeWindow">
+			A time window of one day.
 		</constant>
 		<constant name="TIME_WINDOW_ONE_WEEK" value="3" enum="TimeWindow">
+			A time window of one week.
 		</constant>
 		<constant name="TIME_WINDOW_THIRTY_DAYS" value="4" enum="TimeWindow">
+			A time window of 30 days.
 		</constant>
 		<constant name="TIME_WINDOW_NINETY_DAYS" value="5" enum="TimeWindow">
+			A time window of 90 days.
 		</constant>
 		<constant name="MESSAGE_UNKNOWN" value="0" enum="MessageType">
 			This value should never appear on the message queue. If it does, it indicates that something has gone horribly, horribly wrong.
 		</constant>
 		<constant name="MESSAGE_ABUSE_REPORT_REPORT_REQUEST_HANDLED" value="1267661958" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_ADD_COUNT" value="65495601" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_update] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_ADD_FIELDS" value="346693929" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_update] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_ALL_DEFINITIONS" value="64177549" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_definition_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_ALL_PROGRESS" value="1335877149" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_progress_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_DEFINITIONS_BY_NAME" value="1653670332" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_definition_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_NEXT_ACHIEVEMENT_DEFINITION_ARRAY_PAGE" value="712888917" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_definition_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_NEXT_ACHIEVEMENT_PROGRESS_ARRAY_PAGE" value="792913703" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_progress_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_GET_PROGRESS_BY_NAME" value="354837425" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_progress_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ACHIEVEMENTS_UNLOCK" value="1497156573" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_achievement_update] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_LIFECYCLE_GET_REGISTERED_PIDS" value="82169698" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_pid_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_LIFECYCLE_GET_SESSION_KEY" value="984570141" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_LIFECYCLE_REGISTER_SESSION_KEY" value="1303818232" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_CANCEL_APP_DOWNLOAD" value="2082496734" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_app_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_CHECK_APP_DOWNLOAD_PROGRESS" value="1429514532" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_app_download_progress_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_GET_VERSION" value="1751583246" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_application_version] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_INSTALL_APP_UPDATE_AND_RELAUNCH" value="343960453" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_app_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_LAUNCH_OTHER_APP" value="1424151032" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_APPLICATION_START_APP_DOWNLOAD" value="1157365870" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_app_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DELETE" value="1834842246" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_delete_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DELETE_BY_ID" value="1525206354" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_delete_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DELETE_BY_NAME" value="1108001231" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_delete_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD" value="289710021" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_BY_ID" value="755009938" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_BY_NAME" value="1664536314" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL" value="134927303" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_cancel_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL_BY_ID" value="1365611796" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_cancel_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_DOWNLOAD_CANCEL_BY_NAME" value="1147858170" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_cancel_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_GET_LIST" value="1258057588" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_details_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_STATUS" value="47394656" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_details] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_STATUS_BY_ID" value="1570069816" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_details] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ASSET_FILE_STATUS_BY_NAME" value="1104140880" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_details] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_AVATAR_LAUNCH_AVATAR_EDITOR" value="99737939" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_avatar_editor_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_CREATE" value="1750718017" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_DECLINE_INVITE" value="1452177088" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_DELETE" value="642287050" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET" value="2002276083" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES" value="303739999" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES_AFTER_RANK" value="143202943" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_ENTRIES_BY_IDS" value="828705244" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_LIST" value="1126581078" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_NEXT_CHALLENGES" value="1534894518" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_NEXT_ENTRIES" value="2135728326" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_PREVIOUS_CHALLENGES" value="246678541" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_GET_PREVIOUS_ENTRIES" value="2026439792" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_JOIN" value="556040297" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_LEAVE" value="694228709" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_CHALLENGES_UPDATE_INFO" value="292929120" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_challenge] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_GET_NEXT_COWATCH_VIEWER_ARRAY_PAGE" value="490748210" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_cowatch_viewer_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_GET_PRESENTER_DATA" value="1233536821" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_GET_VIEWERS_DATA" value="1557635663" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_cowatch_viewer_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_IS_IN_SESSION" value="1696286852" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_cowatching_state] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_JOIN_SESSION" value="1669899604" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_LAUNCH_INVITE_DIALOG" value="580072087" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_LEAVE_SESSION" value="1017005773" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_REQUEST_TO_PRESENT" value="2138684586" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_RESIGN_FROM_PRESENTING" value="1263124994" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_SET_PRESENTER_DATA" value="1830586630" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_COWATCHING_SET_VIEWER_DATA" value="1021044774" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_DEVICE_APPLICATION_INTEGRITY_GET_INTEGRITY_TOKEN" value="846310362" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_ENTITLEMENT_GET_IS_VIEWER_ENTITLED" value="409688241" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_CLEAR" value="1839897795" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_GET_INVITABLE_USERS" value="592167921" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_GET_NEXT_APPLICATION_INVITE_ARRAY_PAGE" value="83411186" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_application_invite_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_GET_SENT_INVITES" value="136710833" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_application_invite_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_INVITE_PANEL" value="262066079" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_invite_panel_result_info] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_MULTIPLAYER_ERROR_DIALOG" value="693481252" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_REJOIN_DIALOG" value="360121199" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_rejoin_dialog_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_LAUNCH_ROSTER_PANEL" value="896698498" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SEND_INVITES" value="231461732" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_send_invites_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET" value="1734302756" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET_DEEPLINK_MESSAGE_OVERRIDE" value="1377492749" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET_DESTINATION" value="1281042058" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET_IS_JOINABLE" value="714018901" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET_LOBBY_SESSION" value="1224693182" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_GROUP_PRESENCE_SET_MATCH_SESSION" value="827098296" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_CONSUME_PURCHASE" value="532378329" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_GET_NEXT_PRODUCT_ARRAY_PAGE" value="467225263" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_product_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_GET_NEXT_PURCHASE_ARRAY_PAGE" value="1196886677" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_purchase_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_GET_PRODUCTS_BY_SKU" value="2124073717" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_product_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_GET_VIEWER_PURCHASES" value="974095385" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_purchase_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_GET_VIEWER_PURCHASES_DURABLE_CACHE" value="1666817579" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_purchase_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_IAP_LAUNCH_CHECKOUT_FLOW" value="1067126029" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_purchase] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LANGUAGE_PACK_GET_CURRENT" value="529592533" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_details] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LANGUAGE_PACK_SET_CURRENT" value="1531952096" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_asset_file_download_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET" value="1792298744" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES" value="1572030284" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES_AFTER_RANK" value="406293487" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_ENTRIES_BY_IDS" value="962624508" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_NEXT_ENTRIES" value="1310751961" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_NEXT_LEADERBOARD_ARRAY_PAGE" value="905344667" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_GET_PREVIOUS_ENTRIES" value="1224858304" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_entry_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_WRITE_ENTRY" value="293587198" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_update_status] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_LEADERBOARD_WRITE_ENTRY_WITH_SUPPLEMENTARY_METRIC" value="1925616378" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_leaderboard_update_status] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_MEDIA_SHARE_TO_FACEBOOK" value="14912239" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_share_media_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_MARK_AS_READ" value="1903319523" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_PARTY_GET_CURRENT" value="1200830304" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_party] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_RICH_PRESENCE_CLEAR" value="1471632051" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_RICH_PRESENCE_GET_DESTINATIONS" value="1483681044" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_destination_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_RICH_PRESENCE_GET_NEXT_DESTINATION_ARRAY_PAGE" value="1731624773" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_destination_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_RICH_PRESENCE_SET" value="1007973641" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_AGE_CATEGORY_GET" value="567009472" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_account_age_category] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_AGE_CATEGORY_REPORT" value="776853718" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET" value="1808768583" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_ACCESS_TOKEN" value="111696574" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_BLOCKED_USERS" value="2099254614" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_blocked_user_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER" value="1131361373" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER_FRIENDS" value="1484532365" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER_MANAGED_INFO" value="1891252974" enum="MessageType">
 		</constant>
 		<constant name="MESSAGE_USER_GET_NEXT_BLOCKED_USER_ARRAY_PAGE" value="2083192267" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_blocked_user_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_NEXT_USER_ARRAY_PAGE" value="645723971" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_NEXT_USER_CAPABILITY_ARRAY_PAGE" value="587854745" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_capability_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_ORG_SCOPED_ID" value="418426907" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_org_scoped_id] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_SDK_ACCOUNTS" value="1733454467" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_sdk_account_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_USER_PROOF" value="578880643" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_user_proof] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_LAUNCH_BLOCK_FLOW" value="1876305192" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_launch_block_flow_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_LAUNCH_FRIEND_REQUEST_FLOW" value="151303576" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_launch_friend_request_flow_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_LAUNCH_UNBLOCK_FLOW" value="346172055" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_launch_unblock_flow_result] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_VOIP_GET_MICROPHONE_AVAILABILITY" value="1951195973" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_microphone_availability_state] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_VOIP_SET_SYSTEM_VOIP_SUPPRESSED" value="1161808298" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_system_voip_state] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_ABUSE_REPORT_REPORT_BUTTON_PRESSED" value="608644972" enum="MessageType">
 			The user has tapped the report button in the panel that appears after pressing the Oculus button.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_APPLICATION_LIFECYCLE_LAUNCH_INTENT_CHANGED" value="78859427" enum="MessageType">
 			Sent when a launch intent is received (for both cold and warm starts). The payload is the type of the intent. [method application_lifecycle_get_launch_details] should be called to get the other details.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE" value="803015885" enum="MessageType">
 			Sent to indicate download progress for asset files.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_API_NOT_READY" value="1711880577" enum="MessageType">
 			Sent when user is no longer copresent. Cowatching actions should not be performed.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_API_READY" value="160786067" enum="MessageType">
 			Sent when user is in copresent and cowatching is ready to go.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_IN_SESSION_CHANGED" value="234434835" enum="MessageType">
 			Sent when the current user joins/leaves the cowatching session.
+			Indicates [method MetaPlatformSDK_Message.get_cowatching_state] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_INITIALIZED" value="1960397043" enum="MessageType">
 			Sent when cowatching api has been initialized. The api is not yet ready at this stage.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_PRESENTER_DATA_CHANGED" value="1309118190" enum="MessageType">
 			Sent when the presenter updates the presenter data.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_SESSION_STARTED" value="1931580316" enum="MessageType">
 			Sent when a user has started a cowatching session whose id is reflected in the payload.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_SESSION_STOPPED" value="1239866362" enum="MessageType">
 			Sent when a cowatching session has ended.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_COWATCHING_VIEWERS_DATA_CHANGED" value="1760752127" enum="MessageType">
 			Sent when a user joins or updates their viewer data.
@@ -1579,26 +1725,35 @@
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_VOIP_MICROPHONE_AVAILABILITY_STATE_UPDATE" value="1042336599" enum="MessageType">
 			Indicates that the current microphone availability state has been updated. Use [method voip_get_microphone_availability_async] to extract the microphone availability state.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_VOIP_SYSTEM_VOIP_STATE" value="1490179237" enum="MessageType">
 			Sent to indicate that some part of the overall state of System VoIP has changed.
 			Note that the state may have changed further since the notification was generated, and that you may call the [method voip_get_system_voip_status] or [method voip_get_system_voip_microphone_muted] methods at any time to get the current state directly.
+			Indicates [method MetaPlatformSDK_Message.get_system_voip_state] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_VRCAMERA_GET_DATA_CHANNEL_MESSAGE_UPDATE" value="1860498236" enum="MessageType">
 			Get vr camera related webrtc data channel messages for update.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_NOTIFICATION_VRCAMERA_GET_SURFACE_UPDATE" value="938610820" enum="MessageType">
 			Get surface and update action from platform webrtc for update.
+			Indicates [method MetaPlatformSDK_Message.get_string] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_PLATFORM_INITIALIZE_WITH_ACCESS_TOKEN" value="896085803" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_platform_initialize] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_PLATFORM_INITIALIZE_STANDALONE_OCULUS" value="1375260172" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_platform_initialize] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_PLATFORM_INITIALIZE_ANDROID_ASYNCHRONOUS" value="450037684" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_platform_initialize] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_PLATFORM_INITIALIZE_WINDOWS_ASYNCHRONOUS" value="1839708815" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_platform_initialize] should be called to get the message payload.
 		</constant>
 		<constant name="REPORT_REQUEST_RESPONSE_UNKNOWN" value="0" enum="ReportRequestResponse">
+			Response to the platform notification that the in-app reporting flow is in an unknown state.
 		</constant>
 		<constant name="REPORT_REQUEST_RESPONSE_HANDLED" value="1" enum="ReportRequestResponse">
 			Response to the platform notification that the in-app reporting flow request is handled.
@@ -1616,17 +1771,22 @@
 			Indicates that the leaderboard should be filtered to include only friends (bidirectional followers) of the current user.
 		</constant>
 		<constant name="LEADERBOARD_FILTER_UNKNOWN" value="2" enum="LeaderboardFilterType">
+			An unknown filter status.
 		</constant>
 		<constant name="LEADERBOARD_FILTER_USER_IDS" value="3" enum="LeaderboardFilterType">
 			Filter the leaderboard to include specific user IDs. Use this filter to get rankings for users that are competing against each other. You specify the leaderboard name and whether to start at the top, or for the results to center on the (client) user. Note that if you specify the results to center on the client user, their leaderboard entry will be included in the returned array, regardless of whether their ID is explicitly specified in the list of IDs.
 		</constant>
 		<constant name="VOIP_MUTE_STATE_UNKNOWN" value="0" enum="VoipMuteState">
+			An unknown mute state.
 		</constant>
 		<constant name="VOIP_MUTE_STATE_MUTED" value="1" enum="VoipMuteState">
+			The microphone is muted.
 		</constant>
 		<constant name="VOIP_MUTE_STATE_UNMUTED" value="2" enum="VoipMuteState">
+			The microphone is unmuted.
 		</constant>
 		<constant name="ABUSE_REPORT_TYPE_UNKNOWN" value="0" enum="AbuseReportType">
+			An unkown abuse report type.
 		</constant>
 		<constant name="ABUSE_REPORT_TYPE_OBJECT" value="1" enum="AbuseReportType">
 			A report for something besides a user, like a world.
@@ -1638,6 +1798,7 @@
 			Represents a successful start of the livestreaming session.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_UNKNOWN" value="0" enum="LivestreamingStartStatus">
+			An unknown livestream start status.
 		</constant>
 		<constant name="LIVESTREAMING_START_STATUS_NO_PACKAGE_SET" value="-1" enum="LivestreamingStartStatus">
 			Represents an error where the package was not set during the livestreaming start process.
@@ -1652,12 +1813,16 @@
 			Represents an error where required parameters were missing during the livestreaming start process.
 		</constant>
 		<constant name="SDK_ACCOUNT_TYPE_UNKNOWN" value="0" enum="SdkAccountType">
+			An unknown SDK account type.
 		</constant>
 		<constant name="SDK_ACCOUNT_TYPE_OCULUS" value="1" enum="SdkAccountType">
+			An Oculus SDK account type.
 		</constant>
 		<constant name="SDK_ACCOUNT_TYPE_FACEBOOK_GAMEROOM" value="2" enum="SdkAccountType">
+			An Facebook Gameroom SDK account type.
 		</constant>
 		<constant name="LAUNCH_RESULT_UNKNOWN" value="0" enum="LaunchResult">
+			An unknown launch result.
 		</constant>
 		<constant name="LAUNCH_RESULT_SUCCESS" value="1" enum="LaunchResult">
 			The application launched successfully.
@@ -1687,8 +1852,10 @@
 			Indicates that the leaderboard entries should start at the viewer's position on the leaderboard, or at the top of the leaderboard if the viewer is not present.
 		</constant>
 		<constant name="LEADERBOARD_START_AT_UNKNOWN" value="3" enum="LeaderboardStartAt">
+			An unknown leaderboard start type.
 		</constant>
 		<constant name="APP_INSTALL_RESULT_UNKNOWN" value="0" enum="AppInstallResult">
+			An unknown app install result type.
 		</constant>
 		<constant name="APP_INSTALL_RESULT_LOW_STORAGE" value="1" enum="AppInstallResult">
 			Install of the app failed due to low storage on the device.
@@ -1733,6 +1900,7 @@
 			There was a mismatch between the version of Oculus Platform SDK used by the application and the version installed on the Oculus user's device.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_UNKNOWN" value="-7" enum="PlatformInitializeResult">
+			Platform SDK not initialized successfully due to an unknown error.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_INVALID_CREDENTIALS" value="-8" enum="PlatformInitializeResult">
 			Oculus Platform SDK failed to initialize because the Oculus user had an invalid account access token.
@@ -1741,6 +1909,7 @@
 			Oculus Platform SDK failed to initialize because the Oculus user does not have the application entitlement.
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_UNKNOWN" value="0" enum="NetSyncConnectionStatus">
+			An unknown net sync connection status.
 		</constant>
 		<constant name="NET_SYNC_CONNECTION_STATUS_CONNECTING" value="1" enum="NetSyncConnectionStatus">
 			Indicates that the connection of the network sync has been started and the process is ongoing.
@@ -1752,6 +1921,7 @@
 			Indicates that the current status of the network sync connection is connected.
 		</constant>
 		<constant name="CHALLENGE_VISIBILITY_UNKNOWN" value="0" enum="ChallengeVisibility">
+			An unknown challenge visibility type.
 		</constant>
 		<constant name="CHALLENGE_VISIBILITY_INVITE_ONLY" value="1" enum="ChallengeVisibility">
 			Only those invited can participate in this challenge, but everyone can see it.
@@ -1763,6 +1933,7 @@
 			Only those invited can participate and see this challenge.
 		</constant>
 		<constant name="LAUNCH_TYPE_UNKNOWN" value="0" enum="LaunchType">
+			An unknown launch type.
 		</constant>
 		<constant name="LAUNCH_TYPE_NORMAL" value="1" enum="LaunchType">
 			Normal launch from the user's library.
@@ -1777,6 +1948,7 @@
 			Launched from [method application_launch_other_app_async].
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_UNKNOWN" value="0" enum="MultiplayerErrorErrorKey">
+			An unknown multiplayer error error key type.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_DESTINATION_UNAVAILABLE" value="1" enum="MultiplayerErrorErrorKey">
 			Indicates that the travel destination is not available any more.
@@ -1803,12 +1975,16 @@
 			When the predefined network timeout has reached, the ongoing activity would be stopped. The dialog will use this error key to give the user the information.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_NO_LONGER_AVAILABLE" value="9" enum="MultiplayerErrorErrorKey">
+			Player is no longer available.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_UPDATE_REQUIRED" value="10" enum="MultiplayerErrorErrorKey">
+			Player must update their app.
 		</constant>
 		<constant name="MULTIPLAYER_ERROR_ERROR_KEY_TUTORIAL_REQUIRED" value="11" enum="MultiplayerErrorErrorKey">
+			Player must complete required tutorial.
 		</constant>
 		<constant name="NET_SYNC_DISCONNECT_REASON_UNKNOWN" value="0" enum="NetSyncDisconnectReason">
+			An unknown net sync disconnect reason.
 		</constant>
 		<constant name="NET_SYNC_DISCONNECT_REASON_LOCAL_TERMINATED" value="1" enum="NetSyncDisconnectReason">
 			Disconnect was requested.
@@ -1823,6 +1999,7 @@
 			Network timeout.
 		</constant>
 		<constant name="ACCOUNT_AGE_CATEGORY_UNKNOWN" value="0" enum="AccountAgeCategory">
+			An unknown account age.
 		</constant>
 		<constant name="ACCOUNT_AGE_CATEGORY_CH" value="1" enum="AccountAgeCategory">
 			Child age group for users between the ages of 10-12 (age may vary by region).
@@ -1834,6 +2011,7 @@
 			Adult age group for users ages 18 and up (age may vary by region).
 		</constant>
 		<constant name="USER_PRESENCE_STATUS_UNKNOWN" value="0" enum="UserPresenceStatus">
+			An unknown user presence status.
 		</constant>
 		<constant name="USER_PRESENCE_STATUS_ONLINE" value="1" enum="UserPresenceStatus">
 			The user status is currently online.
@@ -1842,11 +2020,13 @@
 			The user status is currently offline.
 		</constant>
 		<constant name="MEDIA_CONTENT_TYPE_UNKNOWN" value="0" enum="MediaContentType">
+			An unknown media content type.
 		</constant>
 		<constant name="MEDIA_CONTENT_TYPE_PHOTO" value="1" enum="MediaContentType">
 			Indicates that the media content is a photo.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_UNKNOWN" value="0" enum="ChallengeViewerFilter">
+			An unknown challenge viewer filter type.
 		</constant>
 		<constant name="CHALLENGE_VIEWER_FILTER_ALL_VISIBLE" value="1" enum="ChallengeViewerFilter">
 			Returns all public and invite-only challenges in which the user is a participant or invitee. Excludes private challenges. This filter is useful for users who want to see all challenges they are involved in, regardless of their visibility settings.
@@ -1861,6 +2041,7 @@
 			Returns challenges the user is either participating in or invited to. This filter is useful for users who want to see all challenges they are involved in, whether as a participant or an invitee.
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_UNKNOWN" value="0" enum="AchievementType">
+			An unknown achievement type.
 		</constant>
 		<constant name="ACHIEVEMENT_TYPE_SIMPLE" value="1" enum="AchievementType">
 			Simple achievements are unlocked by a single event or objective completion. They are often used to reward players for completing specific tasks or milestones within the game.
@@ -1872,14 +2053,19 @@
 			Count achievements are unlocked when a counter reaches a defined target. The counter is incremented each time the player completes the required action, and when it reaches the target value, the achievement is unlocked.
 		</constant>
 		<constant name="SYSTEM_VOIP_STATUS_UNKNOWN" value="0" enum="SystemVoipStatus">
+			An unknown system VoIP status.
 		</constant>
 		<constant name="SYSTEM_VOIP_STATUS_UNAVAILABLE" value="1" enum="SystemVoipStatus">
+			System VoIP is unavailable.
 		</constant>
 		<constant name="SYSTEM_VOIP_STATUS_SUPPRESSED" value="2" enum="SystemVoipStatus">
+			System VoIP is suppressed.
 		</constant>
 		<constant name="SYSTEM_VOIP_STATUS_ACTIVE" value="3" enum="SystemVoipStatus">
+			System VoIP is active.
 		</constant>
 		<constant name="APP_STATUS_UNKNOWN" value="0" enum="AppStatus">
+			An unknown app status.
 		</constant>
 		<constant name="APP_STATUS_ENTITLED" value="1" enum="AppStatus">
 			User has valid entitlement to the app, but it is not currently installed on the device.
@@ -1903,6 +2089,7 @@
 			Install of the app is currently queued.
 		</constant>
 		<constant name="ABUSE_REPORT_VIDEO_MODE_UNKNOWN" value="0" enum="AbuseReportVideoMode">
+			An unknown abuse report video mode.
 		</constant>
 		<constant name="ABUSE_REPORT_VIDEO_MODE_COLLECT" value="1" enum="AbuseReportVideoMode">
 			The UI will collect video evidence if the object_type supports it.
@@ -1914,6 +2101,7 @@
 			The UI will not collect video evidence.
 		</constant>
 		<constant name="APP_AGE_CATEGORY_UNKNOWN" value="0" enum="AppAgeCategory">
+			An unknown app age category.
 		</constant>
 		<constant name="APP_AGE_CATEGORY_CH" value="1" enum="AppAgeCategory">
 			Child age group for users between the ages of 10-12 (age may vary by region).

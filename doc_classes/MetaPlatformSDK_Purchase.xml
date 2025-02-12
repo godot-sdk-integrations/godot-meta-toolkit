@@ -19,6 +19,7 @@
 			The timestamp that represents when the user was granted entitlement to the [MetaPlatformSDK_Product] that was purchased.
 		</member>
 		<member name="purchase_str_id" type="String" setter="" getter="get_purchase_str_id" default="&quot;&quot;">
+			The ID string of the purchase.
 		</member>
 		<member name="reporting_id" type="String" setter="" getter="get_reporting_id" default="&quot;&quot;">
 			The Reporting ID feature is not implemented.

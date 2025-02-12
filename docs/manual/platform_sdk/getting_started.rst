@@ -3,6 +3,16 @@
 Getting Started
 ===============
 
+The Platform SDK allows developers to access features of Meta's store and online services, for example:
+
+- User profiles (including authentication and checking entitlement)
+- In-App Purchases (IAP)
+- Downloadable Content (DLC)
+- Friends, Parties, and Group Presence
+- Achievements
+- Leaderboards
+- ... and much more!
+
 Before you can use the Platform SDK, you need to:
 
 1. `Create a developer account <https://developer.oculus.com/sign-up/>`_ for Meta Quest.
@@ -12,6 +22,11 @@ Before you can use the Platform SDK, you need to:
 5. Upload this build using the `Meta Quest Developer Hub <https://developer.oculus.com/meta-quest-developer-hub/>`_ to the ALPHA channel.
 6. Complete a `Data Use Checkup <https://developer.oculus.com/resources/publish-data-use/>`_ (DUC), including all the features of the Platform SDK you intend to use. You won't have access to any features you don't include in your DUC.
 7. Wait for your DUC to be approved.
+
+.. note::
+
+    Many features of the Platform SDK require your exported project to have permission to access the internet.
+    To grant this, open up **Export Settings** and navigate to the **Permissions** section of your android export. Ensure the **Internet** option is checked.
 
 After that process is complete, you'll be able to use the Platform SDK:
 
