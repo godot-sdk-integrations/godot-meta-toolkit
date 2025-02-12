@@ -44,6 +44,10 @@ EXCLUDE_OVR_FUNCTIONS = [
     'ovr_Message_GetRequestID',
     'ovr_HttpTransferUpdate_GetID',
 
+    # These functions should return PackedByteArray instead of String
+    'ovr_ChallengeEntry_GetExtraData',
+    'ovr_LeaderboardEntry_GetExtraData',
+
     # Exclude the deprecated Platform VoIP functions.
     # Note: We need to keep a few that are associated with System VoIP.
     'ovr_Voip_Accept',
@@ -127,7 +131,7 @@ EXCLUDE_OVR_FUNCTIONS = [
     'ovr_RichPresence_Set',
 ]
 
-# Exclude these OVR functions from both source generation only (the headers will still be generated).
+# Exclude these OVR functions from source generation only (the headers will still be generated).
 EXCLUDE_OVR_FUNCTION_SOURCE = [
     'ovr_HttpTransferUpdate_GetBytes',
     'ovr_Packet_GetBytes',
@@ -972,6 +976,8 @@ def make_null_value(type, plan):
 def convert_argument_value_to_ovr(name, ovr_type, godot_type, plan):
     if godot_type == 'const String &':
         return f'{name}.utf8().ptr()'
+    elif godot_type == 'const PackedStringArray &':
+        return f'({ovr_type})CharStringList({name}).pointers.ptr(), {name}.size()'
     elif godot_type.startswith('const Packed'):
         return f'({ovr_type}){name}.ptr(), {name}.size()'
     elif godot_type.startswith('MetaPlatformSDK::'):
@@ -1145,6 +1151,12 @@ def generate_header(class_name, class_def, plan):
     if class_name == 'MetaPlatformSDK_HttpTransferUpdate':
         lines.append('\tuint64_t get_id() const;')
         lines.append('')
+    if class_name == 'MetaPlatformSDK_ChallengeEntry':
+        lines.append('\tPackedByteArray get_extra_data() const;')
+        lines.append('')
+    if class_name == 'MetaPlatformSDK_LeaderboardEntry':
+        lines.append('\tPackedByteArray get_extra_data() const;')
+        lines.append('')
 
     # Iterator functions for arrays.
     if class_def['type'] == 'result' and class_def['is_array']:
@@ -1179,6 +1191,8 @@ def generate_source(class_name, class_def, plan):
     lines.append('')
 
     lines.append(f'#include "platform_sdk/{camel_to_snake_case(class_name)}.h"')
+    lines.append('')
+    lines.append('#include "util.h"')
     lines.append('')
     lines.append('#include <godot_cpp/core/class_db.hpp>')
     lines.append('#include <godot_cpp/variant/utility_functions.hpp>')
@@ -1244,6 +1258,7 @@ def generate_source(class_name, class_def, plan):
         lines.append('\tClassDB::bind_method(D_METHOD("get_data"), &MetaPlatformSDK_Message::get_data);')
         lines.append('\tADD_PROPERTY(PropertyInfo(Variant::INT, "type"), "", "get_type");')
         lines.append('\tADD_PROPERTY(PropertyInfo(Variant::NIL, "data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT), "", "get_data");')
+        lines.append('\tADD_PROPERTY(PropertyInfo(Variant::NIL, "error", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT), "", "get_error");')
         lines.append('\tClassDB::bind_method(D_METHOD("is_success"), &MetaPlatformSDK_Message::is_success);')
         lines.append('\tClassDB::bind_method(D_METHOD("get_request_id"), &MetaPlatformSDK_Message::get_request_id);')
         lines.append('\tADD_PROPERTY(PropertyInfo(Variant::INT, "request_id"), "", "get_request_id");')
@@ -1251,6 +1266,12 @@ def generate_source(class_name, class_def, plan):
     elif class_name == 'MetaPlatformSDK_HttpTransferUpdate':
         lines.append('\tClassDB::bind_method(D_METHOD("get_id"), &MetaPlatformSDK_HttpTransferUpdate::get_id);')
         lines.append('\tADD_PROPERTY(PropertyInfo(Variant::INT, "id"), "", "get_id");')
+    if class_name == 'MetaPlatformSDK_ChallengeEntry':
+        lines.append('\tClassDB::bind_method(D_METHOD("get_extra_data"), &MetaPlatformSDK_ChallengeEntry::get_extra_data);')
+        lines.append('\tADD_PROPERTY(PropertyInfo(Variant::PACKED_BYTE_ARRAY, "extra_data"), "", "get_extra_data");')
+    if class_name == 'MetaPlatformSDK_LeaderboardEntry':
+        lines.append('\tClassDB::bind_method(D_METHOD("get_extra_data"), &MetaPlatformSDK_LeaderboardEntry::get_extra_data);')
+        lines.append('\tADD_PROPERTY(PropertyInfo(Variant::PACKED_BYTE_ARRAY, "extra_data"), "", "get_extra_data");')
     if class_def['type'] == 'result' and class_def['is_array']:
         lines.append(f'\tClassDB::bind_method(D_METHOD("_iter_init"), &{class_name}::_iter_init);')
         lines.append(f'\tClassDB::bind_method(D_METHOD("_iter_next"), &{class_name}::_iter_next);')
