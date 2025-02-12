@@ -412,6 +412,10 @@ FUNCTION_RENAMES = {
         # Not caught by current filters to remove 'ovr_'.
         'ovr_message_type_is_notification': 'message_type_is_notification',
     },
+    'MetaPlatformSDK_AssetFileDownloadUpdate': {
+        'get_bytes_total_long': 'get_bytes_total',
+        'get_bytes_transferred_long': 'get_bytes_transferred',
+    },
 }
 
 # Enums using their Godot names (not the OVR ones) to keep, even though they are unused.
