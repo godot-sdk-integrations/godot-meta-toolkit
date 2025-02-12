@@ -7,7 +7,7 @@
 		A message sent to the current app from the Meta Platform SDK.
 		Messages can be received from asynchronous requests via the [signal MetaPlatformSDK_Request.completed] signal, or from notifications via the [signal MetaPlatformSDK.notification_received] signal.
 		Each message contains a single payload depending on the [member type]. Regardless of the type, the [member data] property will contain the payload. However, if you want to write fully type-safe code, you can instead call the method dedicated to the type of the payload.
-		Before attempting to access the payload, call [method is_error] or [method is_success] to determine if the message was successful or not. When unsuccessful, call [method get_error] to get the full error details.
+		Before attempting to access the payload, call [method is_error] or [method is_success] to determine if the message was successful or not. When unsuccessful, check [member error] to get the full error details.
 	</description>
 	<tutorials>
 	</tutorials>
@@ -154,12 +154,6 @@
 			<return type="MetaPlatformSDK_DestinationArray" />
 			<description>
 				Returns a [MetaPlatformSDK_DestinationArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
-			</description>
-		</method>
-		<method name="get_error" qualifiers="const">
-			<return type="MetaPlatformSDK_Error" />
-			<description>
-				Returns a [MetaPlatformSDK_Error] if [method is_error] returns [code]true[/code]; otherwise, it returns [code]null[/code].
 			</description>
 		</method>
 		<method name="get_group_presence_join_intent" qualifiers="const">
@@ -466,6 +460,9 @@
 	<members>
 		<member name="data" type="Variant" setter="" getter="get_data" default="null">
 			Contains the payload of this message.
+		</member>
+		<member name="error" type="MetaPlatformSDK_Error" setter="" getter="get_error">
+			Contains a [MetaPlatformSDK_Error] if [method is_error] returns [code]true[/code]; otherwise, it's [code]null[/code].
 		</member>
 		<member name="request_id" type="int" setter="" getter="get_request_id" default="0">
 			The unique request ID for this message.

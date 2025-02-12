@@ -5,7 +5,7 @@
 	</brief_description>
 	<description>
 		Represents an error received from the Meta Platform SDK.
-		Retrieved from [method MetaPlatformSDK_Message.get_error].
+		Retrieved from [member MetaPlatformSDK_Message.error].
 	</description>
 	<tutorials>
 	</tutorials>
