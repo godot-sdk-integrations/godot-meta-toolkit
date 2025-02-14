@@ -15,6 +15,7 @@
 .cxx
 local.properties
 /thirdparty/ovr_platform_sdk/
+/toolkit/src/gen/
 
 # Binaries
 *.o

@@ -32,6 +32,10 @@ sources += Glob("#toolkit/src/main/cpp/export/*.cpp")
 sources += Glob("#toolkit/src/main/cpp/platform_sdk/*.cpp")
 sources += Glob("#toolkit/gen/src/*.cpp")
 
+if env["target"] in ["editor", "template_debug"]:
+  doc_data = env.GodotCPPDocData("#toolkit/src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
+  sources.append(doc_data)
+
 binary_path = '#demo/addons/godot_meta_toolkit/.bin'
 android_src_path = '#toolkit/src'
 project_name = 'godot_meta_toolkit'
