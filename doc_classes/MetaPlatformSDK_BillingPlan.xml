@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_BillingPlan" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a billing plan.
+	</brief_description>
+	<description>
+		Represents a billing plan.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="paid_offer" type="MetaPlatformSDK_PaidOffer" setter="" getter="get_paid_offer">
+			The paid offer associated with this billing plan.
+		</member>
+		<member name="trial_offers" type="MetaPlatformSDK_TrialOfferArray" setter="" getter="get_trial_offers">
+			A list of trial offers associated with the billing plan.
+			This method may return [code]null[/code]. This indicates that the value is not present or that the current app or user is not permitted to access it.
+		</member>
+	</members>
+</class>
