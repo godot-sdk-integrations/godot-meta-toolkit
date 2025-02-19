@@ -9,17 +9,32 @@
 	<tutorials>
 	</tutorials>
 	<members>
+		<member name="billing_plans" type="MetaPlatformSDK_BillingPlanArray" setter="" getter="get_billing_plans">
+			The billing plans related to the product. This may be [code]null[/code]. This indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="content_rating" type="MetaPlatformSDK_ContentRating" setter="" getter="get_content_rating">
+			The content rating that specifies the age rating as well as other important information that needs to be displayed to the user per local regulations. This may be [code]null[/code]. This indicates that the value is not present or that the curent app or user is not permitted to access it.
+		</member>
+		<member name="cover_url" type="String" setter="" getter="get_cover_url" default="&quot;&quot;">
+			The URI for the cover image for the product being sold.
+		</member>
 		<member name="description" type="String" setter="" getter="get_description" default="&quot;&quot;">
 			The description for the product. The description should be meaningful and explanatory to help outline the product and its features.
 		</member>
 		<member name="formatted_price" type="String" setter="" getter="get_formatted_price" default="&quot;&quot;">
 			The formatted string for the [MetaPlatformSDK_Price].
 		</member>
+		<member name="icon_url" type="String" setter="" getter="get_icon_url" default="&quot;&quot;">
+			The URI for the product icon.
+		</member>
 		<member name="name" type="String" setter="" getter="get_name" default="&quot;&quot;">
 			The name of the product. This will be used as a the display name and should be aligned with the user facing title.
 		</member>
 		<member name="price" type="MetaPlatformSDK_Price" setter="" getter="get_price">
 			The [MetaPlatformSDK_Price] of the product contains the currency code, the amount in hundredths, and the formatted string representation.
+		</member>
+		<member name="short_description" type="String" setter="" getter="get_short_description" default="&quot;&quot;">
+			The short description of the product. To be used in conjunction with the [member description].
 		</member>
 		<member name="sku" type="String" setter="" getter="get_sku" default="&quot;&quot;">
 			The unique string that you use to reference the product in your app. The SKU is case-sensitive and should match the SKU reference in your code.

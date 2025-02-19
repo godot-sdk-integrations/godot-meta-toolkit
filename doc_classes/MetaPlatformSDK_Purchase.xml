@@ -27,5 +27,8 @@
 		<member name="sku" type="String" setter="" getter="get_sku" default="&quot;&quot;">
 			The SKU of the IAP [MetaPlatformSDK_Product] that was purchased. This value is case-sensitive. To retrieve the product information, you can use this value when calling [method MetaPlatformSDK.iap_get_products_by_sku_async].
 		</member>
+		<member name="type" type="int" setter="" getter="get_type" enum="MetaPlatformSDK.ProductType" default="0">
+			The type of the IAP [MetaPlatformSDK_Product] that was purchased.
+		</member>
 	</members>
 </class>

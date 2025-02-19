@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_ContentRating" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a content rating.
+	</brief_description>
+	<description>
+		Represents a content rating.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_descriptor" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="index" type="int" />
+			<description>
+				The list of descriptors which indicate content within the product that may have triggered a particular age rating or may be of interest or concern to consumers, e.g., "Blood and Gore", "Intense Violence", etc.
+			</description>
+		</method>
+		<method name="get_interactive_element" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="index" type="int" />
+			<description>
+				The list of interactive elements, which advise consumers up front that a [MetaPlatformSDK_Product] includes interactive or online behaviors/options that may be of interest or concern, e.g., "In-App Purchases".
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="age_rating_image_uri" type="String" setter="" getter="get_age_rating_image_uri" default="&quot;&quot;">
+			URI for the image that needs to be shown for the content rating of the [MetaPlatformSDK_Product].
+		</member>
+		<member name="age_rating_text" type="String" setter="" getter="get_age_rating_text" default="&quot;&quot;">
+			The age rating text is the text version of the rating used to describe age appropriateness by the International Age Rating Coalition (IARC).
+		</member>
+		<member name="descriptors_size" type="int" setter="" getter="get_descriptors_size" default="0">
+			The number of descriptors.
+		</member>
+		<member name="interactive_elements_size" type="int" setter="" getter="get_interactive_elements_size" default="0">
+			The number of interactive elements.
+		</member>
+		<member name="rating_definition_uri" type="String" setter="" getter="get_rating_definition_uri" default="&quot;&quot;">
+			The URI pointing to a website with International Age Rating Coalition (IARC) rating definitions from local rating authorities (e.g., Australian Classification Board, ESRB, GRAC, etc).
+		</member>
+	</members>
+</class>

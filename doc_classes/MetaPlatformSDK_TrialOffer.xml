@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_TrialOffer" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents a trial offer.
+	</brief_description>
+	<description>
+		Represents a trial offer.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="max_term_count" type="int" setter="" getter="get_max_term_count" default="0">
+			The maximum term for which a the trial offer is valid.
+		</member>
+		<member name="price" type="MetaPlatformSDK_Price" setter="" getter="get_price">
+			The price of the trial offer, which contains the currency code, the amount in hundredths, and the formatted string representation.
+		</member>
+		<member name="trial_term" type="int" setter="" getter="get_trial_term" enum="MetaPlatformSDK.OfferTerm" default="0">
+			The term of the trial offer.
+		</member>
+		<member name="trial_type" type="int" setter="" getter="get_trial_type" enum="MetaPlatformSDK.OfferType" default="0">
+			The type of trial.
+		</member>
+	</members>
+</class>

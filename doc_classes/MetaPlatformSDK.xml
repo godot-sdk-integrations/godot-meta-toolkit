@@ -1277,6 +1277,30 @@
 		<constant name="NET_SYNC_VOIP_STREAM_MODE_MONO" value="2" enum="NetSyncVoipStreamMode">
 			Represents the mono stream mode the VoIP stream uses. The advantages mono stream mode has over ambisonic stream mode is the audio encoding and decoding require less computational resources and thus audio streams require less bandwidth. So it is typically used in applications with limited network resources.
 		</constant>
+		<constant name="OFFER_TERM_UNKNOWN" value="0" enum="OfferTerm">
+			An unknown offer term.
+		</constant>
+		<constant name="OFFER_TERM_WEEKLY" value="1" enum="OfferTerm">
+			Represents that the offer term is weekly. This means that the offer will be valid for a period of one week from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_BIWEEKLY" value="2" enum="OfferTerm">
+			Represents that the offer term is biweekly. This means that the offer will be valid for a period of two weeks from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_MONTHLY" value="3" enum="OfferTerm">
+			Represents that the offer term is monthly. This means that the offer will be valid for a period of one month from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_QUARTERLY" value="4" enum="OfferTerm">
+			Represents that the offer term is quarterly. This means that the offer will be valid for a period of three months from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_SEMIANNUAL" value="5" enum="OfferTerm">
+			Represents that the offer term is every 6 months. This means that the offer will be valid for a period of six months from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_ANNUAL" value="6" enum="OfferTerm">
+			Represents that the offer term is annual. This means that the offer will be valid for a period of one year from the date of purchase.
+		</constant>
+		<constant name="OFFER_TERM_BIANNUAL" value="7" enum="OfferTerm">
+			Represents that the offer term is every 2 years. This means that the offer will be valid for a period of two years from the date of purchase.
+		</constant>
 		<constant name="TIME_WINDOW_UNKNOWN" value="0" enum="TimeWindow">
 			An unknown time window.
 		</constant>
@@ -1877,6 +1901,15 @@
 		</constant>
 		<constant name="APP_INSTALL_RESULT_SUCCESS" value="7" enum="AppInstallResult">
 			Install of the app succeeded.
+		</constant>
+		<constant name="OFFER_TYPE_UNKNOWN" value="0" enum="OfferType">
+			An unknown offer type.
+		</constant>
+		<constant name="OFFER_TYPE_INTROOFFER" value="1" enum="OfferType">
+			This value indicates that the offer is an intro offer, which is typically a special promotion or discount offered to new customers.
+		</constant>
+		<constant name="OFFER_TYPE_FREETRIAL" value="2" enum="OfferType">
+			This value indicates that the offer is a free trial, which allows customers to try out a product or service without paying for it.
 		</constant>
 		<constant name="PLATFORM_INITIALIZE_SUCCESS" value="0" enum="PlatformInitializeResult">
 			Oculus Platform SDK initialization succeeded.
