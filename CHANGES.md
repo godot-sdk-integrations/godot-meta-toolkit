@@ -1,5 +1,10 @@
 # Change history for the Godot Meta Toolkit plugin
 
+## 1.0.2
+- Include API documentation in the editor
+- Update for Meta Platform SDK v72
+- Add demo project demonstrating the Platform SDK
+
 ## 1.0.1
 - Fix `MetaPlatformSDK_LeaderboardEntry::get_extra_data()` and `MetaPlatformSDK_ChallengeEntry::get_extra_data()` to return `PackedByteArray`
 - Change `MetaPlatformSDK_Message.get_error()` method into `error` property
