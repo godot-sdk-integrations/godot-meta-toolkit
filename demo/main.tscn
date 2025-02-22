@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://c0ol8en13wpk3"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_t3hrc"]
-[ext_resource type="Script" path="res://raycast.gd" id="2_5nsls"]
+[ext_resource type="Script" uid="uid://cyo458tqe4b40" path="res://main.gd" id="1_t3hrc"]
+[ext_resource type="Script" uid="uid://7u8mv76m1kkw" path="res://raycast.gd" id="2_5nsls"]
 [ext_resource type="Texture2D" uid="uid://cmm67scocnrpg" path="res://icon.svg" id="3_qj576"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h1cjv"]

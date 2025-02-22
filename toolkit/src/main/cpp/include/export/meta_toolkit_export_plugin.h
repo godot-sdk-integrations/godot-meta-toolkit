@@ -10,6 +10,36 @@ using namespace godot;
 class MetaToolkitExportPlugin : public EditorExportPlugin {
     GDCLASS(MetaToolkitExportPlugin, EditorExportPlugin)
 
+	static const int EYE_TRACKING_NONE_VALUE = 0;
+	static const int EYE_TRACKING_OPTIONAL_VALUE = 1;
+	static const int EYE_TRACKING_REQUIRED_VALUE = 2;
+
+	static const int FACE_TRACKING_NONE_VALUE = 0;
+	static const int FACE_TRACKING_OPTIONAL_VALUE = 1;
+	static const int FACE_TRACKING_REQUIRED_VALUE = 2;
+
+	static const int BODY_TRACKING_NONE_VALUE = 0;
+	static const int BODY_TRACKING_OPTIONAL_VALUE = 1;
+	static const int BODY_TRACKING_REQUIRED_VALUE = 2;
+
+	static const int PASSTHROUGH_NONE_VALUE = 0;
+	static const int PASSTHROUGH_OPTIONAL_VALUE = 1;
+	static const int PASSTHROUGH_REQUIRED_VALUE = 2;
+
+	static const int RENDER_MODEL_NONE_VALUE = 0;
+	static const int RENDER_MODEL_OPTIONAL_VALUE = 1;
+	static const int RENDER_MODEL_REQUIRED_VALUE = 2;
+
+	static const int HAND_TRACKING_NONE_VALUE = 0;
+	static const int HAND_TRACKING_OPTIONAL_VALUE = 1;
+	static const int HAND_TRACKING_REQUIRED_VALUE = 2;
+
+	static const int HAND_TRACKING_FREQUENCY_LOW_VALUE = 0;
+	static const int HAND_TRACKING_FREQUENCY_HIGH_VALUE = 1;
+
+	static const int BOUNDARY_ENABLED_VALUE = 0;
+	static const int BOUNDARY_DISABLED_VALUE = 1;
+
 public:
     MetaToolkitExportPlugin();
 
@@ -27,10 +57,23 @@ public:
 
     bool _supports_platform(const Ref<EditorExportPlatform> &p_platform) const override;
 
+	PackedByteArray _update_android_prebuilt_manifest(const Ref<EditorExportPlatform> &p_platform, const PackedByteArray &updated_manifest) const override;
+
 protected:
     static void _bind_methods();
 
 private:
+	struct FeatureInfo {
+		String name;
+		bool required;
+		String version = "";
+	};
+
+	struct MetadataInfo {
+		String name;
+		String value;
+	};
+
     static Dictionary _generate_export_option(const String &p_name, const String &p_class_name,
                                               Variant::Type p_type,
                                               PropertyHint p_property_hint,
@@ -40,6 +83,18 @@ private:
                                               bool p_update_visibility);
 
     bool _get_bool_option(const String &p_option) const;
+
+	int _get_int_option(const String &p_option, int default_value) const;
+
+	String _bool_to_string(bool p_value) const;
+
+	bool _is_plugin_enabled() const;
+
+	bool _is_eye_tracking_enabled() const;
+
+	void _get_manifest_entries(Vector<String> &r_permissions, Vector<FeatureInfo> &r_features, Vector<MetadataInfo> &r_metadata) const;
+
+	PackedStringArray _get_supported_devices() const;
 
     Dictionary _enable_meta_toolkit_option;
 };

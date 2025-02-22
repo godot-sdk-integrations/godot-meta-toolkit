@@ -34,6 +34,7 @@
         "Texture2D",
         "VBoxContainer",
         "Viewport",
-        "Window"
+        "Window",
+        "XRInterface"
     ]
 }
