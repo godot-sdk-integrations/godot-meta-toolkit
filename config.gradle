@@ -6,7 +6,8 @@ ext {
             targetSdk               : 34,
             javaVersion             : JavaVersion.VERSION_17,
             kotlinVersion           : '1.9.20',
-            ndkVersion              : '23.2.8568313'
+            ndkVersion              : '23.2.8568313',
+            openxrVendorsVersion    : '3.1.2-stable'
     ]
 
     libraries = [
