@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <activity
+            android:name=".GodotApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <!-- Enable access to OpenXR on Oculus mobile devices, no-op on other Android
+                platforms. -->
+                <category android:name="com.oculus.intent.category.VR" />
+                <!-- OpenXR category tag to indicate the activity starts in an immersive OpenXR mode.
+                See https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#android-runtime-category. -->
+                <category android:name="org.khronos.openxr.intent.category.IMMERSIVE_HMD" />
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:name=".GodotAppLauncher"
+            android:exported="true"
+            android:targetActivity=".GodotApp"
+            tools:node="merge">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <!-- Enable access to OpenXR on Oculus mobile devices, no-op on other Android
+                platforms. -->
+                <category android:name="com.oculus.intent.category.VR" />
+
+                <!-- OpenXR category tag to indicate the activity starts in an immersive OpenXR mode.
+                See https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#android-runtime-category. -->
+                <category android:name="org.khronos.openxr.intent.category.IMMERSIVE_HMD" />
+            </intent-filter>
+        </activity-alias>
+
+        <meta-data android:name="com.oculus.supportedDevices" tools:node="remove" />
+    </application>
+
+</manifest>
