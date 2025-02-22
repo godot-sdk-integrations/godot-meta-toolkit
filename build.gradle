@@ -24,6 +24,8 @@ task clean(type: Delete) {
     // Delete the bin directory for the 'godot_meta_toolkit' addon
     delete("demo/addons/godot_meta_toolkit/.bin")
 
+    dependsOn 'cleanScons'
+
     dependsOn ':toolkit:clean'
 }
 
@@ -38,11 +40,10 @@ task buildToolkit {
     dependsOn ':toolkit:build'
 }
 
-/**
- * Build the scons artifacts for the project
+/*
+ * Find scons executable path
  */
-task buildSconsArtifacts {
-    // Find scons' executable path
+def getSconsExecutableFile() {
     File sconsExecutableFile = null
     def sconsName = "scons"
     def sconsExts = (org.gradle.internal.os.OperatingSystem.current().isWindows()
@@ -66,40 +67,95 @@ task buildSconsArtifacts {
         }
     }
 
+    return sconsExecutableFile
+}
+
+def createSconsTasks(File sconsExecutableFile, boolean clean) {
+    def defaultArgs = [
+            "--directory=.",
+            "custom_api_file=thirdparty/godot_cpp_gdextension_api/extension_api.json",
+            "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json",
+    ]
+
+    if (clean) {
+        defaultArgs << "-c"
+    }
+
+    def taskPrefix = (clean ? "clean" : "build")
+
+    // Android.
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Debug", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=template_debug", "arch=arm64"]
+    }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Release", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=template_release", "arch=arm64"]
+    }
+
+    // Desktop.
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitDesktopDebug", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["target=template_debug"]
+    }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitDesktopRelease", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["target=template_release"]
+    }
+}
+
+/**
+ * Build the scons artifacts for the project
+ */
+task buildSconsArtifacts {
+    File sconsExecutableFile = getSconsExecutableFile()
+
     // Using `doFirst` so the exception doesn't happen until this task actually runs.
     doFirst {
         if (sconsExecutableFile == null) {
-            throw new GradleException("Unable to find executable path for the '$sconsName' command.")
+            throw new GradleException("Unable to find executable path for the 'scons' command.")
         } else {
-            logger.debug("Found executable path for $sconsName: ${sconsExecutableFile.absolutePath}")
+            logger.debug("Found executable path for scons: ${sconsExecutableFile.absolutePath}")
         }
     }
 
     if (sconsExecutableFile != null) {
-        // Build the GDExtension library for Android.
-        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Debug", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "platform=android", "target=template_debug", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Release", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "platform=android", "target=template_release", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
+        createSconsTasks(sconsExecutableFile, false)
 
+        // Android.
         dependsOn 'buildGodotMetaToolkitAndroidArm64Debug'
         dependsOn 'buildGodotMetaToolkitAndroidArm64Release'
 
-        // Build the GDExtension library for desktop.
-        tasks.create(name: "buildGodotMetaToolkitDesktopDebug", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "target=template_debug", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-        tasks.create(name: "buildGodotMetaToolkitDesktopRelease", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "target=template_release", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-
+        // Desktop.
         dependsOn 'buildGodotMetaToolkitDesktopDebug'
         dependsOn 'buildGodotMetaToolkitDesktopRelease'
+    }
+}
+
+/**
+ * Scons clean for the project
+ */
+task cleanScons {
+    File sconsExecutableFile = getSconsExecutableFile()
+
+    // Using `doFirst` so the exception doesn't happen until this task actually runs.
+    doFirst {
+        if (sconsExecutableFile == null) {
+            throw new GradleException("Unable to find executable path for the 'scons' command.")
+        } else {
+            logger.debug("Found executable path for scons: ${sconsExecutableFile.absolutePath}")
+        }
+    }
+
+    if (sconsExecutableFile != null) {
+        createSconsTasks(sconsExecutableFile, true)
+
+        // Android.
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Debug'
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Release'
+
+        // Desktop.
+        dependsOn 'cleanGodotMetaToolkitDesktopDebug'
+        dependsOn 'cleanGodotMetaToolkitDesktopRelease'
     }
 }
