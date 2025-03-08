@@ -1042,17 +1042,17 @@ def generate_header(class_name, class_def, plan):
     if class_name != 'MetaPlatformSDK':
         lines.append('#include "platform_sdk/meta_platform_sdk.h"')
         lines.append('')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         for ovr_header in class_def['ovr_headers']:
             lines.append(f'#include <{ovr_header}>')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
     else:
         lines.append('#include <godot_cpp/classes/ref.hpp>')
         lines.append('#include <godot_cpp/templates/hash_map.hpp>')
         lines.append('')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('#include <OVR_Types.h>')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
         lines.append('#include "platform_sdk/meta_platform_sdk_request.h"')
     lines.append('')
@@ -1083,15 +1083,15 @@ def generate_header(class_name, class_def, plan):
     if class_def['type'] == 'singleton':
         lines.append(f'\tstatic {class_name} *singleton;')
         lines.append('')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('\tbool _platform_initialized = false;')
         lines.append('\tHashMap<ovrRequest, Ref<MetaPlatformSDK_Request>> requests;')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
     else:
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f'\t{class_def["ovr_handle"]} handle = nullptr;')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
     if class_name == 'MetaPlatformSDK_Message':
         lines.append('\tMetaPlatformSDK::MessageType type = MetaPlatformSDK::MESSAGE_UNKNOWN;')
@@ -1129,20 +1129,20 @@ def generate_header(class_name, class_def, plan):
     if class_name == 'MetaPlatformSDK':
         lines.append(f'\tstatic void _register_generated_classes();')
         lines.append('')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f'\tvoid _initialize_platform();')
         lines.append(f'\tvoid _initialize_platform_async(const Ref<MetaPlatformSDK_Message> &p_message);')
         lines.append(f'\tRef<MetaPlatformSDK_Request> _create_request(ovrRequest p_request);')
         lines.append(f'\tvoid _process_messages();')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
         lines.append(f'\tPlatformInitializeResult initialize_platform(const String &p_app_id, const Dictionary &p_options);')
         lines.append(f'\tRef<MetaPlatformSDK_Request> initialize_platform_async(const String &p_app_id);')
     else:
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f'\tstatic Ref<{class_name}> _create_with_ovr_handle({class_def["ovr_handle"]} p_handle);')
         lines.append(f'\tinline {class_def["ovr_handle"]} _get_ovr_handle() {{ return handle; }}')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
     if class_name == 'MetaPlatformSDK_Message':
         lines.append('\tinline MetaPlatformSDK::MessageType get_type() const { return type; }')
@@ -1203,10 +1203,10 @@ def generate_source(class_name, class_def, plan):
 
     if class_name == 'MetaPlatformSDK':
         lines.append('')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         for ovr_header in class_def['ovr_headers']:
             lines.append(f'#include <{ovr_header}>')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
 
         # Include all the other classes so we can register them.
@@ -1215,10 +1215,10 @@ def generate_source(class_name, class_def, plan):
                 continue
             lines.append(f'#include "platform_sdk/{camel_to_snake_case(other_class_name)}.h"')
     elif class_name == 'MetaPlatformSDK_Message':
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         # Needed for ovr_FreeMessage().
         lines.append(f'#include <OVR_Platform.h>')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
 
     lines.append('')
 
@@ -1338,7 +1338,7 @@ def generate_source(class_name, class_def, plan):
         null_return_value = make_null_value(function['return'], plan)
 
         lines.append(make_function_decl(function_name, function, class_name) + ' {')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
 
         # Check that we are initialized.
         if class_def['ovr_handle']:
@@ -1405,7 +1405,7 @@ def generate_source(class_name, class_def, plan):
             lines.append('#else')
             lines.append(f'\treturn {null_return_value};')
 
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('}')
         lines.append('')
 
@@ -1416,15 +1416,15 @@ def generate_source(class_name, class_def, plan):
         lines.append('');
         lines.append('\tsingleton = this;')
     elif class_def['type'] == 'model':
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f"\thandle = {class_def['create_func']['name']}();")
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
     lines.append('}')
     lines.append('')
 
     # Creation from handle.
     if class_def['type'] == 'result':
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f'Ref<{class_name}> {class_name}::_create_with_ovr_handle({class_def["ovr_handle"]} p_handle) {{')
         lines.append(f'\tRef<{class_name}> inst;')
         lines.append('\tif (p_handle != nullptr) {')
@@ -1435,7 +1435,7 @@ def generate_source(class_name, class_def, plan):
         lines.append('\t}')
         lines.append('\treturn inst;')
         lines.append('}')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('')
 
     # Destructor.
@@ -1443,15 +1443,15 @@ def generate_source(class_name, class_def, plan):
     if class_def['type'] == 'singleton':
         lines.append('\tsingleton = nullptr;')
     elif class_def['type'] == 'model':
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append(f"\t{class_def['destroy_func']['name']}(handle);")
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
     elif class_def['type'] == 'result' and 'free_func' in class_def:
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('\tif (handle) {')
         lines.append(f"\t\t{class_def['free_func']['name']}(handle);")
         lines.append('\t}')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
     lines.append('}')
     lines.append('')
 
@@ -1472,7 +1472,7 @@ def generate_source(class_name, class_def, plan):
         #
 
         lines.append('Variant MetaPlatformSDK_Message::get_data() const {')
-        lines.append('#ifdef ANDROID_ENABLED')
+        lines.append('#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('\tERR_FAIL_COND_V(type == MetaPlatformSDK::MessageType::MESSAGE_UNKNOWN, Variant());')
         lines.append('')
         lines.append('\tif (data.get_type() != Variant::NIL) {')
@@ -1503,7 +1503,7 @@ def generate_source(class_name, class_def, plan):
         lines.append('\treturn data;')
         lines.append('#else')
         lines.append('\treturn Variant();')
-        lines.append('#endif // ANDROID_ENABLED')
+        lines.append('#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)')
         lines.append('}')
         lines.append('')
 

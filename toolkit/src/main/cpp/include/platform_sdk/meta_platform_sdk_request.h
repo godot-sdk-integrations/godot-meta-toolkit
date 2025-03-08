@@ -2,9 +2,9 @@
 
 #pragma once
 
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 #include <OVR_Types.h>
-#endif // ANDROID_ENABLED
+#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 
 #include <godot_cpp/classes/ref.hpp>
 
@@ -15,20 +15,20 @@ class MetaPlatformSDK_Request : public RefCounted {
 
 	friend class MetaPlatformSDK;
 
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	ovrRequest id = 0;
-#endif // ANDROID_ENABLED
+#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 
 protected:
 	static void _bind_methods();
 
 public:
 	inline uint64_t get_id() {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 		return id;
 #else
 		return 0;
-#endif // ANDROID_ENABLED
+#endif // defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	}
 
 	MetaPlatformSDK_Request();

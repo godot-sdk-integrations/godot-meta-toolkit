@@ -121,6 +121,10 @@ def createSconsTasks(File sconsExecutableFile, boolean clean) {
         executable sconsExecutableFile.absolutePath
         args defaultArgs + ["platform=android", "target=template_release", "arch=arm64"]
     }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Editor", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=editor", "arch=arm64"]
+    }
 
     // Desktop.
     tasks.create(name: "${taskPrefix}GodotMetaToolkitDesktopDebug", type: Exec) {
@@ -154,6 +158,7 @@ task buildSconsArtifacts {
         // Android.
         dependsOn 'buildGodotMetaToolkitAndroidArm64Debug'
         dependsOn 'buildGodotMetaToolkitAndroidArm64Release'
+        dependsOn 'buildGodotMetaToolkitAndroidArm64Editor'
 
         // Desktop.
         dependsOn 'buildGodotMetaToolkitDesktopDebug'
@@ -182,6 +187,7 @@ task cleanScons {
         // Android.
         dependsOn 'cleanGodotMetaToolkitAndroidArm64Debug'
         dependsOn 'cleanGodotMetaToolkitAndroidArm64Release'
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Editor'
 
         // Desktop.
         dependsOn 'cleanGodotMetaToolkitDesktopDebug'

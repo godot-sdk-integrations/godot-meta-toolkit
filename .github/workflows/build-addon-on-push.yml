@@ -101,6 +101,12 @@ jobs:
           scons platform=${{ matrix.platform }} target=template_debug ${{ matrix.flags }} custom_api_file=thirdparty/godot_cpp_gdextension_api/extension_api.json build_profile=thirdparty/godot_cpp_build_profile/build_profile.json
           scons platform=${{ matrix.platform }} target=template_release ${{ matrix.flags }} custom_api_file=thirdparty/godot_cpp_gdextension_api/extension_api.json build_profile=thirdparty/godot_cpp_build_profile/build_profile.json
           cd ..
+      - name: Create Android editor extension library
+        run: |
+          cd godot_meta_toolkit
+          scons platform=${{ matrix.platform }} target=editor ${{ matrix.flags }} custom_api_file=thirdparty/godot_cpp_gdextension_api/extension_api.json build_profile=thirdparty/godot_cpp_build_profile/build_profile.json
+          cd ..
+        if: matrix.platform == 'android'
       - name: Save Godot build cache
         uses: ./godot_meta_toolkit/thirdparty/godot-cpp/.github/actions/godot-cache-save
         with:
