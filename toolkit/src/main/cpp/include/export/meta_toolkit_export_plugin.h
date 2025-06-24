@@ -10,27 +10,21 @@ using namespace godot;
 class MetaToolkitExportPlugin : public EditorExportPlugin {
 	GDCLASS(MetaToolkitExportPlugin, EditorExportPlugin)
 
-	static const int EYE_TRACKING_NONE_VALUE = 0;
 	static const int EYE_TRACKING_OPTIONAL_VALUE = 1;
 	static const int EYE_TRACKING_REQUIRED_VALUE = 2;
 
-	static const int FACE_TRACKING_NONE_VALUE = 0;
 	static const int FACE_TRACKING_OPTIONAL_VALUE = 1;
 	static const int FACE_TRACKING_REQUIRED_VALUE = 2;
 
-	static const int BODY_TRACKING_NONE_VALUE = 0;
 	static const int BODY_TRACKING_OPTIONAL_VALUE = 1;
 	static const int BODY_TRACKING_REQUIRED_VALUE = 2;
 
-	static const int PASSTHROUGH_NONE_VALUE = 0;
 	static const int PASSTHROUGH_OPTIONAL_VALUE = 1;
 	static const int PASSTHROUGH_REQUIRED_VALUE = 2;
 
-	static const int RENDER_MODEL_NONE_VALUE = 0;
 	static const int RENDER_MODEL_OPTIONAL_VALUE = 1;
 	static const int RENDER_MODEL_REQUIRED_VALUE = 2;
 
-	static const int HAND_TRACKING_NONE_VALUE = 0;
 	static const int HAND_TRACKING_OPTIONAL_VALUE = 1;
 	static const int HAND_TRACKING_REQUIRED_VALUE = 2;
 
@@ -89,8 +83,6 @@ private:
 	String _bool_to_string(bool p_value) const;
 
 	bool _is_plugin_enabled() const;
-
-	bool _is_eye_tracking_enabled() const;
 
 	void _get_manifest_entries(Vector<String> &r_permissions, Vector<FeatureInfo> &r_features, Vector<MetadataInfo> &r_metadata) const;
 

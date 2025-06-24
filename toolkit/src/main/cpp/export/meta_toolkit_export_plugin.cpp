@@ -223,16 +223,6 @@ PackedStringArray MetaToolkitExportPlugin::_get_android_libraries(const Ref<godo
 	return dependencies;
 }
 
-bool MetaToolkitExportPlugin::_is_eye_tracking_enabled() const {
-	bool eye_tracking_project_setting_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/eye_gaze_interaction");
-	if (!eye_tracking_project_setting_enabled) {
-		return false;
-	}
-
-	int eye_tracking_option_value = _get_int_option("meta_xr_features/eye_tracking", EYE_TRACKING_NONE_VALUE);
-	return eye_tracking_option_value > EYE_TRACKING_NONE_VALUE;
-}
-
 PackedStringArray MetaToolkitExportPlugin::_get_supported_devices() const {
 	PackedStringArray supported_devices;
 
@@ -265,48 +255,49 @@ void MetaToolkitExportPlugin::_get_manifest_entries(Vector<godot::String> &r_per
 	r_metadata.append(supported_devices_metadata);
 
 	// Check for eye tracking.
-	if (_is_eye_tracking_enabled()) {
+	bool eye_tracking_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/eye_gaze_interaction");
+	if (eye_tracking_enabled) {
 		r_permissions.append("com.oculus.permission.EYE_TRACKING");
 
 		FeatureInfo eye_tracking_feature = {
 			"oculus.software.eye_tracking",
-			_get_int_option("meta_xr_features/eye_tracking", EYE_TRACKING_NONE_VALUE) == EYE_TRACKING_REQUIRED_VALUE,
+			_get_int_option("meta_xr_features/eye_tracking", EYE_TRACKING_OPTIONAL_VALUE) == EYE_TRACKING_REQUIRED_VALUE,
 		};
 		r_features.append(eye_tracking_feature);
 	}
 
 	// Check for face tracking.
-	int face_tracking_value = _get_int_option("meta_xr_features/face_tracking", FACE_TRACKING_NONE_VALUE);
-	if (face_tracking_value > FACE_TRACKING_NONE_VALUE) {
+	bool face_tracking_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/face_tracking");
+	if (face_tracking_enabled) {
 		r_permissions.append("com.oculus.permission.FACE_TRACKING");
 
 		FeatureInfo face_tracking_info = {
 			"oculus.software.face_tracking",
-			face_tracking_value == FACE_TRACKING_REQUIRED_VALUE
+			_get_int_option("meta_xr_features/face_tracking", FACE_TRACKING_OPTIONAL_VALUE) == FACE_TRACKING_REQUIRED_VALUE,
 		};
 		r_features.append(face_tracking_info);
 	}
 
 	// Check for body tracking.
-	int body_tracking_value = _get_int_option("meta_xr_features/body_tracking", BODY_TRACKING_NONE_VALUE);
-	if (body_tracking_value > BODY_TRACKING_NONE_VALUE) {
+	bool body_tracking_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/body_tracking");
+	if (body_tracking_enabled) {
 		r_permissions.append("com.oculus.permission.BODY_TRACKING");
 
 		FeatureInfo body_tracking_info = {
 			"com.oculus.software.body_tracking",
-			body_tracking_value == BODY_TRACKING_REQUIRED_VALUE
+			_get_int_option("meta_xr_features/body_tracking", BODY_TRACKING_OPTIONAL_VALUE) == BODY_TRACKING_REQUIRED_VALUE,
 		};
 		r_features.append(body_tracking_info);
 	}
 
 	// Check for hand tracking.
-	int hand_tracking_value = _get_int_option("meta_xr_features/hand_tracking", HAND_TRACKING_NONE_VALUE);
-	if (hand_tracking_value > HAND_TRACKING_NONE_VALUE) {
+	bool hand_tracking_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/hand_tracking");
+	if (hand_tracking_enabled) {
 		r_permissions.append("com.oculus.permission.HAND_TRACKING");
 
 		FeatureInfo hand_tracking_info = {
 			"oculus.software.handtracking",
-			hand_tracking_value == HAND_TRACKING_REQUIRED_VALUE
+			_get_int_option("meta_xr_features/hand_tracking", HAND_TRACKING_OPTIONAL_VALUE) == HAND_TRACKING_REQUIRED_VALUE,
 		};
 		r_features.append(hand_tracking_info);
 
@@ -326,40 +317,41 @@ void MetaToolkitExportPlugin::_get_manifest_entries(Vector<godot::String> &r_per
 	}
 
 	// Check for passthrough.
-	int passthrough_mode = _get_int_option("meta_xr_features/passthrough", PASSTHROUGH_NONE_VALUE);
-	if (passthrough_mode > PASSTHROUGH_NONE_VALUE) {
+	bool passthrough_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/passthrough");
+	if (passthrough_enabled) {
 		FeatureInfo passthrough_info = {
 			"com.oculus.feature.PASSTHROUGH",
-			passthrough_mode == PASSTHROUGH_REQUIRED_VALUE
+			_get_int_option("meta_xr_features/passthrough", PASSTHROUGH_OPTIONAL_VALUE) == PASSTHROUGH_REQUIRED_VALUE,
 		};
 		r_features.append(passthrough_info);
 	}
 
 	// Check for render model.
-	int render_model_value = _get_int_option("meta_xr_features/render_model", RENDER_MODEL_NONE_VALUE);
-	if (render_model_value > RENDER_MODEL_NONE_VALUE) {
+	bool render_model_enabled = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/render_model");
+	if (render_model_enabled) {
 		r_permissions.append("com.oculus.permission.RENDER_MODEL");
 
 		FeatureInfo render_model_info = {
 			"com.oculus.feature.RENDER_MODEL",
-			render_model_value == RENDER_MODEL_REQUIRED_VALUE
+			_get_int_option("meta_xr_features/render_model", RENDER_MODEL_OPTIONAL_VALUE) == RENDER_MODEL_REQUIRED_VALUE,
 		};
+		r_features.append(render_model_info);
 	}
 
 	// Check for anchor api.
-	bool use_anchor_api = _get_bool_option("meta_xr_features/use_anchor_api");
+	bool use_anchor_api = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/anchor_api");
 	if (use_anchor_api) {
 		r_permissions.append("com.oculus.permission.USE_ANCHOR_API");
 	}
 
 	// Check for anchor sharing.
-	bool use_anchor_sharing = _get_bool_option("meta_xr_features/use_anchor_sharing");
+	bool use_anchor_sharing = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/anchor_sharing");
 	if (use_anchor_sharing) {
 		r_permissions.append("com.oculus.permission.IMPORT_EXPORT_IOT_MAP_DATA");
 	}
 
 	// Check for scene api.
-	bool use_scene_api = _get_bool_option("meta_xr_features/use_scene_api");
+	bool use_scene_api = ProjectSettings::get_singleton()->get_setting_with_override("xr/openxr/extensions/meta/scene_api");
 	if (use_scene_api) {
 		r_permissions.append("com.oculus.permission.USE_SCENE");
 	}
