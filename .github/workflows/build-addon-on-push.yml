@@ -166,9 +166,8 @@ jobs:
         run: |
           cd godot_meta_toolkit
           ./gradlew build
-          scons --directory=thirdparty/godot platform=android target=template_debug arch=arm64
-          scons --directory=thirdparty/godot platform=android target=template_release arch=arm64
-          ./gradlew generatePrebuiltApks
+          git clone --branch 4.4.1-stable https://github.com/godotengine/godot.git
+          ./gradlew generatePrebuiltApks -PgodotDir=godot
           cd ..
       - name: Create Godot Meta Toolkit Addon
         run: |

@@ -19,9 +19,7 @@ plugins {}
 apply from: 'config.gradle'
 
 ext {
-    addonPrebuiltDir = "demo/addons/godot_meta_toolkit/.build_template/prebuilt"
-
-    godotDir = "thirdparty/godot"
+    godotDir = project.hasProperty("godotDir") ? project.property("godotDir") : ""
     godotJavaDir = "${godotDir}/platform/android/java/"
 
     godotAppStandardManifestDir = "${godotJavaDir}/app/src/standard/"
@@ -57,13 +55,10 @@ task buildToolkit {
 }
 
 /**
- * Generate the addon by building the 'toolkit' module and the prebuilt apks.
+ * Generate the addon by building the 'toolkit' module
  */
 task generateAddon {
     dependsOn buildToolkit
-
-    // Generate the prebuilt apks
-    dependsOn ':generatePrebuiltApks'
 }
 
 /*
@@ -208,15 +203,17 @@ task cleanPrebuiltApks(type: Delete) {
         }
     }
 
-    delete(godotAppStandardManifestDir)
+    delete "meta-export-template.zip"
 
-    delete(addonPrebuiltDir)
+    if (godotDir != "") {
+        delete(godotAppStandardManifestDir)
 
-    tasks.create(name: "cleanGodot", type: Exec) {
-        executable gradlewExecutable.absolutePath
-        args "-p", godotJavaDir, "clean"
+        tasks.create(name: "cleanGodot", type: Exec) {
+            executable gradlewExecutable.absolutePath
+            args "-p", godotJavaDir, "clean"
+        }
+        dependsOn 'cleanGodot'
     }
-    dependsOn 'cleanGodot'
 }
 
 /**
@@ -228,17 +225,25 @@ task copyPrebuiltManifestToGodotApp(type: Copy) {
     file(godotAppStandardManifestDir).mkdirs()
 
     from "./prebuilt/AndroidManifest.xml"
-    into "./thirdparty/godot/platform/android/java/app/src/standard/"
+    into godotAppStandardManifestDir 
 }
 
 /**
- * Copy the generated prebuilt apks to the addon directory.
+ * Zip the generated prebuilt apks
  */
-task copyPrebuiltApksToAddon(type: Copy) {
-    from godotAppOutputDir
-    into addonPrebuiltDir
+task zipPrebuiltApks(type: Zip) {
+    from(godotAppOutputDir)
     include '**/*.apk'
+    archiveFileName = "meta-export-template.zip"
+    destinationDirectory = project.rootDir
 }
+
+void verifyGodotDir() {
+    if (godotDir == "" || !file(godotDir).exists() || !file(godotDir).isDirectory()) {
+        throw new GradleException("godotDir property is empty or invalid.")
+    }
+}
+
 
 /**
  * Generate the prebuilt apks.
@@ -257,11 +262,17 @@ task generatePrebuiltApks() {
 
     if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
         tasks.create(name: "buildGodotAndroidArm64Debug", type: Exec) {
+            doFirst {
+                verifyGodotDir()
+            }
             executable sconsExecutableFile.absolutePath
             args "--directory=${godotDir}", "platform=android", "target=template_debug", "arch=arm64"
         }
 
         tasks.create(name: "buildGodotAndroidArm64Release", type: Exec) {
+            doFirst {
+                verifyGodotDir()
+            }
             executable sconsExecutableFile.absolutePath
             args "--directory=${godotDir}", "platform=android", "target=template_release", "arch=arm64"
         }
@@ -273,6 +284,9 @@ task generatePrebuiltApks() {
 
         if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
             dependsOn 'buildGodotAndroidArm64Debug'
+        }
+        doFirst {
+            verifyGodotDir()
         }
         executable gradlewExecutable.absolutePath
         args "-p",
@@ -289,6 +303,9 @@ task generatePrebuiltApks() {
         if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
             dependsOn 'buildGodotAndroidArm64Release'
         }
+        doFirst {
+            verifyGodotDir()
+        }
         executable gradlewExecutable.absolutePath
         args "-p",
                 godotJavaDir,
@@ -300,5 +317,5 @@ task generatePrebuiltApks() {
     dependsOn 'assemblePrebuiltDebugApk'
     dependsOn 'assemblePrebuiltReleaseApk'
 
-    finalizedBy 'copyPrebuiltApksToAddon'
+    finalizedBy 'zipPrebuiltApks'
 }
