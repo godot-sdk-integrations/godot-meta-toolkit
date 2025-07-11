@@ -22,7 +22,7 @@ jobs:
       matrix:
         include:
           - name: 🐧 Linux (x86_64)
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             platform: linux
             flags: arch=x86_64
             artifact_name: godotmetatoolkit-build-files-linux-x86_64
@@ -42,7 +42,7 @@ jobs:
             artifact_path: godot_meta_toolkit/demo/addons/godot_meta_toolkit/.bin/macos/*/*.framework
             cache-name: macos-universal
           - name: 🤖 Android (arm64)
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             platform: android
             flags: arch=arm64
             artifact_name: godotmetatoolkit-build-files-android
@@ -116,7 +116,7 @@ jobs:
 
   asset:
     name: Assembling the asset
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build
 
     steps:
