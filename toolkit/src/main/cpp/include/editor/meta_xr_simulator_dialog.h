@@ -5,9 +5,9 @@
 #include <godot_cpp/classes/accept_dialog.hpp>
 
 namespace godot {
-    class RichTextLabel;
-	class LineEdit;
-	class EditorFileDialog;
+class RichTextLabel;
+class LineEdit;
+class EditorFileDialog;
 } //namespace godot
 
 using namespace godot;

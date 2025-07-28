@@ -10,9 +10,9 @@
 
 #include "platform_sdk/meta_platform_sdk.h"
 
-#include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/main_loop.hpp>
+#include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/templates/local_vector.hpp>
 
 #include "platform_sdk/meta_platform_sdk_http_transfer_update.h"
@@ -45,8 +45,7 @@ MetaPlatformSDK::PlatformInitializeResult MetaPlatformSDK::initialize_platform(c
 	ovrPlatformInitializeResult result;
 	if (key_value_pairs.size() > 0) {
 		result = ovr_PlatformInitializeAndroidWithOptions(p_app_id.ascii().ptr(), jactivity, jni_env, key_value_pairs.ptr(), key_value_pairs.size());
-	}
-	else {
+	} else {
 		result = ovr_PlatformInitializeAndroid(p_app_id.ascii().ptr(), jactivity, jni_env);
 	}
 
@@ -121,8 +120,7 @@ void MetaPlatformSDK::_process_messages() {
 		Ref<MetaPlatformSDK_Message> message = MetaPlatformSDK_Message::_create_with_ovr_handle(message_handle);
 		if (message->is_notification()) {
 			emit_signal("notification_received", message);
-		}
-		else {
+		} else {
 			ovrRequest request_id = (ovrRequest)message->get_request_id();
 			if (request_id != 0) {
 				Ref<MetaPlatformSDK_Request> *request = requests.getptr(request_id);

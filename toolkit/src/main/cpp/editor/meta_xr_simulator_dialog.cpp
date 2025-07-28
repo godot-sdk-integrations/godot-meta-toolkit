@@ -33,8 +33,8 @@ void MetaXRSimulatorDialog::_bind_methods() {
 }
 
 void MetaXRSimulatorDialog::_notification(uint32_t p_what) {
-    switch (p_what) {
-        case NOTIFICATION_POSTINITIALIZE: {
+	switch (p_what) {
+		case NOTIFICATION_POSTINITIALIZE: {
 			_file_dialog = memnew(EditorFileDialog);
 			_file_dialog->connect("file_selected", callable_mp(this, &MetaXRSimulatorDialog::_on_file_selected));
 			_file_dialog->set_file_mode(EditorFileDialog::FILE_MODE_OPEN_FILE);

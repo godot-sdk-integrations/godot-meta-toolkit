@@ -7,8 +7,8 @@ void MetaToolkitEditorPlugin::_bind_methods() {
 }
 
 void MetaToolkitEditorPlugin::_notification(uint32_t p_what) {
-    switch (p_what) {
-        case NOTIFICATION_POSTINITIALIZE: {
+	switch (p_what) {
+		case NOTIFICATION_POSTINITIALIZE: {
 			_meta_xr_simulator_dialog = memnew(MetaXRSimulatorDialog);
 			add_child(_meta_xr_simulator_dialog);
 		} break;
@@ -21,7 +21,7 @@ void MetaToolkitEditorPlugin::_notification(uint32_t p_what) {
 			add_export_plugin(_meta_toolkit_export_plugin);
 		} break;
 
-        case NOTIFICATION_EXIT_TREE: {
+		case NOTIFICATION_EXIT_TREE: {
 			remove_tool_menu_item("Configure Meta XR Simulator...");
 
 			// Clean up the editor export plugin
