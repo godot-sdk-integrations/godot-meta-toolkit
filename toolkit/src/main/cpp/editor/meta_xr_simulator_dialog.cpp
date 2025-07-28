@@ -118,6 +118,12 @@ void MetaXRSimulatorDialog::_on_browse_button_pressed() {
 
 void MetaXRSimulatorDialog::_on_file_selected(const String &p_path) {
 	String resolved_path = ProjectSettings::get_singleton()->globalize_path(p_path);
+	if (OS::get_singleton()->has_feature("windows")) {
+		// Godot uses forward slashes on Windows, which is fine if we open the file in Godot,
+		// but this value will be put in an environment variable and read by the OpenXR loader,
+		// which won't recognize the forward slashes.
+		resolved_path = resolved_path.replace("/", "\\");
+	}
 	_path_field->set_text(resolved_path);
 	_on_path_changed(resolved_path);
 }
