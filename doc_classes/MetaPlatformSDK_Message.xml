@@ -360,6 +360,12 @@
 				Returns a [MetaPlatformSDK_PurchaseArray] if that is the payload of this message; otherwise, it returns [code]null[/code].
 			</description>
 		</method>
+		<method name="get_push_notification_result" qualifiers="const">
+			<return type="MetaPlatformSDK_PushNotificationResult" />
+			<description>
+				Returns a [MetaPlatformSDK_PushNotificationResult] if that is the payload of this message; otherwise, it returns [code]null[/code].
+			</description>
+		</method>
 		<method name="get_rejoin_dialog_result" qualifiers="const">
 			<return type="MetaPlatformSDK_RejoinDialogResult" />
 			<description>

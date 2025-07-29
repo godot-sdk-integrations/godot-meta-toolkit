@@ -10,8 +10,8 @@ env:
   # Only used for the cache key. Increment version to force clean build.
   GODOT_BASE_BRANCH: main
   SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
-  # Meta Platform SDK v71.0.
-  META_PLATFORM_SDK_URL: "https://securecdn.oculus.com/binaries/download/?id=6945981485525494"
+  # Meta Platform SDK v77.0.
+  META_PLATFORM_SDK_URL: "https://securecdn.oculus.com/binaries/download/?id=8090152191108412"
 
 jobs:
   build:

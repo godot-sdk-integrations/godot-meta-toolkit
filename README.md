@@ -16,7 +16,7 @@ git submodule update --init --recursive
 Then download the [Oculus Platform SDK](https://developer.oculus.com/downloads/package/oculus-platform-sdk/) and extract
 it into `thirdparty/ovr_platform_sdk`, such that `thirdparty/ovr_platform_sdk/Include/OVR_Platform.h` exists.
 
-We've tested with v71 of the Platform SDK.
+We've tested with v77 of the Platform SDK.
 
 ### Build the toolkit
 

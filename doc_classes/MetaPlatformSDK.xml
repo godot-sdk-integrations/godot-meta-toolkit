@@ -966,6 +966,15 @@
 				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_party] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_Party] in this case.
 			</description>
 		</method>
+		<method name="push_notification_register_async">
+			<return type="MetaPlatformSDK_Request" />
+			<description>
+				Register the device to receive push notifications. The registered notification ID can be fetched from [member MetaPlatformSDK_PushNotificationResult.id].
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_push_notification_result] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_PushNotificationResult] in this case.
+			</description>
+		</method>
 		<method name="rich_presence_get_destinations_async">
 			<return type="MetaPlatformSDK_Request" />
 			<description>
@@ -1031,6 +1040,17 @@
 				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
 				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
 				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_blocked_user_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_BlockedUserArray] in this case.
+			</description>
+		</method>
+		<method name="user_get_linked_accounts_async">
+			<return type="MetaPlatformSDK_Request" />
+			<param index="0" name="user_options" type="MetaPlatformSDK_UserOptions" />
+			<description>
+				Gets a list of linked accounts that are associated with the specified service providers.
+				- [param user_options]: Options for which services providers should be retrieved.
+				Returns a [MetaPlatformSDK_Request] which will emit the [signal MetaPlatformSDK_Request.completed] signal on completion with a [MetaPlatformSDK_Message] object.
+				First call [method MetaPlatformSDK_Message.is_error] to check if the request resulted in an error, or was successful.
+				If successful, obtain the result by calling [method MetaPlatformSDK_Message.get_linked_account_array] or accessing the [member MetaPlatformSDK_Message.data] property, which will be a [MetaPlatformSDK_LinkedAccountArray] in this case.
 			</description>
 		</method>
 		<method name="user_get_logged_in_user_async">
@@ -1613,6 +1633,9 @@
 		<constant name="MESSAGE_PARTY_GET_CURRENT" value="1200830304" enum="MessageType">
 			Indicates [method MetaPlatformSDK_Message.get_party] should be called to get the message payload.
 		</constant>
+		<constant name="MESSAGE_PUSH_NOTIFICATION_REGISTER" value="1715112799" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_push_notification_result] should be called to get the message payload.
+		</constant>
 		<constant name="MESSAGE_RICH_PRESENCE_CLEAR" value="1471632051" enum="MessageType">
 			Indicates [method MetaPlatformSDK_Message.is_success] should be called to get the message payload.
 		</constant>
@@ -1639,6 +1662,9 @@
 		</constant>
 		<constant name="MESSAGE_USER_GET_BLOCKED_USERS" value="2099254614" enum="MessageType">
 			Indicates [method MetaPlatformSDK_Message.get_blocked_user_array] should be called to get the message payload.
+		</constant>
+		<constant name="MESSAGE_USER_GET_LINKED_ACCOUNTS" value="1469314134" enum="MessageType">
+			Indicates [method MetaPlatformSDK_Message.get_linked_account_array] should be called to get the message payload.
 		</constant>
 		<constant name="MESSAGE_USER_GET_LOGGED_IN_USER" value="1131361373" enum="MessageType">
 			Indicates [method MetaPlatformSDK_Message.get_user] should be called to get the message payload.

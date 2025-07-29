@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="MetaPlatformSDK_PushNotificationResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Represents the result of registering for push notifications.
+	</brief_description>
+	<description>
+		Represents the result of registering for push notifications.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="id" type="String" setter="" getter="get_id" default="&quot;&quot;">
+			The registered notification ID, which you can push notifications to.
+		</member>
+	</members>
+</class>
