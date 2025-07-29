@@ -1,5 +1,11 @@
 # Change history for the Godot Meta Toolkit plugin
 
+## 1.0.3
+- Modernize class registration
+- Fix clang format issues
+- Windows: Convert forward slashes from file dialog to backslashes for Meta XR simulator
+- Update for Meta Platform SDK v77
+
 ## 1.0.2
 - Include API documentation in the editor
 - Update for Meta Platform SDK v72
