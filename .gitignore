@@ -9,6 +9,7 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.vscode/
+/.cache/
 .DS_Store
 /build
 /captures
@@ -17,6 +18,7 @@
 local.properties
 /thirdparty/ovr_platform_sdk/
 /toolkit/src/gen/
+compile_commands.json
 
 # Binaries
 *.o

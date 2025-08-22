@@ -21,7 +21,7 @@ static const char *META_SIMULATOR_RUNTIME_NAME = "Meta XR Simulator";
 static const char *META_SIMULATOR_INSTRUCTIONS =
 		"In order to allow Godot to run the Meta XR Simulator:\n\n"
 		"[ol]\n"
-		"  Download the Meta XR Simulator using the [url=https://developer.oculus.com/meta-quest-developer-hub]Meta Quest Developer Hub[/url] or [url=https://developer.oculus.com/downloads/package/meta-xr-simulator/]download it directly[/url].\n"
+		"  Download the Meta XR Simulator using the [url=https://developer.oculus.com/meta-quest-developer-hub]Meta Quest Developer Hub[/url] or [url=https://developers.meta.com/horizon/documentation/native/xrsim-intro/]download it directly[/url].\n"
 		"  Extract the files into a folder on your computer.\n"
 		"  Enter the full path to the [code]meta_openxr_simulator.json[/code] file within that directory.\n"
 		"[/ol]\n\n"
