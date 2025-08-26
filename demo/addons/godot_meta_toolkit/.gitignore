@@ -1,2 +1,3 @@
 .bin/
+.build_template/
 build/

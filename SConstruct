@@ -40,7 +40,7 @@ binary_path = '#demo/addons/godot_meta_toolkit/.bin'
 android_src_path = '#toolkit/src'
 project_name = 'godot_meta_toolkit'
 
-if env['platform'] == "android":
+if env['platform'] == "android" and env["target"] != "editor":
     env.Append(LIBPATH=['thirdparty/ovr_platform_sdk/Android/libs/arm64-v8a'])
     env.Append(LIBS=['ovrplatformloader'])
 
@@ -70,7 +70,18 @@ else:
 
 Default(library)
 
-if env["platform"] == "android":
+if env["platform"] == "android" and env["target"] != "editor":
+    # Copy the libovrplatformloader.so files to the addon
+    ovrplatformloader_copy_path = "#thirdparty/ovr_platform_sdk/Android/libs/arm64-v8a/libovrplatformloader.so"
+    ovrplatformloader_copy_dest = "{}/{}/{}/{}/libovrplatformloader.so".format(
+                                              binary_path,
+                                              env["platform"],
+                                              env["target"],
+                                              env["arch"])
+    ovrplatformloader_copy = env.Command(ovrplatformloader_copy_dest, ovrplatformloader_copy_path, Copy('$TARGET', '$SOURCE'))
+    Default(ovrplatformloader_copy)
+
+    # Copy the libgodot_meta_toolkit.so files to the project libs directory
     android_target = "release" if env["target"] == "template_release" else "debug"
     android_arch = ""
     if env["arch"] == "arm64":
