@@ -8,14 +8,17 @@
 
 using namespace godot;
 class MetaXRSimulatorDialog;
+class MetaProjectSetupDialog;
 
 class MetaToolkitEditorPlugin : public EditorPlugin {
 	GDCLASS(MetaToolkitEditorPlugin, EditorPlugin);
 
 	Ref<MetaToolkitExportPlugin> _meta_toolkit_export_plugin;
 	MetaXRSimulatorDialog *_meta_xr_simulator_dialog = nullptr;
+	MetaProjectSetupDialog *_meta_project_setup_dialog = nullptr;
 
 	void _configure_xr_simulator();
+	void _open_project_setup();
 
 protected:
 	static void _bind_methods();
