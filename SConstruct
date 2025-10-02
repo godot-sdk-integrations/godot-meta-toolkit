@@ -18,6 +18,26 @@ meta_platform_sdk_bindings = env.MetaPlatformSDK(env.Dir('#toolkit/gen/'), sourc
     "generate_platform_sdk_bindings.py",
 ])
 
+from build_raw_headers import build_raw_headers_action
+env.Append(
+    BUILDERS={
+        "RawHeaders": Builder(action=build_raw_headers_action),
+    })
+raw_headers = env.RawHeaders(
+    target=[
+        '#toolkit/src/main/cpp/include/raw_headers/mr_startup.tscn.gen.h',
+        '#toolkit/src/main/cpp/include/raw_headers/start_mr.gd.gen.h',
+        '#toolkit/src/main/cpp/include/raw_headers/start_vr.gd.gen.h',
+        '#toolkit/src/main/cpp/include/raw_headers/vr_startup.tscn.gen.h',
+    ],
+    source=[
+        '#toolkit/src/main/cpp/include/raw_headers/mr_startup.tscn',
+        '#toolkit/src/main/cpp/include/raw_headers/start_mr.gd',
+        '#toolkit/src/main/cpp/include/raw_headers/start_vr.gd',
+        '#toolkit/src/main/cpp/include/raw_headers/vr_startup.tscn',
+    ],
+)
+
 # Add common includes.
 env.Append(CPPPATH=[
     "#thirdparty/ovr_platform_sdk/Include/",
@@ -68,6 +88,7 @@ else:
         source=sources,
     )
 
+env.Depends(library, raw_headers)
 Default(library)
 
 if env["platform"] == "android":
