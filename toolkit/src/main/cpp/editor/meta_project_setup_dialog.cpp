@@ -2,11 +2,15 @@
 
 #include "editor/meta_project_setup_dialog.h"
 
+#include "raw_headers/start_xr.gd.gen.h"
+#include "raw_headers/xr_startup.tscn.gen.h"
+
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/center_container.hpp>
 #include <godot_cpp/classes/config_file.hpp>
 #include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/dir_access.hpp>
+#include <godot_cpp/classes/editor_file_system.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/editor_settings.hpp>
 #include <godot_cpp/classes/file_access.hpp>
@@ -28,8 +32,10 @@
 #include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/core/error_macros.hpp>
 #include <godot_cpp/core/memory.hpp>
-
 #include <godot_cpp/variant/utility_functions.hpp>
+
+static const char *XR_STARTUP_SCENE_PATH = "res://xr_startup.tscn";
+static const char *START_XR_SCRIPT_PATH = "res://start_xr.gd";
 
 void MetaProjectSetupDialog::_bind_methods() {
 }
@@ -40,14 +46,14 @@ void MetaProjectSetupDialog::_notification(uint32_t p_what) {
 			recommendations.clear();
 
 			// Required XR settings
-			recommendations.push_back({ "OpenXR", "xr/openxr/enabled", true, "OpenXR must be enabled", true, {} });
-			recommendations.push_back({ "XR Shaders", "xr/shaders/enabled", true, "XR shaders must be compiled", true, {} });
+			recommendations.push_back({ "OpenXR", "xr/openxr/enabled", true, "OpenXR must be enabled", ALERT_TYPE_ERROR, {} });
+			recommendations.push_back({ "XR Shaders", "xr/shaders/enabled", true, "XR shaders must be compiled", ALERT_TYPE_ERROR, {} });
 
 			// Other XR setting recommendations
-			recommendations.push_back({ "MSAA", "rendering/anti_aliasing/quality/msaa_3d", 1, "Recommended to set MSAA to 2x", false, {} });
-			recommendations.push_back({ "VRS Mode", "rendering/vrs/mode", 2, "Recommended to set VRS mode to VR", false, {} });
-			recommendations.push_back({ "Foveation Level", "xr/openxr/foveation_level", 3, "Recommended to set foveation level to high", false, {} });
-			recommendations.push_back({ "Dynamic Foveation", "xr/openxr/foveation_dynamic", true, "Recommended to enable dynamic foveation", false, {} });
+			recommendations.push_back({ "MSAA", "rendering/anti_aliasing/quality/msaa_3d", 1, "Recommended to set MSAA to 2x", ALERT_TYPE_WARNING, {} });
+			recommendations.push_back({ "VRS Mode", "rendering/vrs/mode", 2, "Recommended to set VRS mode to VR", ALERT_TYPE_WARNING, {} });
+			recommendations.push_back({ "Foveation Level", "xr/openxr/foveation_level", 3, "Recommended to set foveation level to high", ALERT_TYPE_WARNING, {} });
+			recommendations.push_back({ "Dynamic Foveation", "xr/openxr/foveation_dynamic", true, "Recommended to enable dynamic foveation", ALERT_TYPE_WARNING, {} });
 
 			ScrollContainer *scroll_container = memnew(ScrollContainer);
 			scroll_container->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
@@ -70,28 +76,33 @@ void MetaProjectSetupDialog::_notification(uint32_t p_what) {
 				}
 			}
 
-			vendors_plugin_entry = add_window_entry("Vendors Plugin", true);
+			vendors_plugin_entry = add_window_entry("Vendors Plugin", ALERT_TYPE_ERROR);
 			vendors_plugin_entry.description_label->set_text("Please install the Godot OpenXR Vendors Plugin");
 			vendors_plugin_entry.button->set_text("Open");
 			vendors_plugin_entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::open_asset_lib));
 
-			export_preset_entry = add_window_entry("Export", true);
+			export_preset_entry = add_window_entry("Export", ALERT_TYPE_ERROR);
 			export_preset_entry.button->set_text("Open");
 			export_preset_entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::open_export_dialog));
 
-			java_sdk_entry = add_window_entry("Java SDK", true);
+			java_sdk_entry = add_window_entry("Java SDK", ALERT_TYPE_ERROR);
 			java_sdk_entry.description_label->set_text("Please set a valid Java SDK path in Editor Settings");
 			java_sdk_entry.button->set_text("Info");
 			java_sdk_entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::open_android_export_doc));
 
-			android_sdk_entry = add_window_entry("Android SDK", true);
+			android_sdk_entry = add_window_entry("Android SDK", ALERT_TYPE_ERROR);
 			android_sdk_entry.description_label->set_text("Please set a valid Android SDK path in Editor Settings");
 			android_sdk_entry.button->set_text("Info");
 			android_sdk_entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::open_android_export_doc));
 
+			main_scene_entry = add_window_entry("Main Scene", ALERT_TYPE_NONE);
+			main_scene_entry.description_label->set_text("No main scene is set, add XR startup scene?");
+			main_scene_entry.button->set_text("Add");
+			main_scene_entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::add_xr_startup_scene));
+
 			int rec_index = 0;
 			for (ProjectSettingRecommendation &recommendation : recommendations) {
-				recommendation.entry = add_window_entry(recommendation.setting_name, recommendation.is_high_priority);
+				recommendation.entry = add_window_entry(recommendation.setting_name, recommendation.alert_type);
 				recommendation.entry.button->set_text("Apply");
 				recommendation.entry.button->connect("pressed", callable_mp(this, &MetaProjectSetupDialog::apply_recommendation).bind(rec_index));
 				rec_index++;
@@ -108,7 +119,7 @@ void MetaProjectSetupDialog::_notification(uint32_t p_what) {
 	}
 }
 
-MetaProjectSetupDialog::WindowEntry MetaProjectSetupDialog::add_window_entry(const String &p_entry_name, bool p_is_high_priority) {
+MetaProjectSetupDialog::WindowEntry MetaProjectSetupDialog::add_window_entry(const String &p_entry_name, AlertType p_alert_type) {
 	WindowEntry entry;
 
 	VBoxContainer *inner_vbox = memnew(VBoxContainer);
@@ -135,25 +146,32 @@ MetaProjectSetupDialog::WindowEntry MetaProjectSetupDialog::add_window_entry(con
 	message_hbox->set_h_size_flags(Control::SIZE_EXPAND | Control::SIZE_SHRINK_BEGIN);
 	hbox->add_child(message_hbox);
 
-	Ref<Texture2D> icon_texture = p_is_high_priority ? error_texture : warning_texture;
-	if (icon_texture.is_valid()) {
-		CenterContainer *icon_container = memnew(CenterContainer);
-		message_hbox->add_child(icon_container);
-		entry.icon_container = icon_container;
+	CenterContainer *icon_container = memnew(CenterContainer);
+	message_hbox->add_child(icon_container);
+	entry.icon_container = icon_container;
 
-		TextureRect *icon = memnew(TextureRect);
-		icon->set_texture(icon_texture);
-		icon->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
-		icon->set_custom_minimum_size(Vector2(15.0, 15.0));
-		icon_container->add_child(icon);
-	}
-
-	Color font_color = p_is_high_priority ? error_color : warning_color;
+	TextureRect *icon = memnew(TextureRect);
+	icon->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	icon_container->add_child(icon);
 
 	Label *description_label = memnew(Label);
-	description_label->add_theme_color_override("font_color", font_color);
 	message_hbox->add_child(description_label);
 	entry.description_label = description_label;
+
+	switch (p_alert_type) {
+		case ALERT_TYPE_ERROR: {
+			icon->set_texture(error_texture);
+			icon->set_custom_minimum_size(Vector2(15.0, 15.0));
+			description_label->add_theme_color_override("font_color", error_color);
+		} break;
+		case ALERT_TYPE_WARNING: {
+			icon->set_texture(warning_texture);
+			icon->set_custom_minimum_size(Vector2(15.0, 15.0));
+			description_label->add_theme_color_override("font_color", warning_color);
+		} break;
+		case ALERT_TYPE_NONE: {
+		} break;
+	}
 
 	Button *button = memnew(Button);
 	hbox->add_child(button);
@@ -251,6 +269,14 @@ void MetaProjectSetupDialog::open() {
 		}
 	}
 
+	// Check for main scene.
+	if (project_settings->get("application/run/main_scene") == String("")) {
+		main_scene_entry.vbox->show();
+		is_rec_list_empty = false;
+	} else {
+		main_scene_entry.vbox->hide();
+	}
+
 	// Check project setting recommendations.
 	for (const ProjectSettingRecommendation &recommendation : recommendations) {
 		if (project_settings->get(recommendation.setting_path) == recommendation.recommended_value) {
@@ -258,10 +284,18 @@ void MetaProjectSetupDialog::open() {
 		} else {
 			recommendation.entry.vbox->show();
 			recommendation.entry.button->set_disabled(false);
-
-			Color font_color = recommendation.is_high_priority ? error_color : warning_color;
-			recommendation.entry.description_label->add_theme_color_override("font_color", font_color);
 			recommendation.entry.description_label->set_text(recommendation.description);
+
+			switch (recommendation.alert_type) {
+				case ALERT_TYPE_ERROR: {
+					recommendation.entry.description_label->add_theme_color_override("font_color", error_color);
+				} break;
+				case ALERT_TYPE_WARNING: {
+					recommendation.entry.description_label->add_theme_color_override("font_color", warning_color);
+				} break;
+				case ALERT_TYPE_NONE: {
+				} break;
+			}
 
 			if (recommendation.entry.icon_container != nullptr) {
 				recommendation.entry.icon_container->show();
@@ -400,6 +434,36 @@ void MetaProjectSetupDialog::open_android_export_doc() {
 	os->shell_open("https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html");
 }
 
+void MetaProjectSetupDialog::add_xr_startup_scene() {
+	ProjectSettings *project_settings = ProjectSettings::get_singleton();
+	ERR_FAIL_NULL(project_settings);
+
+	EditorInterface *editor_interface = EditorInterface::get_singleton();
+	ERR_FAIL_NULL(editor_interface);
+
+	if (FileAccess::file_exists(START_XR_SCRIPT_PATH)) {
+		ERR_FAIL_EDMSG("XR startup script start_xr.gd already exists");
+	}
+
+	if (FileAccess::file_exists(XR_STARTUP_SCENE_PATH)) {
+		ERR_FAIL_EDMSG("XR startup scene xr_startup.tscn already exists");
+	}
+
+	Ref<FileAccess> start_xr = FileAccess::open(START_XR_SCRIPT_PATH, FileAccess::WRITE);
+	start_xr->store_string(String(start_xr_gd));
+	start_xr->close();
+
+	Ref<FileAccess> startup_scene = FileAccess::open(XR_STARTUP_SCENE_PATH, FileAccess::WRITE);
+	startup_scene->store_string(String(xr_startup_tscn));
+	startup_scene->close();
+
+	project_settings->set_setting("application/run/main_scene", XR_STARTUP_SCENE_PATH);
+	editor_interface->get_resource_filesystem()->scan();
+	editor_interface->open_scene_from_path(XR_STARTUP_SCENE_PATH);
+
+	hide();
+}
+
 void MetaProjectSetupDialog::apply_recommendation(int p_rec_index) {
 	ProjectSettings *project_settings = ProjectSettings::get_singleton();
 	ERR_FAIL_NULL(project_settings);
@@ -414,7 +478,7 @@ void MetaProjectSetupDialog::apply_recommendation(int p_rec_index) {
 		recommendation.entry.icon_container->hide();
 	}
 
-	if (recommendation.is_high_priority) {
+	if (recommendation.alert_type == ALERT_TYPE_ERROR) {
 		recommendation.entry.description_label->set_text("Restart editor to apply updated setting");
 		recommendation.entry.description_label->add_theme_color_override("font_color", warning_color);
 	} else {

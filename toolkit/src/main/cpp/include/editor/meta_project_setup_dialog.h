@@ -19,6 +19,12 @@ using namespace godot;
 class MetaProjectSetupDialog : public AcceptDialog {
 	GDCLASS(MetaProjectSetupDialog, AcceptDialog);
 
+	enum AlertType {
+		ALERT_TYPE_ERROR,
+		ALERT_TYPE_WARNING,
+		ALERT_TYPE_NONE,
+	};
+
 	struct WindowEntry {
 		VBoxContainer *vbox = nullptr;
 		CenterContainer *icon_container = nullptr;
@@ -31,7 +37,7 @@ class MetaProjectSetupDialog : public AcceptDialog {
 		String setting_path;
 		Variant recommended_value;
 		String description;
-		bool is_high_priority;
+		AlertType alert_type;
 		WindowEntry entry;
 	};
 
@@ -39,6 +45,7 @@ class MetaProjectSetupDialog : public AcceptDialog {
 	WindowEntry export_preset_entry;
 	WindowEntry java_sdk_entry;
 	WindowEntry android_sdk_entry;
+	WindowEntry main_scene_entry;
 
 	LocalVector<ProjectSettingRecommendation> recommendations;
 
@@ -51,7 +58,7 @@ class MetaProjectSetupDialog : public AcceptDialog {
 	LineEdit *asset_lib_filter = nullptr;
 	HTTPRequest *asset_lib_request = nullptr;
 
-	WindowEntry add_window_entry(const String &p_entry_name, bool p_is_high_priority);
+	WindowEntry add_window_entry(const String &p_entry_name, AlertType p_alert_type);
 
 	void populate_asset_lib_nodes();
 	void open_asset_lib();
@@ -60,6 +67,8 @@ class MetaProjectSetupDialog : public AcceptDialog {
 	void open_export_dialog();
 
 	void open_android_export_doc();
+
+	void add_xr_startup_scene();
 
 	void apply_recommendation(int p_rec_index);
 

@@ -20,6 +20,9 @@ local.properties
 /toolkit/src/gen/
 compile_commands.json
 
+# Generated files
+*.gen.h
+
 # Binaries
 *.o
 *.os
