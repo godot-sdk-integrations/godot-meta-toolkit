@@ -96,7 +96,7 @@ Dictionary MetaToolkitExportPlugin::_get_export_options_overrides(
 	overrides["gradle_build/use_gradle_build"] = true;
 	overrides["gradle_build/export_format"] = 0; // apk
 	overrides["gradle_build/min_sdk"] = "29"; // Android 10
-	overrides["gradle_build/target_sdk"] = "32"; // Android 12
+	overrides["gradle_build/target_sdk"] = "34"; // Android 14
 
 	// Check if we have an alternate build template
 	if (FileAccess::file_exists(TOOLKIT_BUILD_TEMPLATE_ZIP_PATH)) {
@@ -157,6 +157,7 @@ Dictionary MetaToolkitExportPlugin::_get_export_options_overrides(
 	overrides["xr_features/enable_lynx_plugin"] = false;
 	overrides["xr_features/enable_meta_plugin"] = true;
 	overrides["xr_features/enable_pico_plugin"] = false;
+	overrides["xr_features/enable_magicleap_plugin"] = false;
 
 	return overrides;
 }
