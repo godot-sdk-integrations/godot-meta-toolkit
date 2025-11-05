@@ -156,8 +156,10 @@ void MetaXRSimulatorDialog::_set_simulator_path(const String &p_path) {
 		runtime_paths = editor_settings->get_setting(OPENXR_RUNTIME_PATHS_SETTING);
 	}
 
-	runtime_paths[META_SIMULATOR_RUNTIME_NAME] = p_path;
-	editor_settings->set_setting(OPENXR_RUNTIME_PATHS_SETTING, runtime_paths);
+	Dictionary new_runtime_paths;
+	new_runtime_paths.merge(runtime_paths);
+	new_runtime_paths[META_SIMULATOR_RUNTIME_NAME] = p_path;
+	editor_settings->set_setting(OPENXR_RUNTIME_PATHS_SETTING, new_runtime_paths);
 }
 
 MetaXRSimulatorDialog::MetaXRSimulatorDialog() {
