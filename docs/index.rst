@@ -26,6 +26,7 @@ Contributions from the community are welcome!
    :name: manual
 
    manual/platform_sdk/index
+   manual/apk_extensions
    manual/xr_simulator
 
 .. toctree::
