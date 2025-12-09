@@ -8,3 +8,5 @@ Platform SDK
     :name: toc-manual-platform-sdk
 
     getting_started
+    in_app_purchases
+    downloadable_content
