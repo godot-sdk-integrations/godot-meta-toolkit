@@ -1,19 +1,27 @@
 extends XROrigin3D
 
 const MAX_DISPLAY_FRIENDS := 5
-const PRODUCT_SKU := "00"
 const SIMPLE_ACHIEVEMENT_NAME := "simple-achievement-example"
 const COUNT_ACHIEVEMENT_NAME := "count-achievement-example"
 const BITFIELD_ACHIEVEMENT_NAME := "bitfield-achievement-example"
 const BITFIELD_ACHIEVEMENT_LENGTH := 5
+const DURABLE_ADDON_SCENE_PATH := "res://dlc/durable_addon.tscn"
+const DURABLE_ADDON_SKU := "0001"
+const CONSUMABLE_ADDON_SKU := "0002"
+const SUBSCRIPTION_SKU := "0003"
 
 # You need to supply your own application ID from https://developers.meta.com/ in order to test this app.
 var APPLICATION_ID = ""
+# After uploading the DLC asset file and releasing a build of the application,
+# the asset ID can be found on https://developers.meta.com/ under
+# Distribution -> Builds -> (select new build) -> Expansion Files
+var DURABLE_ADDON_ID = 0
 
 var platform_sdk_initialized := false
 
 var purchase_processing := false
-var product_purchased := false
+var durable_displayed := false
+var durable_filepath := ""
 
 var simple_achievement_processing := true
 var count_achievement_processing := true
@@ -28,6 +36,7 @@ var bitfield_achievement_unlocked := false
 @onready var achievement_info: Node3D = $AchievementInfo
 @onready var iap_info: Node3D = $IAPInfo
 @onready var friend_info: Node3D = $FriendInfo
+@onready var dlc_position: Node3D = %DLCPosition
 
 @onready var left_controller_ray_cast: RayCast3D = $LeftController/LeftControllerRayCast
 @onready var right_controller_ray_cast: RayCast3D = $RightController/RightControllerRayCast
@@ -36,10 +45,12 @@ var bitfield_achievement_unlocked := false
 @onready var oculus_id_label: Label3D = $UserInfo/OculusIDLabel
 @onready var user_image: Sprite3D = $UserInfo/UserImage
 @onready var friend_names_label: Label3D = $FriendInfo/FriendNamesLabel
-@onready var iap_label: Label3D = $IAPInfo/IAPLabel
 @onready var simple_achievement_label: Label3D = $AchievementInfo/SimpleAchievementInfo/SimpleAchievementLabel
 @onready var count_achievement_label: Label3D = $AchievementInfo/CountAchievementInfo/CountAchievementLabel
 @onready var bitfield_achievement_label: Label3D = $AchievementInfo/BitfieldAchievementInfo/BitfieldAchievementLabel
+@onready var consumable_addon_label: Label3D = %ConsumableAddonLabel
+@onready var durable_addon_label: Label3D = %DurableAddonLabel
+@onready var subscription_label: Label3D = %SubscriptionLabel
 
 func _ready() -> void:
 	var xr_interface = XRServer.find_interface("OpenXR")
@@ -55,11 +66,15 @@ func _ready() -> void:
 		var local = load('res://local.gd')
 		if local and "APPLICATION_ID" in local:
 			APPLICATION_ID = local.APPLICATION_ID
+		if local and "DURABLE_ADDON_ID" in local:
+			DURABLE_ADDON_ID = local.DURABLE_ADDON_ID
 
 	if APPLICATION_ID == "":
 		initialization_label.text += "No app ID provided!"
 		hide_non_initialization_info()
 		return
+
+	OS.request_permissions()
 
 	initialize_platform_sdk()
 
@@ -81,6 +96,8 @@ func initialize_platform_sdk():
 
 	platform_sdk_initialized = true
 	initialization_label.text += "SUCCESS"
+
+	MetaPlatformSDK.notification_received.connect(on_notification_received)
 
 	update_user_info()
 	update_friend_info()
@@ -106,13 +123,14 @@ func update_user_info():
 	var user: MetaPlatformSDK_User = result.get_user()
 	oculus_id_label.text += user.oculus_id
 
-	var image_request = HTTPRequest.new()
-	add_child(image_request)
-	image_request.request_completed.connect(self._image_request_completed.bind(image_request))
+	if user.image_url != "":
+		var image_request = HTTPRequest.new()
+		add_child(image_request)
+		image_request.request_completed.connect(self._image_request_completed.bind(image_request))
 
-	var error = image_request.request(user.image_url)
-	if error != OK:
-		push_error("There was an error with the image request.")
+		var error = image_request.request(user.image_url)
+		if error != OK:
+			push_error("There was an error with the image request.")
 
 
 func update_friend_info():
@@ -140,20 +158,30 @@ func update_friend_info():
 func update_iap_info():
 	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_get_viewer_purchases_async().completed
 	if result.is_error():
-		iap_label.text = "Error getting\nuser purchases!"
+		consumable_addon_label.text = "Error getting user purchases!"
 		purchase_processing = false
 		return
 
+	var consumable_available := false
 	var purchase_array := result.get_purchase_array()
 	for purchase: MetaPlatformSDK_Purchase in purchase_array:
-		if purchase.sku == PRODUCT_SKU:
-			product_purchased = true
-			break
+		if purchase.sku == DURABLE_ADDON_SKU:
+			durable_addon_label.text = "Durable Addon DLC\nPurchased"
+			if not durable_displayed:
+				get_durable_info()
+		elif purchase.sku == CONSUMABLE_ADDON_SKU:
+			consumable_available = true
+		elif purchase.sku == SUBSCRIPTION_SKU:
+			var datetime_str := Time.get_datetime_string_from_unix_time(purchase.expiration_time, true)
+			subscription_label.text = "Subscription Active\nUntil %s" % datetime_str
 
-	if product_purchased:
-		iap_label.text = "You have purchased\nthe in-app product!"
+	if consumable_available:
+		consumable_addon_label.text = "Consumable Available"
+	else:
+		consumable_addon_label.text = "No Consumable Available"
 
 	purchase_processing = false
+
 
 func update_achievement_info():
 	var result: MetaPlatformSDK_Message
@@ -206,8 +234,6 @@ func update(collider_name):
 		return
 
 	match collider_name:
-		"IAPButton":
-			purchase_product()
 		"SimpleAchievementButton":
 			unlock_simple_achievement()
 		"CountAchievementButton":
@@ -222,20 +248,137 @@ func update(collider_name):
 			add_field_bitfield_achievement(3)
 		"BitfieldAchievementButton5":
 			add_field_bitfield_achievement(4)
+		"PurchaseConsumableButton":
+			purchase_consumable()
+		"ConsumeConsumableButton":
+			consume_consumable()
+		"PurchaseDurableButton":
+			purchase_durable()
+		"PurchaseSubscriptionButton":
+			purchase_subscription()
 
 
-func purchase_product():
-	if purchase_processing or product_purchased:
+func purchase_consumable():
+	if purchase_processing:
 		return
 
-	iap_label.text = "Processing..."
+	consumable_addon_label.text = "Processing..."
 	purchase_processing = true
 
-	# This App's example product is listed as free in the Meta Quest Developer Dashboard.
-	# Launching checkout flow for a free product like this will cause a panel to appear momentarily.
-	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_launch_checkout_flow_async(PRODUCT_SKU).completed
+	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_launch_checkout_flow_async(CONSUMABLE_ADDON_SKU).completed
 	if result.is_error():
-		iap_label.text = "Error launching\nproduct checkout flow!"
+		consumable_addon_label.text = "Error launching\nproduct checkout flow!"
+		purchase_processing = false;
+		return
+
+	update_iap_info()
+
+
+func consume_consumable():
+	consumable_addon_label.text = "Consuming..."
+	purchase_processing = true
+
+	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_consume_purchase_async(CONSUMABLE_ADDON_SKU).completed
+	if result.is_error():
+		consumable_addon_label.text = "Error consuming\nconsumable addon!"
+		purchase_processing = true
+		return
+
+	update_iap_info()
+
+
+func purchase_durable():
+	if purchase_processing:
+		return
+
+	durable_addon_label.text = "Processing..."
+	purchase_processing = true
+
+	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_launch_checkout_flow_async(DURABLE_ADDON_SKU).completed
+	if result.is_error():
+		durable_addon_label.text = "Error launching\nproduct checkout flow!"
+		purchase_processing = false;
+		return
+
+	update_iap_info()
+
+
+func get_durable_info():
+	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.asset_file_get_list_async().completed
+	if result.is_error():
+		durable_addon_label.text = "Error Getting Asset\nFile List"
+		return
+
+	var durable_asset_details: MetaPlatformSDK_AssetDetails
+	var asset_details_array := result.get_asset_details_array()
+	for asset_details: MetaPlatformSDK_AssetDetails in asset_details_array:
+		if asset_details.asset_id == DURABLE_ADDON_ID:
+			durable_asset_details = asset_details
+			break
+
+	if durable_asset_details == null:
+		durable_addon_label.text = "No Durable Adddon\nAsset Details Found"
+		return
+
+	durable_filepath = durable_asset_details.filepath
+
+	if durable_asset_details.download_status != "installed":
+		result = await MetaPlatformSDK.asset_file_download_by_id_async(durable_asset_details.asset_id).completed
+		if result.is_error():
+			durable_addon_label.text = "Error Downloading\nAsset By ID"
+			return
+
+		durable_addon_label.text = "Downloading DLC..."
+		return
+
+	display_durable()
+
+
+func display_durable():
+	if not FileAccess.file_exists(durable_filepath):
+		durable_addon_label.text = "Downloaded Durable Addon\nAsset File Not Found"
+		return
+
+	if not ProjectSettings.load_resource_pack(durable_filepath):
+		durable_addon_label.text = "Asset Resource Pack\nFailed To Load"
+		return
+
+	var durable_scene := load(DURABLE_ADDON_SCENE_PATH)
+	if not durable_scene:
+		durable_addon_label.text = "Durable Addon Scene\nFailed To Load"
+		return
+
+	var durable_scene_instance = durable_scene.instantiate()
+	dlc_position.add_child(durable_scene_instance)
+	durable_displayed = true
+	durable_addon_label.text = "Durable Addon Scene\nDisplayed To Your Right"
+
+
+func on_notification_received(message: MetaPlatformSDK_Message):
+	if message.is_error():
+		push_error("Error message received. Code: %s | Message: %s" % [message.error.code, message.error.message])
+		return
+
+	# This demo only expects messages for asset file download updates.
+	if message.get_type_as_string() != "MESSAGE_NOTIFICATION_ASSET_FILE_DOWNLOAD_UPDATE":
+		print("Unexpected message received of type %s" % message.get_type_as_string())
+		return
+
+	var download_update := message.get_asset_file_download_update()
+	if download_update.completed:
+		display_durable()
+
+
+func purchase_subscription():
+	if purchase_processing:
+		return
+
+	subscription_label.text = "Processing..."
+	purchase_processing = true
+
+	var result: MetaPlatformSDK_Message = await MetaPlatformSDK.iap_launch_checkout_flow_async(SUBSCRIPTION_SKU).completed
+	if result.is_error():
+		subscription_label.text = "Error launching\nproduct checkout flow!"
 		purchase_processing = false;
 		return
 

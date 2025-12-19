@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bxyiss6phjvb4"]
+
+[ext_resource type="Texture2D" uid="uid://cmm67scocnrpg" path="res://icon.svg" id="1_vnc7s"]
+
+[node name="DurableAddon" type="Node3D" unique_id=1042427277]
+
+[node name="Label3D" type="Label3D" parent="." unique_id=415037986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22882777, 0)
+text = "This is Durable
+Addon DLC!"
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=856975715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1061535, 0)
+pixel_size = 0.005
+texture = ExtResource("1_vnc7s")
