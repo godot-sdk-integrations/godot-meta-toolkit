@@ -8,22 +8,27 @@
         "ConfirmationDialog",
         "Container",
         "Control",
+        "DirAccess",
         "EditorExportPlatform",
         "EditorExportPlatformAndroid",
         "EditorExportPlugin",
         "EditorFileDialog",
         "EditorInterface",
+        "EditorPaths",
         "EditorPlugin",
         "EditorSettings",
         "Engine",
         "FileAccess",
         "HBoxContainer",
+        "HTTPClient",
+        "HTTPRequest",
         "Label",
         "LineEdit",
         "MainLoop",
         "Node",
         "OS",
         "ProjectSettings",
+        "ProgressBar",
         "RefCounted",
         "Resource",
         "RichTextLabel",
@@ -34,6 +39,9 @@
         "Texture2D",
         "VBoxContainer",
         "Viewport",
-        "Window"
+        "Window",
+        "XRInterface",
+        "ZIPReader"
     ]
 }
+

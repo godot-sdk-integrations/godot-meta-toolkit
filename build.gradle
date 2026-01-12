@@ -18,11 +18,27 @@ plugins {}
 
 apply from: 'config.gradle'
 
+ext {
+    godotDir = project.hasProperty("godotDir") ? project.property("godotDir") : ""
+    godotJavaDir = "${godotDir}/platform/android/java/"
+
+    godotAppStandardManifestDir = "${godotJavaDir}/app/src/standard/"
+    godotAppOutputDir = "${godotJavaDir}/app/build/outputs/apk/standard/"
+
+    toolkitAarOutputDir = "toolkit/build/outputs/aar/"
+    toolkitDebugAar = "${toolkitAarOutputDir}/godot_meta_toolkit-debug.aar"
+    toolkitReleaseAar = "${toolkitAarOutputDir}/godot_meta_toolkit-release.aar"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 
     // Delete the bin directory for the 'godot_meta_toolkit' addon
     delete("demo/addons/godot_meta_toolkit/.bin")
+
+    dependsOn 'cleanPrebuiltApks'
+
+    dependsOn 'cleanScons'
 
     dependsOn ':toolkit:clean'
 }
@@ -39,10 +55,16 @@ task buildToolkit {
 }
 
 /**
- * Build the scons artifacts for the project
+ * Generate the addon by building the 'toolkit' module
  */
-task buildSconsArtifacts {
-    // Find scons' executable path
+task generateAddon {
+    dependsOn buildToolkit
+}
+
+/*
+ * Find scons executable path
+ */
+def getSconsExecutableFile() {
     File sconsExecutableFile = null
     def sconsName = "scons"
     def sconsExts = (org.gradle.internal.os.OperatingSystem.current().isWindows()
@@ -66,40 +88,261 @@ task buildSconsArtifacts {
         }
     }
 
+    return sconsExecutableFile
+}
+
+/**
+ * Utility method to create common scons tasks for use by other tasks.
+ */
+def createSconsTasks(File sconsExecutableFile, boolean clean) {
+    def defaultArgs = [
+            "--directory=.",
+            "custom_api_file=thirdparty/godot_cpp_gdextension_api/extension_api.json",
+            "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json",
+    ]
+
+    if (clean) {
+        defaultArgs << "-c"
+    }
+
+    def taskPrefix = (clean ? "clean" : "build")
+
+    // Android.
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Debug", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=template_debug", "arch=arm64"]
+    }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Release", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=template_release", "arch=arm64"]
+    }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitAndroidArm64Editor", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["platform=android", "target=editor", "arch=arm64"]
+    }
+
+    // Desktop.
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitDesktopDebug", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["target=template_debug"]
+    }
+    tasks.create(name: "${taskPrefix}GodotMetaToolkitDesktopRelease", type: Exec) {
+        executable sconsExecutableFile.absolutePath
+        args defaultArgs + ["target=template_release"]
+    }
+}
+
+/**
+ * Build the scons artifacts for the project
+ */
+task buildSconsArtifacts {
+    File sconsExecutableFile = getSconsExecutableFile()
+
     // Using `doFirst` so the exception doesn't happen until this task actually runs.
     doFirst {
         if (sconsExecutableFile == null) {
-            throw new GradleException("Unable to find executable path for the '$sconsName' command.")
+            throw new GradleException("Unable to find executable path for the 'scons' command.")
         } else {
-            logger.debug("Found executable path for $sconsName: ${sconsExecutableFile.absolutePath}")
+            logger.debug("Found executable path for scons: ${sconsExecutableFile.absolutePath}")
         }
     }
 
     if (sconsExecutableFile != null) {
-        // Build the GDExtension library for Android.
-        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Debug", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "platform=android", "target=template_debug", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-        tasks.create(name: "buildGodotMetaToolkitAndroidArm64Release", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "platform=android", "target=template_release", "arch=arm64", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
+        createSconsTasks(sconsExecutableFile, false)
 
+        // Android.
         dependsOn 'buildGodotMetaToolkitAndroidArm64Debug'
         dependsOn 'buildGodotMetaToolkitAndroidArm64Release'
+        dependsOn 'buildGodotMetaToolkitAndroidArm64Editor'
 
-        // Build the GDExtension library for desktop.
-        tasks.create(name: "buildGodotMetaToolkitDesktopDebug", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "target=template_debug", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-        tasks.create(name: "buildGodotMetaToolkitDesktopRelease", type: Exec) {
-            executable sconsExecutableFile.absolutePath
-            args "--directory=.", "target=template_release", "build_profile=thirdparty/godot_cpp_build_profile/build_profile.json"
-        }
-
+        // Desktop.
         dependsOn 'buildGodotMetaToolkitDesktopDebug'
         dependsOn 'buildGodotMetaToolkitDesktopRelease'
     }
+}
+
+/**
+ * Scons clean for the project
+ */
+task cleanScons {
+    File sconsExecutableFile = getSconsExecutableFile()
+
+    // Using `doFirst` so the exception doesn't happen until this task actually runs.
+    doFirst {
+        if (sconsExecutableFile == null) {
+            throw new GradleException("Unable to find executable path for the 'scons' command.")
+        } else {
+            logger.debug("Found executable path for scons: ${sconsExecutableFile.absolutePath}")
+        }
+    }
+
+    if (sconsExecutableFile != null) {
+        createSconsTasks(sconsExecutableFile, true)
+
+        // Android.
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Debug'
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Release'
+        dependsOn 'cleanGodotMetaToolkitAndroidArm64Editor'
+
+        // Desktop.
+        dependsOn 'cleanGodotMetaToolkitDesktopDebug'
+        dependsOn 'cleanGodotMetaToolkitDesktopRelease'
+    }
+}
+
+/**
+ * Cleans the generated prebuilt apks.
+ */
+task cleanPrebuiltApks(type: Delete) {
+    def gradlewExecutablePath = "./gradlew" + (org.gradle.internal.os.OperatingSystem.current().isWindows() ? ".bat" : "")
+    File gradlewExecutable = file(gradlewExecutablePath)
+
+    doFirst {
+        if (!gradlewExecutable.exists()) {
+            throw new GradleException("Unable to find executable path for the 'gradlew' script.")
+        }
+    }
+
+    delete "meta-export-template.zip"
+
+    if (godotDir != "") {
+        delete(godotAppStandardManifestDir)
+
+        tasks.create(name: "cleanGodot", type: Exec) {
+            executable gradlewExecutable.absolutePath
+            args "-p", godotJavaDir, "clean"
+        }
+        dependsOn 'cleanGodot'
+    }
+}
+
+/**
+ * Copy the prebuilt manifest to the Godot::app module. The manifest contains additional meta-data
+ * that this plugin modifies at export time based on the project configuration.
+ */
+task copyPrebuiltManifestToGodotApp(type: Copy) {
+    // Copy the prebuilt manifest
+    file(godotAppStandardManifestDir).mkdirs()
+
+    from "./prebuilt/AndroidManifest.xml"
+    into godotAppStandardManifestDir 
+}
+
+/**
+ * Zip the generated prebuilt apks
+ */
+task zipPrebuiltApks(type: Zip) {
+    from(godotAppOutputDir)
+    include '**/*.apk'
+    archiveFileName = "meta-export-template.zip"
+    destinationDirectory = project.rootDir
+}
+
+void verifyGodotDir() {
+    if (godotDir == "" || !file(godotDir).exists() || !file(godotDir).isDirectory()) {
+        throw new GradleException("godotDir property is empty or invalid.")
+    }
+}
+
+/**
+ * Parse the OpenXR loader version from the openxr.h header file in godotDir.
+ */
+String getOpenXrLoaderVersion() {
+    verifyGodotDir()
+
+    File openxrHeader = file("${godotDir}/thirdparty/openxr/include/openxr/openxr.h")
+    if (!openxrHeader.exists()) {
+        throw new GradleException("Unable to find openxr.h at: ${openxrHeader.absolutePath}")
+    }
+
+    def versionLine = openxrHeader.readLines().find { line ->
+      line.contains("#define XR_CURRENT_API_VERSION")
+    }
+
+    if (versionLine == null) {
+        throw new GradleException("Unable to locate API version define in openxr.h")
+    }
+
+    def version = versionLine.findAll(/\d+/).join(".")
+    if (version == "") {
+        throw new GradleException("Unable to parse version number from OpenXR version")
+    }
+
+    return version
+}
+
+
+/**
+ * Generate the prebuilt apks.
+ */
+task generatePrebuiltApks() {
+    def gradlewExecutablePath = "./gradlew" + (org.gradle.internal.os.OperatingSystem.current().isWindows() ? ".bat" : "")
+    File gradlewExecutable = file(gradlewExecutablePath)
+
+    File sconsExecutableFile = getSconsExecutableFile()
+
+    doFirst {
+        if (!gradlewExecutable.exists()) {
+            throw new GradleException("Unable to find executable path for the 'gradlew' script.")
+        }
+    }
+
+    if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
+        tasks.create(name: "buildGodotAndroidArm64Debug", type: Exec) {
+            doFirst {
+                verifyGodotDir()
+            }
+            executable sconsExecutableFile.absolutePath
+            args "--directory=${godotDir}", "platform=android", "target=template_debug", "arch=arm64"
+        }
+
+        tasks.create(name: "buildGodotAndroidArm64Release", type: Exec) {
+            doFirst {
+                verifyGodotDir()
+            }
+            executable sconsExecutableFile.absolutePath
+            args "--directory=${godotDir}", "platform=android", "target=template_release", "arch=arm64"
+        }
+    }
+
+    tasks.create(name: "assemblePrebuiltDebugApk", type: Exec) {
+        dependsOn 'copyPrebuiltManifestToGodotApp'
+        dependsOn ':toolkit:assembleDebug'
+
+        if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
+            dependsOn 'buildGodotAndroidArm64Debug'
+        }
+        doFirst {
+            verifyGodotDir()
+            args "-p",
+                    godotJavaDir,
+                    ":app:assembleStandardDebug",
+                    "-Pplugins_remote_binaries=org.godotengine:godot-openxr-vendors-meta:$versions.openxrVendorsVersion|org.khronos.openxr:openxr_loader_for_android:${getOpenXrLoaderVersion()}",
+                    "-Pplugins_local_binaries=${file(toolkitDebugAar).absolutePath}"
+        }
+        executable gradlewExecutable.absolutePath
+    }
+
+    tasks.create(name: "assemblePrebuiltReleaseApk", type: Exec) {
+        dependsOn 'copyPrebuiltManifestToGodotApp'
+        dependsOn ':toolkit:assembleRelease'
+
+        if (sconsExecutableFile != null && sconsExecutableFile.exists()) {
+            dependsOn 'buildGodotAndroidArm64Release'
+        }
+        doFirst {
+            verifyGodotDir()
+            args "-p",
+                    godotJavaDir,
+                    ":app:assembleStandardRelease",
+                    "-Pplugins_remote_binaries=org.godotengine:godot-openxr-vendors-meta:$versions.openxrVendorsVersion|org.khronos.openxr:openxr_loader_for_android:${getOpenXrLoaderVersion()}",
+                    "-Pplugins_local_binaries=${file(toolkitReleaseAar).absolutePath}"
+        }
+        executable gradlewExecutable.absolutePath
+    }
+
+    dependsOn 'assemblePrebuiltDebugApk'
+    dependsOn 'assemblePrebuiltReleaseApk'
+
+    finalizedBy 'zipPrebuiltApks'
 }

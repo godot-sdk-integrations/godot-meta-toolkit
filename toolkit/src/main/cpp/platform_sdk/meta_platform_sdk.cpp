@@ -19,7 +19,7 @@
 #include "platform_sdk/meta_platform_sdk_message.h"
 #include "platform_sdk/meta_platform_sdk_packet.h"
 
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 #include <OVR_Platform.h>
 #include <jni.h>
 
@@ -28,7 +28,7 @@ static jobject jactivity = nullptr;
 #endif
 
 MetaPlatformSDK::PlatformInitializeResult MetaPlatformSDK::initialize_platform(const String &p_app_id, const Dictionary &p_options) {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	ERR_FAIL_NULL_V(jni_env, PLATFORM_INITIALIZE_UNINITIALIZED);
 	ERR_FAIL_NULL_V(jactivity, PLATFORM_INITIALIZE_UNINITIALIZED);
 
@@ -64,7 +64,7 @@ MetaPlatformSDK::PlatformInitializeResult MetaPlatformSDK::initialize_platform(c
 }
 
 Ref<MetaPlatformSDK_Request> MetaPlatformSDK::initialize_platform_async(const String &p_app_id) {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	ERR_FAIL_NULL_V(jni_env, Ref<MetaPlatformSDK_Request>());
 	ERR_FAIL_NULL_V(jactivity, Ref<MetaPlatformSDK_Request>());
 
@@ -81,7 +81,7 @@ Ref<MetaPlatformSDK_Request> MetaPlatformSDK::initialize_platform_async(const St
 #endif
 }
 
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 extern "C" {
 JNIEXPORT void JNICALL Java_com_meta_w4_godot_toolkit_GodotMetaToolkit_initPlatformSDK(JNIEnv *p_env, jobject p_obj, jobject p_activity) {
 	jni_env = p_env;
@@ -141,7 +141,7 @@ void MetaPlatformSDK::_process_messages() {
  */
 
 uint64_t MetaPlatformSDK_Message::get_request_id() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	return ovr_Message_GetRequestID(handle);
 #else
 	return 0;
@@ -149,7 +149,7 @@ uint64_t MetaPlatformSDK_Message::get_request_id() const {
 }
 
 bool MetaPlatformSDK_Message::is_notification() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	return ovrMessageType_IsNotification((ovrMessageType)type);
 #else
 	return 0;
@@ -157,7 +157,7 @@ bool MetaPlatformSDK_Message::is_notification() const {
 }
 
 uint64_t MetaPlatformSDK_HttpTransferUpdate::get_id() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	return ovr_HttpTransferUpdate_GetID(handle);
 #else
 	return 0;
@@ -165,7 +165,7 @@ uint64_t MetaPlatformSDK_HttpTransferUpdate::get_id() const {
 }
 
 PackedByteArray MetaPlatformSDK_ChallengeEntry::get_extra_data() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	PackedByteArray result;
 
 	const char *data = ovr_ChallengeEntry_GetExtraData(handle);
@@ -184,7 +184,7 @@ PackedByteArray MetaPlatformSDK_ChallengeEntry::get_extra_data() const {
 }
 
 PackedByteArray MetaPlatformSDK_LeaderboardEntry::get_extra_data() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	PackedByteArray result;
 
 	const char *data = ovr_LeaderboardEntry_GetExtraData(handle);
@@ -203,7 +203,7 @@ PackedByteArray MetaPlatformSDK_LeaderboardEntry::get_extra_data() const {
 }
 
 PackedByteArray MetaPlatformSDK_HttpTransferUpdate::get_bytes() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	PackedByteArray result;
 
 	const void *data = ovr_HttpTransferUpdate_GetBytes(handle);
@@ -222,7 +222,7 @@ PackedByteArray MetaPlatformSDK_HttpTransferUpdate::get_bytes() const {
 }
 
 PackedByteArray MetaPlatformSDK_Packet::get_bytes() const {
-#ifdef ANDROID_ENABLED
+#if defined(ANDROID_ENABLED) && !defined(TOOLS_ENABLED)
 	PackedByteArray result;
 
 	const void *data = ovr_Packet_GetBytes(handle);
