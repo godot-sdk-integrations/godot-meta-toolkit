@@ -4,6 +4,7 @@
 
 #include <godot_cpp/classes/engine.hpp>
 
+#include "editor/meta_export_template_dialog.h"
 #include "editor/meta_toolkit_editor_plugin.h"
 #include "editor/meta_xr_simulator_dialog.h"
 #include "export/meta_toolkit_export_plugin.h"
@@ -25,6 +26,7 @@ void initialize_toolkit_module(ModuleInitializationLevel p_level) {
 		case godot::MODULE_INITIALIZATION_LEVEL_EDITOR: {
 			GDREGISTER_INTERNAL_CLASS(MetaToolkitExportPlugin);
 			GDREGISTER_INTERNAL_CLASS(MetaXRSimulatorDialog);
+			GDREGISTER_INTERNAL_CLASS(MetaExportTemplateDialog);
 			GDREGISTER_INTERNAL_CLASS(MetaToolkitEditorPlugin);
 			EditorPlugins::add_by_type<MetaToolkitEditorPlugin>();
 		} break;

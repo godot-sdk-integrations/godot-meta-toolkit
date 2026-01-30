@@ -1,12 +1,13 @@
 ext {
     versions = [
-            gradlePluginVersion     : '8.2.0',
-            compileSdk              : 34,
+            gradlePluginVersion     : '8.6.1',
+            compileSdk              : 35,
             minSdk                  : 21,
-            targetSdk               : 34,
+            targetSdk               : 35,
             javaVersion             : JavaVersion.VERSION_17,
-            kotlinVersion           : '1.9.20',
-            ndkVersion              : '23.2.8568313'
+            kotlinVersion           : '2.1.20',
+            ndkVersion              : '23.2.8568313',
+            openxrVendorsVersion    : '4.2.2-stable'
     ]
 
     libraries = [
@@ -16,7 +17,7 @@ ext {
 
 // Parse the release version from the gradle project properties (e.g: -Prelease_version=<version>)
 ext.getReleaseVersion = { ->
-    final String defaultVersion = "0.1.0-dev-SNAPSHOT"
+    final String defaultVersion = "1.0.4-dev-SNAPSHOT"
 
     String releaseVersion = project.hasProperty("release_version") ? project.property("release_version") : defaultVersion
     if (releaseVersion == null || releaseVersion.isEmpty()) {
